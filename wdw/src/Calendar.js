@@ -1,66 +1,3 @@
-// import * as React from 'react';
-// import Paper from '@material-ui/core/Paper';
-// import { ViewState } from '@devexpress/dx-react-scheduler';
-// import {
-//   Scheduler,
-//   DayView,
-//   WeekView,
-//   MonthView,
-//   DateNavigator,
-//   Appointments,
-//   TodayButton,
-//   Toolbar,
-//   ViewSwitcher,
-// } from '@devexpress/dx-react-scheduler-material-ui';
-
-// // import { appointments } from '../../../demo-data/month-appointments';
-// const data = [
-//   { startDate: '2018-11-01T09:45', endDate: '2018-11-01T11:00', title: 'Meeting' },
-//   { startDate: '2018-11-01T12:00', endDate: '2018-11-01T13:30', title: 'Go to a gym' },
-// ];
-// export default class Demo extends React.PureComponent {
-//   constructor(props) {
-//     super(props);
-
-//     this.state = {
-//       data: data,
-//     };
-//   }
-
-//   render() {
-//     const { data } = this.state;
-
-//     return (
-//       <Paper>
-//         <Scheduler
-//           data={data}
-//           height={660}
-//         >
-//           <ViewState
-//             defaultCurrentDate="2018-11-01"
-//             defaultCurrentViewName="Week"
-//           />
-
-//           <DayView
-//             startDayHour={9}
-//             endDayHour={18}
-//           />
-//           <WeekView
-//             startDayHour={10}
-//             endDayHour={19}
-//           />
-//           <MonthView />
-//           <Toolbar />
-//           <DateNavigator />
-//           <TodayButton />
-//           <ViewSwitcher />
-//           <Appointments />
-//         </Scheduler>
-//       </Paper>
-//     );
-//   }
-// }
-
 import * as React from 'react';
 import Paper from '@material-ui/core/Paper';
 import { ViewState, EditingState, IntegratedEditing } from '@devexpress/dx-react-scheduler';
@@ -76,7 +13,7 @@ import {
   AppointmentTooltip,
   ConfirmationDialog,
   Toolbar,
-  ViewSwitcher,
+  ViewSwitcher,ç
 } from '@devexpress/dx-react-scheduler-material-ui';
 
 let appointments = [

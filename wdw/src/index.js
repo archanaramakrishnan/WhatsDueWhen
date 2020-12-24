@@ -1,12 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import Calendar from './Calendar';
+import Paper from '@material-ui/core/Paper';
+import Card from '@material-ui/core/Card';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Paper>
+    <Calendar />
+    </Paper>
   </React.StrictMode>,
   document.getElementById('root')
 );
