@@ -1,0 +1,13 @@
+.header {
+  display: flex;
+  justify-content: center;
+}
+
+.headerlink-title {
+  color: #63b3f3;
+  font-weight: 440;
+  font-size: 18px;
+  font-family: "Roboto";
+  text-decoration: none;
+  padding: 0 5px;
+}

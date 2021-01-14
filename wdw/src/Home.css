@@ -1,0 +1,21 @@
+.date-title {
+  color: black;
+  font-weight: bold;
+  font-size: 40px;
+  font-family: "Roboto";
+  text-decoration: none;
+  padding: 0 5px;
+}
+
+.welcome {
+  background-color: rgb(244, 246, 248);
+}
+
+.date {
+  color: #3ca3f8;
+  font-weight: 440;
+  font-size: 25px;
+  font-family: "Roboto";
+  text-decoration: none;
+  padding: 0 5px;
+}

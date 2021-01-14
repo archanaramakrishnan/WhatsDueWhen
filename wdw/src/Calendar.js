@@ -1,5 +1,8 @@
 import * as React from 'react';
 import Paper from '@material-ui/core/Paper';
+import { Route, Switch } from 'react-router-dom';
+import Home from './Home';
+import Error from './Error';
 import { ViewState, EditingState, IntegratedEditing } from '@devexpress/dx-react-scheduler';
 import {
   Scheduler,
@@ -13,7 +16,7 @@ import {
   AppointmentTooltip,
   ConfirmationDialog,
   Toolbar,
-  ViewSwitcher,ç
+  ViewSwitcher,
 } from '@devexpress/dx-react-scheduler-material-ui';
 
 let appointments = [
@@ -55,6 +58,7 @@ export default class Demo extends React.PureComponent {
 
     return (
       <Paper>
+        
         <Scheduler
           data={data}
           height={660}
