@@ -2,17 +2,18 @@
 import './Navbar.css';
 import React, { Component } from 'react';
 import { BrowserRouter, Link } from "react-router-dom";
+import Paper from '@material-ui/core/Paper';
 
 class NavBar extends Component {
 
   render() {
     return (
 
-      <div>
+      <Paper>
         <Link to="/home" className='headerlink-title'>Home</Link>
               &nbsp;&nbsp;
         <Link to="/mainpage" className='headerlink-title'>MainPage</Link>
-      </div>
+      </Paper>
 
     );
   }

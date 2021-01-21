@@ -2,6 +2,11 @@ import React from 'react';
 import './Home.css'
 import CheckboxList from "./CheckboxList"
 import CurrentDate from "./CurrentDate"
+import {Scheduler,MonthView,DateNavigator,
+  TodayButton,
+  Toolbar,} from '@devexpress/dx-react-scheduler-material-ui';
+import { ViewState } from '@devexpress/dx-react-scheduler';
+import Paper from '@material-ui/core/Paper';
 
 let today = new Date();
 let dd = String(today.getDate()).padStart(2, '0');
@@ -30,13 +35,29 @@ export default class Home extends React.Component {
 
     return (
       <div>
-        <div className='welcome'>
+        <Paper className='welcome'>
           <p className='date-title'> On Your Calendar Today</p>
           <CurrentDate></CurrentDate>
           <p>.{"\n"}</p>
-        </div>
+        </Paper>
+        <Paper style={{float: "left", width: "50%"}}>
         <CheckboxList></CheckboxList>
-
+        </Paper>
+        <Paper style={{width: "50%", float: "left"}}>
+        
+        <Scheduler
+          height={600}
+        >
+          <ViewState
+            defaultCurrentDate={today}
+            defaultCurrentViewName="Month"
+          />
+          <MonthView />
+          <Toolbar />
+          <DateNavigator />
+          <TodayButton />
+        </Scheduler>
+        </Paper>
         <p>Hello, world! This will be the homepage of WDW. It is currently under progress. I changed the component structure by adding an App.js to wrap the Calendar and Home. Those pages are accessible through the top navbar.</p>
 
       </div>

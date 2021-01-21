@@ -1,6 +1,5 @@
 import React from 'react';
 import Switch from '@material-ui/core/Switch';
-import Paper from '@material-ui/core/Paper';
 
 // export const SubjectSelector = props => {
 //     const [state, setState] = React.useState(true);
