@@ -18,22 +18,26 @@ class MainPage extends React.Component {
         <Paper >
           <Paper style={{ width: "25%", float: "left" }}>
             <Card style={{ height: "100px" }}>
-              <SubjectSelector name="Science" />
+              {/* <SubjectSelector name="Science" /> */}
+              {SubjectSelector("Science")}
             </Card>
             <Card style={{ height: "100px" }}>
-              <SubjectSelector name="Math" />
+              {/* <SubjectSelector name="Math" /> */}
+              {SubjectSelector("Math")}
             </Card>
             <Card style={{ height: "100px" }}>
-              <SubjectSelector name="English" />
+              {/* <SubjectSelector name="English" /> */}
+              {SubjectSelector("English")}
             </Card >
             <Card style={{ height: "100px" }}>
-              <SubjectSelector name="History" />
+              {/* <SubjectSelector name="History" /> */}
+              {SubjectSelector("History")}
             </Card>
           </Paper>
           <Paper style={{ width: "75%", height: "50%", float: "left" }}>
             <BrowserRouter>
               <Calendar />
-            </BrowserRouter>,
+            </BrowserRouter>
           </Paper>
         </Paper>
       </Paper>
