@@ -19,6 +19,13 @@ import {
   ViewSwitcher,
 } from '@devexpress/dx-react-scheduler-material-ui';
 
+let today = new Date();
+let dd = String(today.getDate()).padStart(2, '0');
+let mm = String(today.getMonth() + 1).padStart(2, '0');
+let yyyy = today.getFullYear();
+
+today = yyyy + '-' + mm + '-' + dd;
+
 let appointments = [
     { startDate: '2018-11-01T09:45', endDate: '2018-11-01T11:00', title: 'Meeting' },
     { startDate: '2018-11-01T12:00', endDate: '2018-11-01T13:30', title: 'Go to a gym' },
@@ -29,7 +36,7 @@ export default class Demo extends React.PureComponent {
     super(props);
     this.state = {
       data: appointments,
-      currentDate: '2018-11-01',
+      currentDate: today,
     };
 
     this.commitChanges = this.commitChanges.bind(this);

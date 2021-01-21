@@ -3,6 +3,12 @@ import './Home.css'
 import CheckboxList from "./CheckboxList"
 import CurrentDate from "./CurrentDate"
 
+let today = new Date();
+let dd = String(today.getDate()).padStart(2, '0');
+let mm = String(today.getMonth() + 1).padStart(2, '0');
+let yyyy = today.getFullYear();
+
+today = yyyy + '-' + mm + '-' + dd;
 
 let appointments = [
   { startDate: '2018-11-01T09:45', endDate: '2018-11-01T11:00', title: 'Meeting' },
@@ -15,7 +21,7 @@ export default class Home extends React.Component {
     super(props);
     this.state = {
       data: appointments,
-      currentDate: '2018-11-01',
+      currentDate: today,
     };
 
   }
