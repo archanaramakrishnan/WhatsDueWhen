@@ -3,6 +3,8 @@ import Home from "./Home"
 import Navbar from "./Navbar"
 import MainPage from "./MainPage"
 import Error from "./Error"
+import Login from './Login'
+import Logout from './Logout'
 import { Router, Route, Switch } from 'react-router-dom';
 
 
@@ -18,6 +20,8 @@ class App extends Component {
                     <Route path="/mainpage" component={MainPage} />
                     <Route component={Error} />
                 </Switch>
+                <Login />
+                <Logout />
             </main>
         );
     }
