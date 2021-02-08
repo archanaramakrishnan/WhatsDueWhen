@@ -17,7 +17,8 @@ export const CurrentDate = () => {
     });
 
     return(
-            <p className='date'> {date.toLocaleDateString(undefined, options)}</p>
+            // <p className='date'> {date.toLocaleDateString(undefined, options)}</p>
+            date.toLocaleDateString(undefined, options)
     )
 }
 

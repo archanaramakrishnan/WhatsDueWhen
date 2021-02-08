@@ -4,6 +4,7 @@ import Navbar from "./Navbar"
 import MainPage from "./MainPage"
 import Error from "./Error"
 import { Router, Route, Switch } from 'react-router-dom';
+import NavBar from './Navbar';
 
 
 class App extends Component {
@@ -12,6 +13,7 @@ class App extends Component {
         return (
             <main>
                 <Navbar />
+                {/* {NavBar()} */}
                 <Switch>
                     <Route path="/" component={Home} exact />
                     <Route path="/home" component={Home} exact />
