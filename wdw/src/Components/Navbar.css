@@ -11,3 +11,25 @@
   text-decoration: none;
   padding: 0 5px;
 }
+
+.wdw{
+  height: 100px;
+  width: 250px;
+  float: right;
+  padding: 5px;
+}
+
+.card{
+  height: wrap-content;
+  margin-bottom: 15px;
+}
+
+.form{
+  float: left;
+  width: 50%;
+  padding: 30px;
+}
+
+.searchBar{
+  width: 100%;
+}

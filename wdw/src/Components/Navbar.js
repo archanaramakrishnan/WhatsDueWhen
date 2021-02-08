@@ -2,18 +2,40 @@
 import './Navbar.css';
 import React, { Component } from 'react';
 import { BrowserRouter, Link } from "react-router-dom";
-import Paper from '@material-ui/core/Paper';
+import Card from '@material-ui/core/Card';
+import wdw from './wdw.png';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import AppBar from '@material-ui/core/AppBar';
+import TextField from '@material-ui/core/TextField';
+import MainPage from './MainPage';
+import Home from './Home';
+
+
 
 class NavBar extends Component {
 
   render() {
     return (
 
-      <Paper>
-        <Link to="/home" className='headerlink-title'>Home</Link>
+      <Card className='card'>
+        {/* <Link to="/home" className='headerlink-title'>Home</Link>
               &nbsp;&nbsp;
-        <Link to="/mainpage" className='headerlink-title'>MainPage</Link>
-      </Paper>
+        <Link to="/mainpage" className='headerlink-title'>MainPage</Link> */}
+        <form autoComplete="off" className='form'>
+        <TextField className="searchBar" label="Search" variant="outlined" />
+      </form>
+        <img className='wdw' src={wdw} />
+        <AppBar position="static">
+      <Tabs className='tabs'>
+        <Tab label="Home" />
+        <Tab label="Calendar" />
+        <div style={{width: "350px"}}/>
+        {/* <img className='wdw' src={wdw} /> */}
+      </Tabs>
+    </AppBar>
+       
+      </Card>
 
     );
   }
@@ -22,4 +44,48 @@ class NavBar extends Component {
 export default NavBar;
 
 
+// export default function NavBar() {
 
+//     const [value, setValue] = React.useState(0);
+
+//     const handleChange = (event, newValue) => {
+//       setValue(newValue);
+//     };
+
+//     function TabPanel(props) {
+//       const { children, value, index, ...other } = props;
+//       return (
+//         <div {...other}>
+//           {value === index && {children}}
+//         </div>
+//       );
+//     }
+
+//     return (
+
+//       <Card className='card'>
+//         {/* <Link to="/home" className='headerlink-title'>Home</Link>
+//               &nbsp;&nbsp;
+//         <Link to="/mainpage" className='headerlink-title'>MainPage</Link> */}
+//         <form autoComplete="off" className='form'>
+//         <TextField className="searchBar" label="Search" variant="outlined" />
+//       </form>
+//         <img className='wdw' src={wdw} />
+//         <AppBar position="static">
+//       <Tabs className='tabs' value={value} onChange={handleChange} indicatorColor="primary">
+//         <Tab label="Home" />
+//         <Tab label="Calendar" />
+//         <div style={{width: "350px"}}/>
+//         {/* <img className='wdw' src={wdw} /> */}
+//       </Tabs>
+//     </AppBar>
+//     <TabPanel value={value} index={0}>
+//         <Home />
+//       </TabPanel>
+//       <TabPanel value={value} index={1}>
+//         <MainPage />
+//       </TabPanel>
+//       </Card>
+
+//     );
+// }

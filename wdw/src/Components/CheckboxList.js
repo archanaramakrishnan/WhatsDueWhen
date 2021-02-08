@@ -51,11 +51,6 @@ export default function CheckboxList() {
               />
             </ListItemIcon>
             <ListItemText id={labelId} primary={`Line item ${value + 1}`} />
-            <ListItemSecondaryAction>
-              <IconButton edge="end" aria-label="comments">
-                <CommentIcon />
-              </IconButton>
-            </ListItemSecondaryAction>
           </ListItem>
         );
       })}
