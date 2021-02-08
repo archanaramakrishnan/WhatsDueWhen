@@ -1,5 +1,6 @@
 import React from 'react';
 import './Home.css'
+import NavBar from './NavBar';
 import CheckboxList from "./CheckboxList"
 import CurrentDate from "./CurrentDate"
 import {Scheduler,MonthView,DateNavigator,
@@ -41,6 +42,7 @@ export default class Home extends React.Component {
           <CurrentDate></CurrentDate>
           <p>.{"\n"}</p>
         </Paper> */}
+        <Navbar />
         <Paper style={{float: "left", width: "48.5%"}}>
           <div className="title">
         <Typography variant="h3" gutterBottom>
