@@ -1,0 +1,73 @@
+.login{
+    width: 600px;
+    height: 700px;
+    margin: auto;
+}
+
+.wdw{
+    float: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    height: 25%
+}
+
+.email{
+    padding: 10px;
+}
+
+.password{
+    padding: 10px;
+}
+
+.info{
+    width: 50%;
+    float: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 25px;
+}
+
+.title{
+    width: fit-content;
+    float: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.logintext{
+    width: fit-content;
+    float: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.loginbutton{
+    width: fit-content;
+    float: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 20px;
+}
+
+.create{
+    width: fit-content;
+    float: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.logingoogle{
+    width: fit-content;
+    float: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 20px;
+}
