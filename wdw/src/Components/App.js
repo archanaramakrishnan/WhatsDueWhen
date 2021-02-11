@@ -6,6 +6,7 @@ import Error from "./Error"
 import { BrowserRouter, Route, Switch, Redirect, useHistory } from 'react-router-dom';
 
 import Login from './Login';
+import WebPage from './WebPage';
 
 
 class App extends Component {
@@ -19,19 +20,22 @@ class App extends Component {
     }
 }
 
-const ContentContainer = () => {
-    <Navbar />
-};
-
 const LandingNavigation = () => {
 
     return (
         <BrowserRouter>
-            <Navbar/>
             <Switch>
                 <Route exact path="/" component={Login}></Route>
-                <Route path="/home" component={Home} exact />
-                <Route path="/mainpage" component={MainPage} />
+                <Route path="/home" exact >
+                    <WebPage > 
+                        <Home /> 
+                    </WebPage> 
+                </Route>
+                <Route path="/mainpage" >
+                    <WebPage > 
+                        <MainPage /> 
+                    </WebPage> 
+                </Route>
                 <Route exact path="/error" component={Error} />
                 <Redirect to="/error" />
             </Switch>
