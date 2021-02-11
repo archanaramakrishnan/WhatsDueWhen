@@ -1,7 +1,7 @@
 //Ref: https://medium.com/javascript-in-plain-english/simple-react-router-nav-bar-17167beeb742
 import './Navbar.css';
-import React, { Component } from 'react';
-import { BrowserRouter, Link } from "react-router-dom";
+import React, { Component, useEffect } from 'react';
+import { BrowserRouter, Link, useHistory } from "react-router-dom";
 import Card from '@material-ui/core/Card';
 import wdw from './wdw.png';
 import Tabs from '@material-ui/core/Tabs';
@@ -13,32 +13,33 @@ import Home from './Home';
 
 
 
-class NavBar extends Component {
+const NavBar = (props) => {
+  //This is a react router "Hook" (a built in function). Calling history.push("link-name") will change the current page to the one specified
+  //by the url in the function LandingNavigation inside of App.js
+  const history = useHistory();
 
-  render() {
-    return (
+  return (
 
-      <Card className='card'>
-        {/* <Link to="/home" className='headerlink-title'>Home</Link>
-              &nbsp;&nbsp;
-        <Link to="/mainpage" className='headerlink-title'>MainPage</Link> */}
-        <form autoComplete="off" className='form'>
-        <TextField className="searchBar" label="Search" variant="outlined" />
-      </form>
-        <img className='wdw' src={wdw} />
-        <AppBar position="static">
-      <Tabs className='tabs'>
-        <Tab label="Home" />
-        <Tab label="Calendar" />
-        <div style={{width: "350px"}}/>
-        {/* <img className='wdw' src={wdw} /> */}
-      </Tabs>
-    </AppBar>
-       
-      </Card>
+    <Card className='card'>
+      {/* <Link to="/home" className='headerlink-title'>Home</Link>
+            &nbsp;&nbsp;
+      <Link to="/mainpage" className='headerlink-title'>MainPage</Link> */}
+      <form autoComplete="off" className='form'>
+      <TextField className="searchBar" label="Search" variant="outlined" />
+    </form>
+      <img className='wdw' src={wdw} />
+      <AppBar position="static">
+    <Tabs className='tabs'>
+      <Tab label="Home" onClick={() => {history.push("/home")}} />
+      <Tab label="Calendar" onClick={() => {history.push("/mainpage")}} />
+      <div style={{width: "350px"}}/>
+      {/* <img className='wdw' src={wdw} /> */}
+    </Tabs>
+  </AppBar>
+      
+    </Card>
 
-    );
-  }
+  );
 }
 
 export default NavBar;

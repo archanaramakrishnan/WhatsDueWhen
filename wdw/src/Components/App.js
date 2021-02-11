@@ -3,7 +3,7 @@ import Home from "./Home"
 import Navbar from "./Navbar"
 import MainPage from "./MainPage"
 import Error from "./Error"
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect, useHistory } from 'react-router-dom';
 
 import Login from './Login';
 
@@ -24,15 +24,19 @@ const ContentContainer = () => {
 };
 
 const LandingNavigation = () => {
-    <BrowserRouter>
-        <Switch>
-            <Route exact path="/" component={Login}></Route>
-            <Route path="/home" component={Home} exact />
-            <Route path="/mainpage" component={MainPage} />
-            <Route path="/error" component={Error} />
-            <Redirect to="/error" />
-        </Switch>
-    </BrowserRouter>
+
+    return (
+        <BrowserRouter>
+            <Navbar/>
+            <Switch>
+                <Route exact path="/" component={Login}></Route>
+                <Route path="/home" component={Home} exact />
+                <Route path="/mainpage" component={MainPage} />
+                <Route exact path="/error" component={Error} />
+                <Redirect to="/error" />
+            </Switch>
+        </BrowserRouter>
+    );
 };
 
 export default App;

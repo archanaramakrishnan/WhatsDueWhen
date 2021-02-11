@@ -1,13 +1,15 @@
-import React, { Component } from 'react';
-import { Router, Route, Switch } from 'react-router-dom';
+import React, { Component, useEffect } from 'react';
+import { Router, Route, Switch, useHistory } from 'react-router-dom';
 
-import NavBar from './Navbar';
+import Navbar from './Navbar';
 
-export const Login = () => {
+const Login = (props) => {
+
     return(
         <div>
-            <Navbar />
             <h1>Stuff</h1>
         </div>
     )
 };
+
+export default Login;
