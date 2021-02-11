@@ -14,9 +14,9 @@
 
 .wdw{
   height: 100px;
-  width: 250px;
+  width: 350px;
   float: right;
-  padding: 5px;
+  margin-top: 13px;
 }
 
 .card{
