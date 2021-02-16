@@ -1,9 +1,6 @@
 const mongoose = require('mongoose');
-// const courseSchema = require('Course')
-
+const courseSchema = require('./course.model')
 const Schema = mongoose.Schema;
-
-const Course = new Schema({ title: 'string' })
 
 const userSchema = new Schema({
   username: {
@@ -41,7 +38,7 @@ const userSchema = new Schema({
     required: true
   },
   classList: {
-    type: [Course]
+    type: [courseSchema]
 }
 }, {
   timestamps: true,

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const calendarEvent = require('calendarEvent')
+const calendarEventSchema = require('./calendarEvent.model')
 const Schema = mongoose.Schema;
 
 const courseSchema = new Schema({
@@ -16,12 +16,15 @@ const courseSchema = new Schema({
     minlength: 3
   },
   eventList: {
-      type : [calendarEvent]
+      type : [calendarEventSchema]
   }
 }, {
   timestamps: true,
 });
 
-const Course = mongoose.model('Course', courseSchema);
+const courseModel = mongoose.model('Course', courseSchema);
 
-module.exports = Course;
+module.exports = courseModel;
+module.exports = courseSchema;
+
+
