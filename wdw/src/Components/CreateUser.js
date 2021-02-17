@@ -1,7 +1,7 @@
 import React, { Component, useEffect } from 'react';
 import { Router, Route, Switch, useHistory } from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
-import './Login.css'
+import './CreateUser.css'
 import wdw from './wdw.png'
 import Typography from '@material-ui/core/Typography';
 import FormControl from '@material-ui/core/FormControl';
@@ -13,21 +13,33 @@ import Divider from '@material-ui/core/Divider';
 
 
 
-export const Login = () => {
+export const CreateUser = () => {
     return(
         <Paper className='login'>
             <img className='wdw' src={wdw} />
             <div className='title'>
                 <div className='logintext'>
         <Typography variant="h4" gutterBottom>
-            Welcome!
+            Create Your Account
          </Typography>
          </div>
-         <Typography variant="h6" gutterBottom>
-            Please login below
-         </Typography>
          </div>
+         <div className='name'>
+             <div className='fname'>
+                <FormControl fullWidth variant="outlined" className='fname'>
+                    <InputLabel >First Name</InputLabel>
+                    <OutlinedInput id='email'/>
+                </FormControl>
+                </div>
+                <div className='lname'>
+                <FormControl fullWidth variant="outlined" className='lname'>
+                    <InputLabel >Last Name</InputLabel>
+                    <OutlinedInput id='email'/>
+                </FormControl>
+                </div>
+                </div>
             <div className='info'>
+            
                 <div className='email'>
                 <FormControl fullWidth variant="outlined" >
                     <InputLabel >Email Address</InputLabel>
@@ -40,31 +52,29 @@ export const Login = () => {
                     <OutlinedInput id='email' type='password' />
                 </FormControl>
                 </div>
+                <div className='password'>
+                <FormControl fullWidth variant="outlined" >
+                    <InputLabel >Re-Enter Password</InputLabel>
+                    <OutlinedInput id='email' type='password' />
+                </FormControl>
+                </div>
                 
             </div>
             <div className='loginbutton'>
-                <Button variant="contained" size="medium" color="primary" style={{width: '200px'}}>
-                Login
+                <Button variant="contained" size="medium" color="primary" style={{width: '230px'}}>
+                Create Account
                 </Button>
                 </div>
                 <div className='or'>
                 <Typography>OR</Typography>
                 </div>
             <div className='logingoogle'>
-            <Button variant="contained" size="medium" color="default" style={{width: '200px'}}>
-                Login with Google
+            <Button variant="contained" size="medium" color="default" style={{width: '230px'}}>
+                Continue with Google
                 </Button>
                 </div>
-            <div className='create'>
-            <Typography variant="h8" gutterBottom>
-                Need to create an account?
-            </Typography>
-            <Link href="#" style={{marginLeft: '5px'}}>
-                Click Here
-            </Link>
-         </div>
         </Paper>
     )
 };
 
-export default Login;
+export default CreateUser;
