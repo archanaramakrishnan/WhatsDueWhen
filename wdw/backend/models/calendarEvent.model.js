@@ -6,17 +6,16 @@ const calendarEventSchema = new Schema({
   title: {
     type: String,
     required: true,
-    unique: true,
     trim: true,
     minlength: 3
   },
   startDate: {
     type: Date,
-    required: true
+    //required: true
   },
   endDate: {
     type: Date,
-    required: true
+    //required: true
   }
 }, {
   timestamps: true,
