@@ -1,7 +1,8 @@
 const router = require('express').Router();
+const mongoose = require('mongoose');
 
 let User = require('../models/user.model');
-let courseModel = require('../models/course.model');
+let Course = require('../models/course.model');
 
 // get request for .../users/ info
 router.route('/').get((req, res) => {
@@ -11,7 +12,7 @@ router.route('/').get((req, res) => {
 });
 
 // adds user to database 
-router.route('/addUser').post((req, res) => {
+router.route('/add-user').post((req, res) => {
   // const username = req.body.username;
   // const email = req.body.email;
   // const password = req.body.password;
@@ -24,28 +25,86 @@ router.route('/addUser').post((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/addCourse').post((req, res) => {
-  const email = req.body.userEmail
-  const course = req.body.monkey
-  // const newCourse = new courseModel(course)
-  const user = User.find({email: email})
 
-  if (user.email == email)
-  {
-    console.log("Yes")
-  }
+router.route('/add-course').post((req, res) => {
+  const email = req.body.email // key
+  const course = req.body.course
 
-  console.log(email)
-  console.log(course)
-  // console.log(user)
+  User.updateOne({ email: email }, {$addToSet: {classList: course}}, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send()
+    } else {
+      res.json('User updated!').send()
+      // console.log(result)
+    }
+  })
 
-  res.status(200)
-
-  // check if user exist
-
-  // newCourse.save()
-  //   .then(() => res.json('Course added!'))
-  //   .catch(err => res.status(400).json('Error: ' + err));
 })
+
+router.route('/remove-course').post((req, res) => {
+  const email = req.body.email // key
+  const courseTitle = req.body.title
+
+  User.updateOne({email: email}, { $pull: {classList: {title: courseTitle}}}, (err, result) => {
+    if (err) {
+      console.log(err)
+      res.status(500).send()
+    } else {
+      res.status(200).send()
+      res.json('Course removed!').send()
+    }
+  })
+})
+
+router.route('/courses').get((req, res) => {
+  const email = req.body.email
+  User.find({email: email}, (err, userFound) => {
+    if (err) {
+      res.status(500).send()
+    } else {
+      res.json('Success!').send()
+      const classList = userFound.classList
+      console.log(classList)
+    }
+  })
+})
+
+
+// add event(s) to a user. 
+router.route('/add-events').post((req, res) => {
+  const email = req.body.email
+  const course = req.body.course
+  const events = req.body.events  
+  User.findOne({email: email}, (err, foundObject) => {
+    if (err) {
+      console.log(err)
+      res.status(500).send()
+    } else {
+      if (!foundObject) {
+        res.status(404).send()
+      } else {
+          foundObject[classList].
+          foundObject.save()
+            .then(() => res.json('User added!'))
+            .catch(err => res.status(400).json('Error: ' + err));
+      }
+    }
+  })
+  // User.updateOne({ _id: id}, {classList: {course: course}},(err, result) => {
+  //   if (err) {
+  //     console.log(err)
+  //     res.status(500).send()
+  //   } else {
+  //     console.log('Result', result)
+  //     res.status(200).send()
+  //   }
+  // })
+})
+
+// get user calendar events by id
+// router.route.get('/courses/:id', (req, res) => {
+//     User.findByID()
+// })
 
 module.exports = router;
