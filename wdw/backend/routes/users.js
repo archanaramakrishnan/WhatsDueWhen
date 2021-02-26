@@ -59,13 +59,12 @@ router.route('/remove-course').post((req, res) => {
 
 router.route('/courses').get((req, res) => {
   const email = req.body.email
-  User.find({email: email}, (err, userFound) => {
+  User.findOne({email: email}, (err, userFound) => {
     if (err) {
       res.status(500).send()
     } else {
-      res.json('Success!').send()
       const classList = userFound.classList
-      console.log(classList)
+      res.json(classList).send()
     }
   })
 })
