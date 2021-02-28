@@ -10,7 +10,7 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import Divider from '@material-ui/core/Divider';
-
+import CreateUserDialog from './CreateUserDialog.js'
 
 
 export const Login = () => {
@@ -59,7 +59,7 @@ export const Login = () => {
             <Typography variant="h8" gutterBottom>
                 Need to create an account?
             </Typography>
-            <Link href="#" style={{marginLeft: '5px'}}>
+            <Link onClick={CreateUserDialog} style={{marginLeft: '5px'}}>
                 Click Here
             </Link>
          </div>
