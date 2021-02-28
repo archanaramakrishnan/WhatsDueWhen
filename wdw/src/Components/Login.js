@@ -12,12 +12,23 @@ import Link from '@material-ui/core/Link';
 import Divider from '@material-ui/core/Divider';
 import CreateUserDialog from './CreateUserDialog.js'
 
+import { DialogContent } from '@material-ui/core';
+import { DialogActions } from '@material-ui/core';
+
 import Dialog from '@material-ui/core/Dialog';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
 export const Login = () => {
     const [open, setOpen] = useState(false);
+    const history = useHistory();
+
+    const [handleStudent, setHandleStudent] = useState(false);
+
+    const handleClickStudent = () => {
+        history.push('/student');
+
+    };
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -78,11 +89,35 @@ export const Login = () => {
             Click Here
             </Button> */}
             {/* {CreateUserDialog} */}
-            {open && <CreateUserDialog />}
-            {/* <Dialog onClose={handleClose} open={open}>
-                <IconButton onClick={handleClose}>
+            
+            {open && <div>
+                
+                <Dialog onClose={handleClose} open={open}>
+                
+                
+                <DialogContent >
+                <Typography gutterBottom>
+                    Are you signing up as a student or faculty?
+                    <IconButton onClick={handleClose}>
                     <CloseIcon />
                 </IconButton>
+                </Typography>
+                <Button autoFocus onClick={handleClickStudent} color="primary">
+                    Student
+                </Button>
+                <Button autoFocus  color="primary">
+                    Professor
+                </Button>
+                </DialogContent>
+                <DialogActions>
+                <Button autoFocus onClick={handleClose} color="primary">
+                    Continue
+                </Button>
+                </DialogActions>
+                </Dialog>
+                {/* <CreateUserDialog /> */}
+                </div>}
+            {/* 
                 <Dialog.DialogContent >
                 <Typography gutterBottom>
                     Are you signing up as a student or faculty?
