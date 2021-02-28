@@ -1,4 +1,4 @@
-import React, { Component, useEffect } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import { Router, Route, Switch, useHistory } from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 import './Login.css'
@@ -12,8 +12,20 @@ import Link from '@material-ui/core/Link';
 import Divider from '@material-ui/core/Divider';
 import CreateUserDialog from './CreateUserDialog.js'
 
+import Dialog from '@material-ui/core/Dialog';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 export const Login = () => {
+    const [open, setOpen] = useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     return(
         <Paper className='login'>
             <img className='wdw' src={wdw} />
@@ -59,9 +71,29 @@ export const Login = () => {
             <Typography variant="h8" gutterBottom>
                 Need to create an account?
             </Typography>
-            <Link onClick={CreateUserDialog} style={{marginLeft: '5px'}}>
+            <Link onClick={handleClickOpen} style={{marginLeft: '5px'}}>
                 Click Here
             </Link>
+            {/* <Button variant="outlined" color="primary" onClick={CreateUserDialog}>
+            Click Here
+            </Button> */}
+            {/* {CreateUserDialog} */}
+            {open && <CreateUserDialog />}
+            {/* <Dialog onClose={handleClose} open={open}>
+                <IconButton onClick={handleClose}>
+                    <CloseIcon />
+                </IconButton>
+                <Dialog.DialogContent >
+                <Typography gutterBottom>
+                    Are you signing up as a student or faculty?
+                </Typography>
+                </Dialog.DialogContent>
+                <Dialog.DialogActions>
+                <Button autoFocus onClick={handleClose} color="primary">
+                    Continue
+                </Button>
+                </Dialog.DialogActions>
+            </Dialog> */}
          </div>
         </Paper>
     )

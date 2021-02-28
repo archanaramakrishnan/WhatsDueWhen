@@ -6,6 +6,11 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+    MuiPickersUtilsProvider,
+    KeyboardDatePicker
+  } from '@material-ui/pickers';
 
 export default function FormDialog() {
   const [open, setOpen] = React.useState(false);
@@ -18,6 +23,18 @@ export default function FormDialog() {
     setOpen(false);
   };
 
+  let today = new Date();
+  let dd = String(today.getDate()).padStart(2, '0');
+  let mm = String(today.getMonth() + 1).padStart(2, '0');
+  let yyyy = today.getFullYear();
+
+  today = yyyy + '-' + mm + '-' + dd;
+  const [selectedDate, setSelectedDate] = React.useState(today);
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
   return (
     <div>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
@@ -27,8 +44,7 @@ export default function FormDialog() {
         <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To subscribe to this website, please enter your email address here. We will send updates
-            occasionally.
+            Please enter the department code and class number (e.g. EECS 168)
           </DialogContentText>
           <TextField
             autoFocus
@@ -38,14 +54,20 @@ export default function FormDialog() {
             type="text"
             fullWidth
           />
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Class Number"
-            type="number"
-            fullWidth
-          />
+          {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <KeyboardDatePicker
+          disableToolbar
+          variant="inline"
+          format="MM/dd/yyyy"
+          margin="normal"
+          id="date-picker-inline"
+          label="Date picker inline"
+          value={selectedDate}
+          onChange={handleDateChange}
+          KeyboardButtonProps={{
+            'aria-label': 'change date',
+          }}
+        /></MuiPickersUtilsProvider> */}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">

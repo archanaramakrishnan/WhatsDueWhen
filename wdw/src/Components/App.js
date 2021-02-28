@@ -8,6 +8,8 @@ import { BrowserRouter, Route, Switch, Redirect, useHistory } from 'react-router
 import Login from './Login';
 import WebPage from './WebPage';
 import CreateUser from './CreateUser';
+import CreateClassDialog from './CreateClassDialog'
+import CreateUserDialog from './CreateUserDialog'
 
 
 class App extends Component {
@@ -28,6 +30,8 @@ const LandingNavigation = () => {
             <Switch>
                 <Route exact path="/" component={Login}></Route>
                 <Route exact path="/createuser" component={CreateUser}></Route>
+                <Route exact path="/createclassdialog" component={CreateClassDialog}></Route>
+                <Route exact path="/createuserdialog" component={CreateUserDialog}></Route>
                 <Route path="/home" exact >
                     <WebPage > 
                         <Home /> 

@@ -6,8 +6,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 
 export default function CreateUserDialog() {
-  console.log("in CreateUserDialog()");
-    const [open, setOpen] = React.useState(false);
+  // console.log("in CreateUserDialog()");
+    const [open, setOpen] = React.useState(true);
     
   
     const handleClickOpen = () => {
@@ -19,9 +19,11 @@ export default function CreateUserDialog() {
   
     return (
       <div>
-        <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+        <div> hello world </div>
+        {/* <Button variant="outlined" color="primary" onClick={handleClickOpen}>
           Open dialog
-        </Button>
+        </Button> */}
+        
         <Dialog onClose={handleClose} open={open}>
         <IconButton onClick={handleClose}>
           <CloseIcon />
