@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const courseSchema = require('./course.model')
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -18,7 +17,7 @@ const userSchema = new Schema({
   email: {
     type: String,
     required: true,
-    unique: true,
+    unique: true
   },
   password: {
     type: String,
@@ -30,7 +29,14 @@ const userSchema = new Schema({
     required: true
   },
   classList: {
-    type: [courseSchema]
+    type: [
+      {
+        name: {
+          type: String,
+          unique: true
+        }
+      }
+    ]
 }
 }, {
   timestamps: true,

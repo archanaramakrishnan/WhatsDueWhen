@@ -14,13 +14,19 @@
 {
     "firstname": "bob",
     "lastname": "joe",
-    "email": "bobjoe@gmail.com",
+    "email": "bob@gmail.com",
     "password": "789456123",
     "isProfessor": true,
     "classList": [
         {
-            
+            "name": "EECS 168"
         }
     ]
+}
+
+{
+    "name": "EECS 268",
+    "permissionNumber": 123,
+    "eventList": []
 }
 

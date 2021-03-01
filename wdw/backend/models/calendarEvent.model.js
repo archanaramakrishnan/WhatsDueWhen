@@ -7,7 +7,8 @@ const calendarEventSchema = new Schema({
     type: String,
     required: true,
     trim: true,
-    minlength: 3
+    minlength: 3,
+    unique: true
   },
   startDate: {
     type: Date,
@@ -21,7 +22,7 @@ const calendarEventSchema = new Schema({
   timestamps: true,
 });
 
-const calendarEvent = mongoose.model('calendarEvent', calendarEventSchema);
+// const calendarEvent = mongoose.model('calendarEvent', calendarEventSchema);
 
-module.exports = calendarEvent;
+// module.exports = calendarEvent;
 module.exports = calendarEventSchema;
