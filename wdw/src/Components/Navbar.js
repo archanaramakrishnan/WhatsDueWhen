@@ -8,7 +8,6 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import AppBar from '@material-ui/core/AppBar';
 import TextField from '@material-ui/core/TextField';
-import MainPage from './MainPage';
 import Home from './Home';
 
 
@@ -31,7 +30,7 @@ const NavBar = (props) => {
       <AppBar position="static">
     <Tabs className='tabs'>
       <Tab label="Home" onClick={() => {history.push("/home")}} />
-      <Tab label="Calendar" onClick={() => {history.push("/mainpage")}} />
+      <Tab label="Calendar" onClick={() => {history.push("/calendarpage")}} />
       <div style={{width: "350px"}}/>
       {/* <img className='wdw' src={wdw} /> */}
     </Tabs>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Home from "./Home"
 import Navbar from "./Navbar"
-import MainPage from "./MainPage"
+import CalendarPage from "./CalendarPage"
 import Error from "./Error"
 import { BrowserRouter, Route, Switch, Redirect, useHistory } from 'react-router-dom';
 
@@ -38,9 +38,9 @@ const LandingNavigation = () => {
                         <Home /> 
                     </WebPage> 
                 </Route>
-                <Route path="/mainpage" >
+                <Route path="/calendarpage" >
                     <WebPage > 
-                        <MainPage /> 
+                        <CalendarPage /> 
                     </WebPage> 
                 </Route>
                 <Route exact path="/error" component={Error} />

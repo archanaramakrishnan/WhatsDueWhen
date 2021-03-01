@@ -21,13 +21,23 @@ import CloseIcon from '@material-ui/icons/Close';
 
 export const Login = () => {
     const [open, setOpen] = useState(false);
+    const [studentFill, setStudentFill] = useState("outlined");
+    const [facultyFill, setFacultyFill] = useState("outlined");
+
     const history = useHistory();
 
     const [handleStudent, setHandleStudent] = useState(false);
 
     const handleClickStudent = () => {
-        history.push('/student');
+        setStudentFill("contained")
+        setFacultyFill("outlined")
+        //somehow tell backend that it is creating student account
+    };
 
+    const handleClickFaculty = () => {
+        setFacultyFill("contained")
+        setStudentFill("outlined")
+        //somehow tell backend that it is creating faculty account
     };
 
     const handleClickOpen = () => {
@@ -36,6 +46,10 @@ export const Login = () => {
     const handleClose = () => {
         setOpen(false);
     };
+
+    const handleContinue = () => {
+        history.push("/createuser")
+    }
 
     return(
         <Paper className='login'>
@@ -102,15 +116,17 @@ export const Login = () => {
                     <CloseIcon />
                 </IconButton>
                 </Typography>
-                <Button autoFocus onClick={handleClickStudent} color="primary">
+                <div className='dialogbuttons'>
+                <Button autoFocus  variant={studentFill} onClick={handleClickStudent} color="primary">
                     Student
                 </Button>
-                <Button autoFocus  color="primary">
-                    Professor
+                <Button autoFocus variant={facultyFill} onClick={handleClickFaculty} color="primary">
+                    Faculty
                 </Button>
+                </div>
                 </DialogContent>
                 <DialogActions>
-                <Button autoFocus onClick={handleClose} color="primary">
+                <Button autoFocus onClick={handleContinue} color="primary">
                     Continue
                 </Button>
                 </DialogActions>
