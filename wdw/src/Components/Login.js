@@ -1,5 +1,5 @@
-import React, { Component, useEffect, useState } from 'react';
-import { Router, Route, Switch, useHistory } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 import './Login.css'
 import wdw from './wdw.png'
