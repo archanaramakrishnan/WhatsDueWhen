@@ -13,6 +13,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { DesktopDatePicker } from '@material-ui/lab';
+// import * as lab from '@material-ui/lab';
 
 export const CalendarPage = () => {
   const [open, setOpen] = useState(false);
@@ -58,20 +60,25 @@ export const CalendarPage = () => {
                 type="text"
                 fullWidth
               /> 
-              {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <KeyboardDatePicker
-          disableToolbar
-          variant="inline"
-          format="MM/dd/yyyy"
-          margin="normal"
-          id="date-picker-inline"
-          label="Date picker inline"
-          value={selectedDate}
-          onChange={handleDateChange}
-          KeyboardButtonProps={{
-            'aria-label': 'change date',
+              <TextField
+                autoFocus
+                margin="dense"
+                id="name"
+                label="Course Number"
+                type="number"
+                fullWidth
+              /> 
+        {/* <lab.LocalizationProvider dateAdapter={lab.AdapterDateFns}>
+        <lab.DesktopDatePicker
+          label="For desktop"
+          value={value}
+          minDate={new Date('2017-01-01')}
+          onChange={(newValue) => {
+            setValue(newValue);
           }}
-        /></MuiPickersUtilsProvider> */}
+          renderInput={(params) => <TextField {...params} margin="normal" />}
+        />
+        </lab.LocalizationProvider> */}
              </DialogContent>
             <DialogActions>
               <Button onClick={handleClose} color="primary">
