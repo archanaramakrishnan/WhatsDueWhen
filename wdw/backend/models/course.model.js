@@ -1,18 +1,21 @@
 const mongoose = require('mongoose');
-const calendarEventSchema = require('./calendarEvent.model')
 const Schema = mongoose.Schema;
 
+const calendarEventSchema = require('./calendarEvent.model')
+
 const courseSchema = new Schema({
-  title: {
+  name: {
     type: String,
     required: true,
     trim: true,
-    minlength: 3
+    minlength: 3,
+    unique: true
   },
   permissionNumber: {
     type: Number,
     required: true,
-    minlength: 3
+    minlength: 3,
+    unique: true
   },
   eventList: {
       type : [calendarEventSchema]
@@ -21,9 +24,9 @@ const courseSchema = new Schema({
   timestamps: true,
 });
 
-const courseModel = mongoose.model('Course', courseSchema);
+const Course = mongoose.model('Course', courseSchema);
 
-module.exports = courseModel;
-module.exports = courseSchema;
+module.exports = Course;
+// module.exports = courseSchema;
 
 
