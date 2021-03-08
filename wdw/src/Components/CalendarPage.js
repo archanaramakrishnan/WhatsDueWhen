@@ -68,8 +68,8 @@ export const CalendarPage = () => {
                 type="number"
                 fullWidth
               /> 
-        {/* <lab.LocalizationProvider dateAdapter={lab.AdapterDateFns}>
-        <lab.DesktopDatePicker
+        {/* <LocalizationProvider dateAdapter={lab.AdapterDateFns}>
+        <DesktopDatePicker
           label="For desktop"
           value={value}
           minDate={new Date('2017-01-01')}
@@ -78,7 +78,29 @@ export const CalendarPage = () => {
           }}
           renderInput={(params) => <TextField {...params} margin="normal" />}
         />
-        </lab.LocalizationProvider> */}
+        </LocalizationProvider> */}
+        <form noValidate>
+          <TextField
+            id="date"
+            label="Start Date"
+            type="date"
+            defaultValue={today}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </form>
+        <form noValidate>
+          <TextField
+            id="date"
+            label="End Date"
+            type="date"
+            defaultValue={today}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </form>
              </DialogContent>
             <DialogActions>
               <Button onClick={handleClose} color="primary">
