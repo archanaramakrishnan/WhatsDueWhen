@@ -38,46 +38,51 @@ export const CalendarPage = () => {
   return (
     <Paper className='CalendarPage'>
       <Paper style={{ width: "23%", float: "left" }}>
+        <div className="createclass">
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
             Create a Class
       </Button>
+      </div>
         {open && 
     <div>
           
           <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-            <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+            <DialogTitle id="form-dialog-title">Create a Class</DialogTitle>
             <DialogContent>
               <DialogContentText>
-                Please enter the department code and class number (e.g. EECS 168)
+                Please enter information regarding the course
           </DialogContentText>
+          <div className="deptcode">
               <TextField
                 autoFocus
                 margin="dense"
                 id="name"
                 label="Department Code"
                 type="text"
-                fullWidth
+                required
               /> 
+              </div>
+              <div className="coursenum">
               <TextField
                 autoFocus
                 margin="dense"
                 id="name"
                 label="Course Number"
                 type="number"
+                required
+              /> 
+              </div>
+              <div className="coursetitle">
+              <TextField
+                autoFocus
+                margin="dense"
+                id="name"
+                label="Course Title (optional)"
+                type="text"
                 fullWidth
               /> 
-        {/* <LocalizationProvider dateAdapter={lab.AdapterDateFns}>
-        <DesktopDatePicker
-          label="For desktop"
-          value={value}
-          minDate={new Date('2017-01-01')}
-          onChange={(newValue) => {
-            setValue(newValue);
-          }}
-          renderInput={(params) => <TextField {...params} margin="normal" />}
-        />
-        </LocalizationProvider> */}
-        <form noValidate>
+              </div>
+        <form className="startdate" noValidate>
           <TextField
             id="date"
             label="Start Date"
@@ -88,7 +93,7 @@ export const CalendarPage = () => {
             }}
           />
         </form>
-        <form noValidate>
+        <form className="enddate" noValidate>
           <TextField
             id="date"
             label="End Date"
