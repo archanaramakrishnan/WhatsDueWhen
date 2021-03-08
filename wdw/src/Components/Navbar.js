@@ -26,7 +26,9 @@ const NavBar = (props) => {
       <form autoComplete="off" className='form'>
       <TextField className="searchBar" label="Search" variant="outlined" />
     </form>
+      <div className="container">
       <img className='wdw' src={wdw} />
+      </div>
       <AppBar position="static">
     <Tabs className='tabs'>
       <Tab label="Home" onClick={() => {history.push("/home")}} />

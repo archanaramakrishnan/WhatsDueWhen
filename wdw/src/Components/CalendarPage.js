@@ -87,7 +87,7 @@ export const CalendarPage = () => {
             id="date"
             label="Start Date"
             type="date"
-            defaultValue={today}
+            defaultValue={new Date()}
             InputLabelProps={{
               shrink: true,
             }}
@@ -98,7 +98,7 @@ export const CalendarPage = () => {
             id="date"
             label="End Date"
             type="date"
-            defaultValue={today}
+            defaultValue={new Date()}
             InputLabelProps={{
               shrink: true,
             }}
