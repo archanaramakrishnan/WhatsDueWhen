@@ -6,7 +6,7 @@ passport.use(
         // options for strategy
         clientID: '567371174244-fv4depvnt5kli81tk6msun52hpsvvce5.apps.googleusercontent.com',
         clientSecret: 'ALuB6DdhGBHEsExFc_ElZaXP', 
-        callbackURL: '/'
+        callbackURL: 'http://localhost:3000'
     }, () => {
         // passport callback function
     })
