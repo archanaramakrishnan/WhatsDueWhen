@@ -15,6 +15,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 export const CalendarPage = () => {
+  //handles opening and closing dialog 1
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
@@ -23,98 +24,23 @@ export const CalendarPage = () => {
   const handleClose = () => {
     setOpen(false);
   };
-
-  let today = new Date();
-  let dd = String(today.getDate()).padStart(2, '0');
-  let mm = String(today.getMonth() + 1).padStart(2, '0');
-  let yyyy = today.getFullYear();
-
-  today = yyyy + '-' + mm + '-' + dd;
-  const [selectedDate, setSelectedDate] = React.useState(today);
-
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
+  //handles opening and closing dialog 2
+  const [open2, setOpen2] = useState(false);
+  const handleClickOpen2 = () => {
+    setOpen2(true);
   };
-  return (
-    <Paper className='CalendarPage'>
-      <Paper style={{ width: "23%", float: "left" }}>
-        <div className="createclass">
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-            Create a Class
-      </Button>
-      </div>
-        {open && 
-    <div>
-          
-          <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-            <DialogTitle id="form-dialog-title">Create a Class</DialogTitle>
-            <DialogContent>
-              <DialogContentText>
-                Please enter information regarding the course
-          </DialogContentText>
-          <div className="deptcode">
-              <TextField
-                autoFocus
-                margin="dense"
-                id="name"
-                label="Department Code"
-                type="text"
-                required
-              /> 
-              </div>
-              <div className="coursenum">
-              <TextField
-                autoFocus
-                margin="dense"
-                id="name"
-                label="Course Number"
-                type="number"
-                required
-              /> 
-              </div>
-              <div className="coursetitle">
-              <TextField
-                autoFocus
-                margin="dense"
-                id="name"
-                label="Course Title (optional)"
-                type="text"
-                fullWidth
-              /> 
-              </div>
-        <form className="startdate" noValidate>
-          <TextField
-            id="date"
-            label="Start Date"
-            type="date"
-            defaultValue={new Date()}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        </form>
-        <form className="enddate" noValidate>
-          <TextField
-            id="date"
-            label="End Date"
-            type="date"
-            defaultValue={new Date()}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        </form>
-             </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClose} color="primary">
-                Cancel
-          </Button>
-              <Button onClick={handleClose} color="primary">
-                Continue
-          </Button>
-            </DialogActions>
-          </Dialog>
-        </div>}
+
+  const handleClose2 = () => {
+    setOpen2(false);
+  };
+
+  //returns the subject cards on the left side of calendar
+  const loadSubjects = () => {
+
+    //BACKEND - need to know all the classes the user is in
+
+    return (
+      <div>
         <Card style={{ height: "100px" }}>
           {/* <SubjectSelector name="Science" /> */}
           {SubjectSelector("Science")}
@@ -131,6 +57,90 @@ export const CalendarPage = () => {
           {/* <SubjectSelector name="History" /> */}
           {SubjectSelector("History")}
         </Card>
+      </div>
+    )
+  }
+
+  return (
+    <Paper className='CalendarPage'>
+      <Paper style={{ width: "23%", float: "left" }}>
+        <div className="createclass">
+      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+            Create a Class
+      </Button>
+      </div>
+        {open && 
+          <div>
+            <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+              <DialogTitle id="form-dialog-title">Create a Class</DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  Please enter information regarding the course
+                </DialogContentText>
+                <div className="deptcode">
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    label="Department Code"
+                    type="text"
+                    required
+                  /> 
+                </div>
+                <div className="coursenum">
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    label="Course Number"
+                    type="number"
+                    required
+                  /> 
+                </div>
+                <div className="coursetitle">
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    label="Course Title (optional)"
+                    type="text"
+                    fullWidth
+                  /> 
+                </div>
+                <form className="startdate" noValidate>
+                  <TextField
+                    id="date"
+                    label="Start Date"
+                    type="date"
+                    defaultValue={new Date()}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                </form>
+                <form className="enddate" noValidate>
+                  <TextField
+                    id="date"
+                    label="End Date"
+                    type="date"
+                    defaultValue={new Date()}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                </form>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose} color="primary">
+                  Cancel
+                </Button>
+                <Button onClick={handleClose} color="primary">
+                  Continue
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </div>}
+        {loadSubjects()}
       </Paper>
       <Paper style={{ width: "75%", height: "50%", float: "left", marginLeft: "15px" }}>
         <BrowserRouter>
