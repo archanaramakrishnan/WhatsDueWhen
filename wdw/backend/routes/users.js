@@ -19,6 +19,20 @@ router.route('/add-user').post((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+router.route('/get-user').get((req, res) => {
+  userEmail = req.body.email
+  console.log("looking for user" + userEmail)
+
+  User.findOne({email: userEmail}, (err, foundUser) => {
+    if (err) {
+      console.log(err)
+      res.status(500).send()
+    } else {
+      res.json(foundUser).send()
+    }
+  })
+});
+
 router.route('/add-course').post((req, res) => {
   const email = req.body.email // key
   const course = req.body.course
