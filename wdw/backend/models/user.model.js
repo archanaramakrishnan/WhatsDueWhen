@@ -21,12 +21,14 @@ const userSchema = new Schema({
   },
   password: {
     type: String,
-    required: true,
     minlength: 6
   },
   isProfessor: {
     type: Boolean,
     required: true
+  },
+  googleId: {
+    type: String
   },
   classList: {
     type: [
