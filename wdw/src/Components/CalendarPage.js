@@ -34,6 +34,14 @@ export const CalendarPage = () => {
     setOpen2(false);
   };
 
+  //Continue button to submit course info
+  const handleContinue = () => {
+    //get info from text fields, etc
+    setOpen2(true);
+    // setOpen(false);
+    
+  };
+
   //returns the subject cards on the left side of calendar
   const loadSubjects = () => {
 
@@ -134,12 +142,28 @@ export const CalendarPage = () => {
                 <Button onClick={handleClose} color="primary">
                   Cancel
                 </Button>
-                <Button onClick={handleClose} color="primary">
+                <Button onClick={handleContinue} color="primary">
                   Continue
                 </Button>
               </DialogActions>
             </Dialog>
           </div>}
+          {open2 && 
+            <div>
+              <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+                <DialogTitle id="form-dialog-title">Create a Class</DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    Your course has been created! To add events, navigate to the course's calendar and double click the calendar to bring up the event form.
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleClose2} color="primary">
+                    Finish
+                  </Button>
+                </DialogActions>
+              </Dialog>
+            </div>}
         {loadSubjects()}
       </Paper>
       <Paper style={{ width: "75%", height: "50%", float: "left", marginLeft: "15px" }}>
