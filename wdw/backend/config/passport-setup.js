@@ -2,6 +2,16 @@ const passport = require('passport')
 const GoogleStrategy = require('passport-google-oauth20')
 const User = require('../models/user.model')
 
+passport.serializeUser((user, done) => {
+    done(null, user.id);
+});
+
+passport.deserializeUser((id, done) => {
+    User.findById(id).then((user) => {
+        done(null, user);
+    });
+});
+
 passport.use(
     new GoogleStrategy({
         // options for strategy
@@ -11,10 +21,10 @@ passport.use(
     }, (accessToken, refreshToken, profile, done) => {
         // passport callback function
         console.log('passport callback function fired:');
-        console.log(profile.emails[0].value);
-        const googleEmail = profile.emails[0].value
+        // console.log(profile.emails[0].value);
+        // const googleEmail = profile.emails[0].value
 
-        User.findOne({email: googleEmail}, (err, foundUser) => {
+        User.findOne({googleId: profile.id}, (err, foundUser) => {
             if (err) {
                 return done(err, foundUser)
             }
@@ -22,7 +32,7 @@ passport.use(
             if (foundUser) {
                 // already have this user
                 console.log('user is: ', foundUser);
-                // done(null, foundUser);
+                done(null, foundUser);
             } else {
                 const newUser = new User({
                     firstname: profile.name.givenName,
@@ -34,7 +44,7 @@ passport.use(
 
                 newUser.save().then(() => {
                     console.log('created new user: ', newUser)
-                    // done(null, newUser)
+                    done(null, newUser)
                 })
 
             }
