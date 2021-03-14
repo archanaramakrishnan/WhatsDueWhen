@@ -34,8 +34,7 @@ const userSchema = new Schema({
     type: [
       {
         name: {
-          type: String,
-          unique: true
+          type: String
         }
       }
     ]
