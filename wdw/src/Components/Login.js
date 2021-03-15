@@ -27,7 +27,7 @@ import axios from 'axios';
 
 export const Login = () => {
     //Gets global variable for logged-in user email and function for setting that variable
-    const {setUserEmailContext, setIsStudent, setIsProfessor} = React.useContext(Context);
+    const {setUserEmailContext, setIsProfessor} = React.useContext(Context);
 
     //Allow us to navigate to other components based on URL
     const history = useHistory();
@@ -82,7 +82,6 @@ export const Login = () => {
         setStudentFill("contained")
         setFacultyFill("outlined")
         //somehow tell backend that it is creating student account - not yet!
-        setIsStudent(true);
         setIsProfessor(false);
     };
 
@@ -91,7 +90,6 @@ export const Login = () => {
         setStudentFill("outlined")
         //somehow tell backend that it is creating faculty account
         setIsProfessor(true);
-        setIsStudent(false);
     };
 
     const handleClickOpen = () => {
