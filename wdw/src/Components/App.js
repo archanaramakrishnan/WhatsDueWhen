@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import Home from "./Home"
 import Navbar from "./Navbar"
 import CalendarPage from "./CalendarPage"
@@ -8,16 +8,19 @@ import { BrowserRouter, Route, Switch, Redirect, useHistory } from 'react-router
 import Login from './Login';
 import WebPage from './WebPage';
 import CreateUser from './CreateUser';
-import CreateClassDialog from './CreateClassDialog'
-import CreateUserDialog from './CreateUserDialog'
-import Calendar from './Calendar'
+import CreateClassDialog from './CreateClassDialog';
+import CreateUserDialog from './CreateUserDialog';
+import Calendar from './Calendar';
+import { ContextProvider } from './ContextProvider';
 
 class App extends Component {
 
     render() {
         return (
             <main>
-                <LandingNavigation />
+                <ContextProvider>
+                    <LandingNavigation />
+                </ContextProvider>
             </main>
         );
     }

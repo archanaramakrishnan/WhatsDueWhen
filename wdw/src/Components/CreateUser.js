@@ -13,7 +13,7 @@ import Divider from '@material-ui/core/Divider';
 
 
 
-export const CreateUser = () => {
+export const CreateUser = (props) => {
     return(
         <Paper className='login'>
             <img className='wdw' src={wdw} />
