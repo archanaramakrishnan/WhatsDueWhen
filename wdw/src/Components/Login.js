@@ -103,6 +103,11 @@ export const Login = () => {
         history.push("/createuser")
     }
 
+    const handleGoogleLogin = () => {
+        console.log('attempting to login to google')
+        axios.get('http://localhost:5000/auth/google')
+    }
+
     return(
         <Paper className='login'>
             <img className='wdw' src={wdw} />
@@ -150,7 +155,7 @@ export const Login = () => {
                 <Typography>OR</Typography>
             </div>
             <div className='logingoogle'>
-                <Button variant="contained" size="medium" color="default" style={{width: '200px'}}>
+                <Button variant="contained" size="medium" color="default" style={{width: '200px'}} onClick={handleGoogleLogin}>
                     Login with Google
                 </Button>
             </div>

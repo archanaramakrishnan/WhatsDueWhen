@@ -21,32 +21,17 @@ const userSchema = new Schema({
   },
   password: {
     type: String,
-<<<<<<< HEAD
-    required: true,
-=======
->>>>>>> 5659ddf4217cff187100992026a825fa008ec413
     minlength: 6
   },
   isProfessor: {
     type: Boolean,
     required: true
   },
-<<<<<<< HEAD
-=======
-  googleId: {
-    type: String
-  },
->>>>>>> 5659ddf4217cff187100992026a825fa008ec413
   classList: {
     type: [
       {
         name: {
-<<<<<<< HEAD
-          type: String,
-          unique: true
-=======
           type: String
->>>>>>> 5659ddf4217cff187100992026a825fa008ec413
         }
       }
     ]
