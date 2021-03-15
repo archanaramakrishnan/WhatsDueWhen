@@ -20,18 +20,16 @@ const NavBar = (props) => {
   return (
 
     <Card className='card'>
-      {/* <Link to="/home" className='headerlink-title'>Home</Link>
-            &nbsp;&nbsp;
-      <Link to="/mainpage" className='headerlink-title'>MainPage</Link> */}
-      <form autoComplete="off" className='form'>
-      <TextField className="searchBar" label="Search" variant="outlined" />
-      <LoggedIn />
-      
-    </form>
-    
+
       <div className="container">
-      <img className='wdw' src={wdw} />
+        <img className='wdw' src={wdw} />
       </div>
+      
+      <form autoComplete="off" className='form'>
+        <TextField className="searchBar" label="Search" variant="outlined" />
+      </form>
+      
+      <LoggedIn />
       
       <AppBar position="static">
       
@@ -39,7 +37,6 @@ const NavBar = (props) => {
       <Tab label="Home" onClick={() => {history.push("/home")}} />
       <Tab label="Calendar" onClick={() => {history.push("/calendarpage")}} />
       <div style={{width: "350px"}}/>
-      {/* <img className='wdw' src={wdw} /> */}
     </Tabs>
   </AppBar>
       
