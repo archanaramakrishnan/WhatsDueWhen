@@ -155,9 +155,11 @@ export const Login = () => {
                 <Typography>OR</Typography>
             </div>
             <div className='logingoogle'>
+                <a href = "http://localhost:5000/auth/google">
                 <Button variant="contained" size="medium" color="default" style={{width: '200px'}} onClick={handleGoogleLogin}>
                     Login with Google
                 </Button>
+                </a>
             </div>
             <div className='create'>
                 <Typography variant="h8" gutterBottom>
