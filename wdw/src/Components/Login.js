@@ -41,8 +41,6 @@ export const Login = () => {
     const [createAccountAsStudent, setCreateAccountAsStudent] = useState(true);
 
     useEffect(() => {
-        //initialize a new user as a student to handle default case where they don't click a button
-        setIsStudent(true);
         axios.get('http://localhost:5000/users/')
         .then(res => console.log(res.data));
     }, [])
