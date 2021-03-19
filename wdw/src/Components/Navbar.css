@@ -12,14 +12,15 @@
   padding: 0 5px;
 }
 
-.container{
-  max-height: 100px;
-  max-width: 500px;
+/* .container{
+  height: 50px;
+  width: 50px;
   float: left;
-}
-.wdw{
-  width: 100%;
-  height: auto;
+} */
+.wdwimage{
+  width: 410px;
+  height: 120px;
+  float: left;
 }
 
 .card{
@@ -35,4 +36,22 @@
 
 .searchBar{
   width: 100%;
+}
+
+/* .flex-container{
+  display: flex;
+  width: 100%;
+} */
+
+/* .flex-item{
+  flex-shrink: 3;
+} */
+
+.loggedinitem{
+  float: right;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20px;
 }

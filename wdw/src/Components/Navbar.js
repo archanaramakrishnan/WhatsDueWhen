@@ -20,17 +20,21 @@ const NavBar = (props) => {
   return (
 
     <Card className='card'>
-
-      <div className="container">
-        <img className='wdw' src={wdw} />
+      <div className='flex-container'>
+      
+      <div className='flex-item'>
+      {/* <div className="container"> */}
+        <img className='wdwimage' src={wdw} />
+        {/* </div> */}
       </div>
       
-      <form autoComplete="off" className='form'>
+      {/* <form autoComplete="off" className='form'>
         <TextField className="searchBar" label="Search" variant="outlined" />
-      </form>
-      
+      </form> */}
+      <div className='loggedinitem'>
       <LoggedIn />
-      
+      </div>
+      </div>
       <AppBar position="static">
       
     <Tabs className='tabs'>
