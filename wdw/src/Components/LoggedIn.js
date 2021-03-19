@@ -24,7 +24,8 @@ export const LoggedIn = () => {
 
     useEffect(() => {
 
-        axios.get('http://localhost:5000/users/').then(res => setUserList(res.data[0].firstname));
+        axios.get('http://localhost:5000/users/').then(console.log("print username here!"));
+        // res => setUserList(res.data[0].firstname)
     }, []);
 
     //res => setUserList(res.data)
