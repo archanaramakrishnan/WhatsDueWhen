@@ -19,13 +19,15 @@ passport.use(
         clientID: '567371174244-fv4depvnt5kli81tk6msun52hpsvvce5.apps.googleusercontent.com',
         clientSecret: 'ALuB6DdhGBHEsExFc_ElZaXP'
     }, (accessToken, refreshToken, profile, done) => {
-       User.findOne({googleId: profile.id}).then((foundUser) => {
+       User.findOne({email: profile.emails[0].value}).then((foundUser) => {
         if(foundUser)
         {
+            console.log('found existing user!')
             done(null, foundUser);
         }
         else
         {
+            console.log('could not find user: ', profile)
             new User({
                 firstname: profile.name.givenName,
                 lastname: profile.name.familyName,
