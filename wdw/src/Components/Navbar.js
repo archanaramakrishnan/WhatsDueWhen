@@ -20,26 +20,27 @@ const NavBar = (props) => {
   return (
 
     <Card className='card'>
-      {/* <Link to="/home" className='headerlink-title'>Home</Link>
-            &nbsp;&nbsp;
-      <Link to="/mainpage" className='headerlink-title'>MainPage</Link> */}
-      <form autoComplete="off" className='form'>
-      <TextField className="searchBar" label="Search" variant="outlined" />
-      <LoggedIn />
+      <div className='flex-container'>
       
-    </form>
-    
-      <div className="container">
-      <img className='wdw' src={wdw} />
+      <div className='flex-item'>
+      {/* <div className="container"> */}
+        <img className='wdwimage' src={wdw} />
+        {/* </div> */}
       </div>
       
+      {/* <form autoComplete="off" className='form'>
+        <TextField className="searchBar" label="Search" variant="outlined" />
+      </form> */}
+      <div className='loggedinitem'>
+      <LoggedIn />
+      </div>
+      </div>
       <AppBar position="static">
       
     <Tabs className='tabs'>
       <Tab label="Home" onClick={() => {history.push("/home")}} />
       <Tab label="Calendar" onClick={() => {history.push("/calendarpage")}} />
       <div style={{width: "350px"}}/>
-      {/* <img className='wdw' src={wdw} /> */}
     </Tabs>
   </AppBar>
       
