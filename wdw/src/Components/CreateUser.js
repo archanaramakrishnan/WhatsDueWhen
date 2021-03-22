@@ -28,6 +28,7 @@ export const CreateUser = (props) => {
 
     const handleCreate = () => {
         let unfilledField = false;
+        let addUser = false;
         if (userFirstName == "" || userLastName == "" || userEmail == "" || userPassword == ""){
             alert("Please fill all fields!");
             unfilledField = true;
@@ -44,6 +45,30 @@ export const CreateUser = (props) => {
                 isProfessor: isProfessor,
                 classList: []
             }
+        console.log(newUser);
+
+        axios.get('http://localhost:5000/users/').then(res => {
+            let returnedUser = res.data.filter((user) => (user.email == userEmail));
+            if (returnedUser.length == 0) //no user with this email already exists
+            {
+                addUser = true;
+            } else {
+                addUser = false;
+            }
+
+            alert(`There is already an account with email: ${userEmail}.`)
+
+            if (addUser){
+                axios.post("http://localhost:5000/users/add-user/", newUser).then(res => {
+                    console.log(res);
+                }).catch(err => {
+                    console.log(err);
+                })
+            }
+        })
+
+                // .then(res => {console.log("Result is:", res.data)})
+                // .catch({err => {console.log(err.res)})
         }
     };
 

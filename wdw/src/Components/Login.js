@@ -122,6 +122,7 @@ export const Login = () => {
                         <InputLabel>Email Address</InputLabel>
                         <OutlinedInput 
                             id='email'
+                            type="email"
                             onChange={(event)=>{setUserEmail(event.target.value)}}
                             />
                     </FormControl>

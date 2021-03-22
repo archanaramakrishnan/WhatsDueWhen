@@ -12,11 +12,18 @@ router.route('/').get((req, res) => {
 // adds user to database 
 router.route('/add-user').post((req, res) => {
   const body = req.body;
-  const newUser = new User(body)
+
+  const newUser = new User(body);
 
   newUser.save()
     .then(() => res.json('User added!'))
     .catch(err => res.status(400).json('Error: ' + err));
+  //const body = req.body;
+  //const newUser = new User(body)
+
+  //newUser.save()
+  //  .then(() => res.json('User added!'))
+  //  .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/get-user').get((req, res) => {
@@ -26,7 +33,7 @@ router.route('/get-user').get((req, res) => {
   User.findOne({email: userEmail}, (err, foundUser) => {
     if (err) {
       console.log(err)
-      res.status(500).send()
+      //res.status(500).send()
     } else {
       res.json(foundUser).send()
     }
