@@ -1,55 +1,64 @@
-body{
- background-color: #ebebeb;   
+body {
+  background-color: #ebebeb;
 }
 
-.createclass{
-    margin: 20px;
-    width: fit-content;
-    float: none;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+.createclass {
+  margin: 20px;
+  width: fit-content;
+  float: none;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
-.startdate{
-    padding-right: 5px;
-    margin: 20px;
-    width: fit-content;
-    float: left;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+
+.coursedescription {
+  margin: 20px;
+  float: none;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
-.enddate{
-    padding-left: 5px;
-    margin: 20px;
-    width: fit-content;
-    float: left;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+
+.startdate {
+  padding-right: 5px;
+  margin: 20px;
+  width: fit-content;
+  float: left;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
-.coursenum{
-    padding-left: 5px;
-    margin: 20px;
-    width: fit-content;
-    float: left;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+.enddate {
+  padding-left: 5px;
+  margin: 20px;
+  width: fit-content;
+  float: left;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
-.coursetitle{
-    margin: 20px;
-    float: none;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+.coursenum {
+  padding-left: 5px;
+  margin: 20px;
+  width: fit-content;
+  float: left;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
-.deptcode{
-    padding-right: 5px;
-    margin: 20px;
-    width: fit-content;
-    float: left;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+.coursetitle {
+  margin: 20px;
+  float: none;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.deptcode {
+  padding-right: 5px;
+  margin: 20px;
+  width: fit-content;
+  float: left;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }

@@ -4,9 +4,30 @@ const Schema = mongoose.Schema;
 const calendarEventSchema = require('./calendarEvent.model')
 
 const courseSchema = new Schema({
-  name: {
+  deptCode: {
     type: String,
     required: true,
+    trim: true,
+    minlength: 3,
+    unique: true
+  },
+  courseNumber: {
+    type: Number,
+    required: true,
+    trim: true,
+    minlength: 3,
+    unique: true
+  },
+  courseTitle: {
+    type: String,
+    required: false,
+    trim: true,
+    minlength: 3,
+    unique: true
+  },
+  courseDescription: {
+    type: String,
+    required: false,
     trim: true,
     minlength: 3,
     unique: true

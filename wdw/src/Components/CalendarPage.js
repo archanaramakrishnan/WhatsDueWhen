@@ -17,6 +17,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 export const CalendarPage = () => {
   //handles opening and closing dialog 1
   const [open, setOpen] = useState(false);
+  
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -93,6 +94,7 @@ export const CalendarPage = () => {
                     label="Department Code"
                     type="text"
                     required
+                    onChange={(event)=>{setVariable(event.target.value)}}
                   /> 
                 </div>
                 <div className="coursenum">
@@ -111,6 +113,26 @@ export const CalendarPage = () => {
                     margin="dense"
                     id="name"
                     label="Course Title (optional)"
+                    type="text"
+                    fullWidth
+                  /> 
+                </div>
+                <div className="deptcode">
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    label="Department Code"
+                    type="text"
+                    required
+                  /> 
+                </div>
+                <div className="coursedescription">
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    label="Course Description (optional)"
                     type="text"
                     fullWidth
                   /> 
