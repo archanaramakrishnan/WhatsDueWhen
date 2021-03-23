@@ -2,9 +2,17 @@ const router = require('express').Router();
 
 let Course = require('../models/course.model');
 
+// get request for .../courses/ info
+router.route('/').get((req, res) => {
+  Course.find()
+    .then(courses => res.json(courses))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
 router.route('/add').post((req, res) => {
-    const body = req.body
-    const newCourse = new Course(body)
+    const body = req.body;
+    console.log(body);
+    const newCourse = new Course(body);
 
     newCourse.save()
         .then(() => res.json('Course added!'))
