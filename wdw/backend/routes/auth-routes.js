@@ -20,7 +20,7 @@ router.get('/google', passport.authenticate('google', {
 
 // callback route for google to redirect to
 router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
-    res.redirect('http://localhost:3000/calendarpage')
+    res.redirect('http://localhost:3000/home')
 });
 
 module.exports = router;
