@@ -14,9 +14,20 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+//For contecting to our backend
+import axios from 'axios';
+
 export const CalendarPage = () => {
   //handles opening and closing dialog 1
   const [open, setOpen] = useState(false);
+  const [userDeptCode, setUserDeptCode] = useState("");
+  const [userCourseNumber, setUserCourseNumber] = useState("");
+  const [userCourseTitle, setUserCourseTitle] = useState("");
+  const [userCourseDescription, setUserCourseDescription] = useState("");
+  const [userStartDate, setUserStartDate] = useState("");
+  const [userEndDate, setUserEndDate] = useState("");
+
+  
   
   const handleClickOpen = () => {
     setOpen(true);
@@ -35,13 +46,62 @@ export const CalendarPage = () => {
     setOpen2(false);
   };
 
-  //Continue button to submit course info
-  const handleContinue = () => {
-    //get info from text fields, etc
-    setOpen2(true);
-    // setOpen(false);
-    
+  const handleCreate = () => {
+    let unfilledField = false;
+    if (userDeptCode == "" || userCourseNumber == "" || userStartDate == "" || userEndDate == ""){
+        alert("Please fill all the required fields!");
+        unfilledField = true;
+    }
+
+    if (!unfilledField){
+
+
+      // //TODO: trying to generate a permission number. Figure out how to do loops in ReactJS
+      // let addCourse = false;
+
+      // while(!addCourse)
+      // {
+      //   let min = 100000;
+      //   let max = 999999;
+      //   let randNumber = min + Math.random() * (max - min);
+      //   axios.get('http://localhost:5000/courses/').then(res => {
+      //         let returnedCourse = res.data.filter((course) => (course.permissionNumber == randNumber));
+      //         if (returnedCourse.length == 0) //no user with this email already exists
+      //         {
+      //             addCourse = true;
+      //         } else {
+      //           addCourse = false;
+      //         }
+      //   }
+      
+      // }
+        
+      
+      
+
+        const newCourse = {
+            deptCode: userDeptCode,
+            courseNumber : userCourseNumber,
+            courseTitle: userCourseTitle,
+            courseDescription: userCourseDescription,
+            startDate: userStartDate,
+            endDate: userEndDate,
+            // permissionNumber: randNumber
+        }
+  
+      console.log(newCourse);
+
+      axios.post("http://localhost:5000/courses/add/", newCourse).then(res => {
+          console.log(res);
+      }).catch(err => {
+        //emit different kinds of errors? one for duplicate class and another for invalid form input?
+        // alert("The class you are trying to create already exists!");
+        console.log(err);
+        
+      })
+    }
   };
+
 
   //returns the subject cards on the left side of calendar
   const loadSubjects = () => {
@@ -94,6 +154,7 @@ export const CalendarPage = () => {
                     label="Department Code"
                     type="text"
                     required
+                    onChange={(event)=>{setUserDeptCode(event.target.value)}}
                   /> 
                 </div>
                 <div className="coursenum">
@@ -104,6 +165,7 @@ export const CalendarPage = () => {
                     label="Course Number"
                     type="number"
                     required
+                    onChange={(event)=>{setUserCourseNumber(event.target.value)}}
                   /> 
                 </div>
                 <div className="coursetitle">
@@ -114,27 +176,20 @@ export const CalendarPage = () => {
                     label="Course Title (optional)"
                     type="text"
                     fullWidth
-                  /> 
-                </div>
-                <div className="deptcode">
-                  <TextField
-                    autoFocus
-                    margin="dense"
-                    id="name"
-                    label="Department Code"
-                    type="text"
-                    required
+                    onChange={(event)=>{setUserCourseTitle(event.target.value)}}
                   /> 
                 </div>
                 <div className="coursedescription">
-                  <TextField
-                    autoFocus
+                 <TextField
                     margin="dense"
-                    id="name"
+                    id="standard-multiline-static"
                     label="Course Description (optional)"
-                    type="text"
+                    multiline
+                    rows={3}
                     fullWidth
-                  /> 
+                    onChange={(event)=>{setUserCourseDescription(event.target.value)}}
+                  />
+      
                 </div>
                 <form className="startdate" noValidate>
                   <TextField
@@ -145,6 +200,7 @@ export const CalendarPage = () => {
                     InputLabelProps={{
                       shrink: true,
                     }}
+                    onChange={(event)=>{setUserStartDate(event.target.value)}}
                   />
                 </form>
                 <form className="enddate" noValidate>
@@ -156,6 +212,7 @@ export const CalendarPage = () => {
                     InputLabelProps={{
                       shrink: true,
                     }}
+                    onChange={(event)=>{setUserEndDate(event.target.value)}}
                   />
                 </form>
               </DialogContent>
@@ -163,7 +220,7 @@ export const CalendarPage = () => {
                 <Button onClick={handleClose} color="primary">
                   Cancel
                 </Button>
-                <Button onClick={handleContinue} color="primary">
+                <Button onClick={handleCreate} color="primary">
                   Continue
                 </Button>
               </DialogActions>
@@ -194,7 +251,7 @@ export const CalendarPage = () => {
       </Paper>
     </Paper>
 
-  );
-}
+  )
+};
 
 export default CalendarPage;
