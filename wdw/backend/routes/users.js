@@ -18,12 +18,6 @@ router.route('/add-user').post((req, res) => {
   newUser.save()
     .then(() => res.json('User added!'))
     .catch(err => res.status(400).json('Error: ' + err));
-  //const body = req.body;
-  //const newUser = new User(body)
-
-  //newUser.save()
-  //  .then(() => res.json('User added!'))
-  //  .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/get-user').get((req, res) => {

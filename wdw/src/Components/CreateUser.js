@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import Divider from '@material-ui/core/Divider';
 
+
 //Providing global access to logged-in user email
 import { Context } from './ContextProvider';
 
@@ -33,8 +34,15 @@ export const CreateUser = (props) => {
             alert("Please fill all fields!");
             unfilledField = true;
         }
-        if (userPassword != userPasswordEntered){
+        let emailFormatRegEx = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        if(!userEmail.match(emailFormatRegEx) && unfilledField == false)
+        {
+            alert("Enter a valid email bruh.");
+            unfilledField = true;
+        }
+        if (userPassword != userPasswordEntered && unfilledField == false){
             alert("Your passwords don't match!");
+            unfilledField = true;
         }
         if (!unfilledField){
             const newUser = {
@@ -45,30 +53,26 @@ export const CreateUser = (props) => {
                 isProfessor: isProfessor,
                 classList: []
             }
-        console.log(newUser);
+            console.log(newUser);
 
-        axios.get('http://localhost:5000/users/').then(res => {
-            let returnedUser = res.data.filter((user) => (user.email == userEmail));
-            if (returnedUser.length == 0) //no user with this email already exists
-            {
-                addUser = true;
-            } else {
-                addUser = false;
-            }
+            axios.get('http://localhost:5000/users/').then(res => {
+                let returnedUser = res.data.filter((user) => (user.email == userEmail));
+                if (returnedUser.length == 0) //no user with this email already exists
+                {
+                    addUser = true;
+                } else {
+                    addUser = false;
+                    alert(`There is already an account with email: ${userEmail}.`);
+                }
 
-            alert(`There is already an account with email: ${userEmail}.`)
-
-            if (addUser){
-                axios.post("http://localhost:5000/users/add-user/", newUser).then(res => {
-                    console.log(res);
-                }).catch(err => {
-                    console.log(err);
-                })
-            }
-        })
-
-                // .then(res => {console.log("Result is:", res.data)})
-                // .catch({err => {console.log(err.res)})
+                if (addUser){
+                    axios.post("http://localhost:5000/users/add-user/", newUser).then(res => {
+                        console.log(res);
+                    }).catch(err => {
+                        console.log(err);
+                    })
+                }
+            })
         }
     };
 
@@ -109,6 +113,7 @@ export const CreateUser = (props) => {
                     <InputLabel >Email Address</InputLabel>
                     <OutlinedInput 
                         id='email'
+                        type='email'
                         onChange={(event)=>{setUserEmail(event.target.value)}}  
                     />
                 </FormControl>

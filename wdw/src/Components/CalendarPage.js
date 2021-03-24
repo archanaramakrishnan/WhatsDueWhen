@@ -94,7 +94,6 @@ export const CalendarPage = () => {
                     label="Department Code"
                     type="text"
                     required
-                    onChange={(event)=>{setVariable(event.target.value)}}
                   /> 
                 </div>
                 <div className="coursenum">
