@@ -21,8 +21,12 @@ const userSchema = new Schema({
   },
   password: {
     type: String,
+<<<<<<< HEAD
     //required: true,
     //minlength: 6
+=======
+    minlength: 6
+>>>>>>> login-integration
   },
   isProfessor: {
     type: Boolean,
@@ -32,9 +36,13 @@ const userSchema = new Schema({
     type: [
       {
         name: {
+<<<<<<< HEAD
           type: String,
           unique: true,
           sparse: true
+=======
+          type: String
+>>>>>>> login-integration
         }
       }
     ]
