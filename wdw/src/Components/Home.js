@@ -31,7 +31,7 @@ let appointments = [
 
 export const Home = () => {
   //Get value of logged in user's email and their status as a professor or student
-  const {userEmailContext, isProfessor} = React.useContext(Context);
+  const {userEmailContext, isProfessor, setUserEmailContext, setIsProfessor} = React.useContext(Context);
 
   //Allow us to navigate to other components based on URL
   const history = useHistory();
@@ -39,11 +39,39 @@ export const Home = () => {
   const [data, setData] = useState(appointments);
   const [currentDate, setCurrentDate] = useState(today);
 
+  const [user, setUser] = useState({});
+
   useEffect(() => {
     //if user is not logged-in, redirect them to the login page
-    if (userEmailContext == "")
+    const sessionEmail = window.sessionStorage.getItem("sessionEmail");
+    const sessionStatus = window.sessionStorage.getItem("sessionStatus");
+    setUserEmailContext(sessionEmail);
+    setIsProfessor(sessionStatus);
+    if (sessionEmail == "")
     {
       history.push("/");
+    }
+    else
+    {
+      //get user data from database. Store it in a user object?
+      axios.get('http://localhost:5000/users/')
+      .then(res => {
+          let returnedUser = res.data.filter((user) => (user.email == userEmailContext))
+          if (returnedUser.length == 0) //error! Could not find user
+          {
+              console.log(`No user in database with email: ${userEmailContext}`);
+          }
+          else if (returnedUser.length == 1)
+          {
+            console.log(returnedUser);
+            setUser(returnedUser[0]);
+          }
+          else
+          {
+              console.log("Something went very wrong, we have more than one user with the same email");
+          }
+      })
+      .catch(error => {console.log(error)});
     }
   }, [])
 

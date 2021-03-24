@@ -41,7 +41,8 @@ export const Login = () => {
     const [createAccountAsStudent, setCreateAccountAsStudent] = useState(true);
 
     useEffect(() => {
-        //initialize a new user as a student to handle default case where they don't click a button
+        window.sessionStorage.setItem("sessionEmail", "");
+        window.sessionStorage.setItem("sessionStatus", "");
         axios.get('http://localhost:5000/users/')
         .then(res => console.log(res.data));
     }, [])
@@ -52,7 +53,7 @@ export const Login = () => {
             let returnedUser = res.data.filter((user) => (user.email == userEmail))
             if (returnedUser.length == 0)
             {
-                console.log(`No user in database wiht email: ${userEmail}`);
+                console.log(`No user in database with email: ${userEmail}`);
                 alert("We don't recognize your email, are you a new user?");
             }
             else if (returnedUser.length == 1)
@@ -65,6 +66,9 @@ export const Login = () => {
                 else
                 {
                     setUserEmailContext(returnedUser[0].email);
+                    //temporary and unsecure way to stop logout on refresh
+                    window.sessionStorage.setItem("sessionEmail", returnedUser[0].email);
+                    window.sessionStorage.setItem("sessionStatus", returnedUser[0].isProfessor);
                     history.push("/home");
                 }
             }

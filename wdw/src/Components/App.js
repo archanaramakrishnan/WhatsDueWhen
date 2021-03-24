@@ -36,7 +36,7 @@ const LandingNavigation = () => {
                 <Route exact path="/createclassdialog" component={CreateClassDialog}></Route>
                 <Route exact path="/student" component={Calendar}></Route>
                 <Route exact path="/createuserdialog" component={CreateUserDialog}></Route>
-                <Route exact path="/home" component={Home}>
+                <Route exact path="/home">
                     <WebPage > 
                         <Home /> 
                     </WebPage> 

@@ -59,6 +59,9 @@ const NavBar = (props) => {
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+    window.sessionStorage.removeItem("sessionEmail");
+    window.sessionStorage.removeItem("sessionStatus");
+    history.push("/");
   };
 
   const handleClose = () => {
@@ -84,7 +87,7 @@ const NavBar = (props) => {
         color="primary"
         onClick={handleClick}
       >
-        Username
+        Logout
       </Button>
       <StyledMenu
         id="customized-menu"
