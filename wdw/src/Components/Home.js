@@ -41,6 +41,15 @@ export const Home = () => {
 
   const [user, setUser] = useState({});
 
+  // const loadEvents = () => {
+  //   axios.get('http://localhost:5000/courses/')
+  //       .then(res => {
+  //         //filter each course's events list for the current day's events
+  //         console.log(res.data)
+  //       })
+  //       .catch(error => {console.log(error)});
+  // }
+
   useEffect(() => {
     //if user is not logged-in, redirect them to the login page
     const sessionEmail = window.sessionStorage.getItem("sessionEmail");
