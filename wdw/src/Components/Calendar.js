@@ -3,7 +3,7 @@ import Paper from '@material-ui/core/Paper';
 import { Route, Switch } from 'react-router-dom';
 import Home from './Home';
 import Error from './Error';
-import { ViewState, EditingState, IntegratedEditing } from '@devexpress/dx-react-scheduler';
+import { ViewState, EditingState, IntegratedEditing, Resources } from '@devexpress/dx-react-scheduler';
 import {
   Scheduler,
   DayView,
@@ -29,6 +29,12 @@ today = yyyy + '-' + mm + '-' + dd;
 let appointments = [
     { startDate: '2018-11-01T09:45', endDate: '2018-11-01T11:00', title: 'Meeting' },
     { startDate: '2018-11-01T12:00', endDate: '2018-11-01T13:30', title: 'Go to a gym' },
+  ];
+
+  let resourceData = [
+    { Name: 'EECS 168', PermissionNumber: '12345', Color: '#ea7a57' },
+    { Name: 'EECS 268', PermissionNumber: '56789', Color: '#357CD2' },
+    { Name: 'EECS 368', PermissionNumber: '24689', Color: '#7fa900' },
   ];
 
 export default class Demo extends React.PureComponent {
@@ -98,6 +104,8 @@ export default class Demo extends React.PureComponent {
             showDeleteButton
           />
           <AppointmentForm />
+
+          {/* <Resources field='Class' title='Class' name='Class' textField='Name' idField='PermissionNumber' colorField='Color' dataSource={resourceData}/> */}
         </Scheduler>
       </Paper>
     );
