@@ -14,7 +14,7 @@ router.route('/add').post((req, res) => {
     console.log(body);
     const newCourse = new Course(body);
 
-    Course.findOne({deptCode: newCourse.deptCode, courseNumber: newCourse.courseNumber}, (err, foundCourse) => {
+    Course.findOne({deptCode: body.deptCode, courseNumber: body.courseNumber}, (err, foundCourse) => {
       if (err) {
         console.log(err)
         res.status(400).json('Error: ' + err)
