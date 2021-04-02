@@ -17,6 +17,14 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 //For contecting to our backend
 import axios from 'axios';
 
+const generateRandomInt = () => {
+  let min = 100000;
+  let max = 999999;
+  let randNumber = Math.random() * (max - min) + min;
+  let intRand = Math.floor(randNumber);
+  return(intRand);
+}
+
 export const CalendarPage = () => {
   //handles opening and closing dialog 1
   const [open, setOpen] = useState(false);
@@ -45,10 +53,6 @@ export const CalendarPage = () => {
   };
 
   const handleCreate = () => {
-    let min = 100000;
-    let max = 999999;
-    let randNumber = Math.random() * (max - min) + min;
-    console.log(randNumber);
     let unfilledField = false;
     if (userDeptCode == "" || userCourseNumber == "" || userStartDate == "" || userEndDate == ""){
         alert("Please fill all the required fields!");
@@ -66,7 +70,7 @@ export const CalendarPage = () => {
         let min = 100000;
         let max = 999999;
         // parseInt
-        let randNumber = parseInt(Math.random() * (max - min) + min);
+        let randNumber = Math.floor(Math.random() * (max - min) + min);
         console.log(randNumber);
         // axios.get('http://localhost:5000/courses/').then(res => {
         //       let returnedCourse = res.data.filter((course) => (course.permissionNumber == randNumber));
