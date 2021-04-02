@@ -80,7 +80,7 @@ export const CalendarPage = () => {
       
 
         const newCourse = {
-            deptCode: userDeptCode,
+            deptCode: userDeptCode.toUpperCase(),
             courseNumber: userCourseNumber,
             courseTitle: userCourseTitle,
             courseDescription: userCourseDescription,
@@ -92,7 +92,7 @@ export const CalendarPage = () => {
       console.log(newCourse);
 
       axios.post("http://localhost:5000/courses/add/", newCourse).then(res => {
-          console.log(res);
+          console.log(res.data);
       }).catch(err => {
         //emit different kinds of errors? one for duplicate class and another for invalid form input?
         // alert("The class you are trying to create already exists!");
