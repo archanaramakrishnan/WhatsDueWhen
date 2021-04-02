@@ -81,7 +81,7 @@ export const CalendarPage = () => {
 
         const newCourse = {
             deptCode: userDeptCode,
-            courseNumber : userCourseNumber,
+            courseNumber: userCourseNumber,
             courseTitle: userCourseTitle,
             courseDescription: userCourseDescription,
             startDate: userStartDate,
@@ -96,7 +96,13 @@ export const CalendarPage = () => {
       }).catch(err => {
         //emit different kinds of errors? one for duplicate class and another for invalid form input?
         // alert("The class you are trying to create already exists!");
-        console.log(err);
+
+        // handles duplicate key error. Responds with a 422 status
+        if (err.response.status === 422){
+          alert("The class you are trying to create already exists!")
+        }
+
+        console.log(err.response);
         
       })
     }

@@ -6,14 +6,14 @@ const calendarEventSchema = require('./calendarEvent.model')
 const courseSchema = new Schema({
   deptCode: {
     type: String,
-    // required: true,
+    required: true,
     // trim: true,
     // minlength: 3,
     // unique: true
   },
   courseNumber: {
     type: Number,
-    // required: true,
+    required: true,
     // trim: true,
     // minlength: 3,
     // unique: true

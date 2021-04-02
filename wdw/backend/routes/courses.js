@@ -14,9 +14,25 @@ router.route('/add').post((req, res) => {
     console.log(body);
     const newCourse = new Course(body);
 
-    newCourse.save()
-        .then(() => res.json('Course added!'))
-        .catch(err => res.status(400).json('Error: ' + err))
+    Course.findOne({deptCode: newCourse.deptCode, courseNumber: newCourse.courseNumber}, (err, foundCourse) => {
+      if (err) {
+        console.log(err)
+        res.status(400).json('Error: ' + err)
+      }else if (foundCourse){
+        console.log("Found a Course")
+        res.status(422).json('Error: Duplicate Course Found').send()
+      }else {
+        console.log("No course found")
+        newCourse.save()
+          .then(() => res.json('Course added!'))
+          .catch((err) => {
+            console.log(err)
+            res.status(400).json('Error: ' + err)
+        })
+      }
+    })
+
+    
 })
 
 
