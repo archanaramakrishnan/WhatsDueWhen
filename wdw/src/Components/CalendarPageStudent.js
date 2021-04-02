@@ -1,4 +1,4 @@
-import React, {useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './CalendarPage.css';
 // import Calendar from './Calendar';
 import Calendar from './Calendar';
@@ -17,9 +17,10 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 //For contecting to our backend
 import axios from 'axios';
 
-export const CalendarPage = () => {
+export const CalendarPageStudent = () => {
   //handles opening and closing dialog 1
   const [open, setOpen] = useState(false);
+  const [openAddClass, setOpenAddClass] = useState(false);
   const [userDeptCode, setUserDeptCode] = useState("");
   const [userCourseNumber, setUserCourseNumber] = useState("");
   const [userCourseTitle, setUserCourseTitle] = useState("");
@@ -44,11 +45,16 @@ export const CalendarPage = () => {
     setOpen2(false);
   };
 
+  const handleClickOpenAddClass = () => {
+    setOpenAddClass(true);
+};
+
+const handleCloseAddClass = () => {
+  setOpenAddClass(true);
+};
+
+
   const handleCreate = () => {
-    let min = 100000;
-    let max = 999999;
-    let randNumber = Math.random() * (max - min) + min;
-    console.log(randNumber);
     let unfilledField = false;
     if (userDeptCode == "" || userCourseNumber == "" || userStartDate == "" || userEndDate == ""){
         alert("Please fill all the required fields!");
@@ -59,58 +65,37 @@ export const CalendarPage = () => {
 
 
       // //TODO: trying to generate a permission number. Figure out how to do loops in ReactJS
-      let addCourse = false;
+      // let addCourse = false;
 
-      while(!addCourse)
-      {
-        let min = 100000;
-        let max = 999999;
-        // parseInt
-        let randNumber = parseInt(Math.random() * (max - min) + min);
-        console.log(randNumber);
-        // axios.get('http://localhost:5000/courses/').then(res => {
-        //       let returnedCourse = res.data.filter((course) => (course.permissionNumber == randNumber));
-        //       if (returnedCourse.length == 0) //no class with this permission number exists
-        //       {
-        //           addCourse = true;
-        //       } else {
-        //         addCourse = false;
-        //       }
-              // if (addCourse){
-              //     axios.post("http://localhost:5000/courses/add/", newCourse).then(res => {
-              //         console.log(res);
-              //         // history.push("/calendarpageprof");
-              //     }).catch(err => {
-              //         console.log(err);
-              //     })
-
-              //     axios.post("http://localhost:5000/courses/add/", newCourse).then(res => {
-              //         console.log(res);
-              //     }).catch(err => {
-              //       //emit different kinds of errors? one for duplicate class and another for invalid form input?
-              //       // alert("The class you are trying to create already exists!");
-
-              //       // handles duplicate key error. Responds with a 422 status
-              //       if (err.response.status === 422){
-              //         alert("The class you are trying to create already exists!")
-              //       }
-
-              //       console.log(err.response);
-                    
-              //     })
-              // }
-        // }
-
+      // while(!addCourse)
+      // {
+      //   let min = 100000;
+      //   let max = 999999;
+      //   let randNumber = min + Math.random() * (max - min);
+      //   axios.get('http://localhost:5000/courses/').then(res => {
+      //         let returnedCourse = res.data.filter((course) => (course.permissionNumber == randNumber));
+      //         if (returnedCourse.length == 0) //no user with this email already exists
+      //         {
+      //             addCourse = true;
+      //         } else {
+      //           addCourse = false;
+      //         }
+      //   }
+      
+      // }
+        
+      
+      
 
         const newCourse = {
-          deptCode: userDeptCode,
-          courseNumber: userCourseNumber,
-          courseTitle: userCourseTitle,
-          courseDescription: userCourseDescription,
-          startDate: userStartDate,
-          endDate: userEndDate,
-          //permissionNumber: randNumber
-      }
+            deptCode: userDeptCode,
+            courseNumber: userCourseNumber,
+            courseTitle: userCourseTitle,
+            courseDescription: userCourseDescription,
+            startDate: userStartDate,
+            endDate: userEndDate,
+            // permissionNumber: randNumber
+        }
   
       console.log(newCourse);
 
@@ -128,8 +113,6 @@ export const CalendarPage = () => {
         console.log(err.response);
         
       })
-    }
-
     }
   };
 
@@ -168,6 +151,9 @@ export const CalendarPage = () => {
         <div className="createclass">
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
             Create a Class
+      </Button>
+      <Button variant="outlined" color="primary" onClick={handleClickOpenAddClass}>
+            Add a Class
       </Button>
       </div>
         {open && 
@@ -274,6 +260,38 @@ export const CalendarPage = () => {
                 </DialogActions>
               </Dialog>
             </div>}
+
+            {openAddClass && 
+          <div>
+            <Dialog open={openAddClass} onClose={handleCloseAddClass} aria-labelledby="form-dialog-title">
+              <DialogTitle id="form-dialog-title">Add a Class</DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  Please enter the permission number of the course you want to add to your calendar
+                </DialogContentText>
+                <div className="permno">
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    label="Permission Number"
+                    type="text"
+                    required
+                    // onChange={(event)=>{setUserDeptCode(event.target.value)}}
+                  /> 
+                </div>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleCloseAddClass} color="primary">
+                  Cancel
+                </Button>
+                <Button onClick={handleCreate} color="primary">
+                  Continue
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </div>}
+
         {loadSubjects()}
       </Paper>
       <Paper style={{ width: "75%", height: "50%", float: "left", marginLeft: "15px" }}>
@@ -284,7 +302,6 @@ export const CalendarPage = () => {
     </Paper>
 
   )
-
 };
 
-export default CalendarPage;
+export default CalendarPageStudent;
