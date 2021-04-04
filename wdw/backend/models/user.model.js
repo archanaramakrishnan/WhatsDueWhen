@@ -28,16 +28,33 @@ const userSchema = new Schema({
     type: Boolean,
     //required: true
   },
+  googleId: {
+    type: Number
+  },
+  authProvider: {
+    type: String
+  },
   classList: {
     type: [
       {
-        name: {
+        deptCode: {
+          type: String,
+          unique: true,
+          sparse: true
+        },
+        courseNumber: {
+          type: String,
+          unique: true,
+          sparse: true
+        },
+        courseTitle: {
           type: String,
           unique: true,
           sparse: true
         }
       }
     ]
+
 }
 }, {
   timestamps: true,
