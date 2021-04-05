@@ -33,8 +33,6 @@ router.route('/add').post((req, res) => {
   })
 })
 
-
-
 router.route('/add-event').post((req, res) => {
   const courseName = req.body.courseName
   const event = req.body.event 

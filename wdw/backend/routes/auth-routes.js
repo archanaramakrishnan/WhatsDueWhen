@@ -56,7 +56,16 @@ router.get('/google', passport.authenticate('google', {
 
 // callback route for google to redirect to
 router.get('/google/redirect', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
-    res.redirect('http://localhost:3000/calendarpage')
+    console.log("request", req.user)
+    
+
+    if (req.user.isProfessor) {
+        res.redirect('http://localhost:3000/calendarpageprof')
+    } else {
+        res.redirect('http://localhost:3000/calendarpagestudent')
+    }
+    // console.log("response", res)
+    //res.redirect('http://localhost:3000/calendarpage')
 });
 
 module.exports = router;
