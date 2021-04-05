@@ -19,6 +19,9 @@ import DraftsIcon from '@material-ui/icons/Drafts';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { withStyles } from '@material-ui/core/styles';
 
+//For contecting to our backend
+import axios from 'axios';
+
 
 const NavBar = (props) => {
   //This is a react router "Hook" (a built in function). Calling history.push("link-name") will change the current page to the one specified
@@ -58,10 +61,20 @@ const NavBar = (props) => {
   }))(MenuItem);
 
   const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-    window.sessionStorage.removeItem("sessionEmail");
-    window.sessionStorage.removeItem("sessionStatus");
-    history.push("/");
+    // setAnchorEl(event.currentTarget);
+    // window.sessionStorage.removeItem("sessionEmail");
+    // window.sessionStorage.removeItem("sessionStatus");
+    
+
+    axios.get('http://localhost:5000/auth/logout', {withCredentials: true})
+      .then(res => {
+        console.log(res)
+        history.push("/")
+      })
+      .catch(err => {
+        console.log(err)
+      })
+
   };
 
   const handleClose = () => {

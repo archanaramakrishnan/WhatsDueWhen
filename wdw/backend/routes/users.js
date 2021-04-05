@@ -21,23 +21,37 @@ router.route('/add-user').post((req, res) => {
 });
 
 router.route('/get-user').get((req, res) => {
-  userEmail = req.body.email
-  console.log("looking for user" + userEmail)
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.setHeader('Access-Control-Allow-Credentials',true);
+  
+  const user = req.user
+  console.log("getuser", user)
 
-  User.findOne({email: userEmail}, (err, foundUser) => {
-    if (err) {
-      console.log(err)
-      //res.status(500).send()
-    } else {
-      res.json(foundUser).send()
-    }
-  })
+  if (user) {
+    res.status(200).json(user).send()
+  } else {
+    res.status(400).send()
+  }
+
+  // userEmail = req.body.email
+  // console.log("looking for user" + userEmail)
+
+  // User.findOne({email: userEmail}, (err, foundUser) => {
+  //   if (err) {
+  //     console.log(err)
+  //     //res.status(500).send()
+  //   } else {
+  //     res.json(foundUser).send()
+  //   }
+  // })
 });
 
 router.route('/add-course').post((req, res) => {
   const email = req.body.email // key
   const course = req.body.course
-  console.log(req.body)
+  // console.log(email)
+  // console.log(course)
+
   User.updateOne({email: email}, {$addToSet: {classList: course}}, (err, result) => {
     if (err) {
       console.log(err);
@@ -64,7 +78,6 @@ router.route('/remove-course').post((req, res) => {
   })
 })
 
-
 router.route('/courses').get((req, res) => {
   const email = req.body.email
   User.findOne({email: email}, (err, userFound) => {
@@ -73,6 +86,23 @@ router.route('/courses').get((req, res) => {
     } else {
       const classList = userFound.classList
       res.json(classList).send()
+    }
+  })
+})
+
+// req: {email: (users email)}
+// res: true or false or 500 error code 
+router.route('/user-exist').post((req, res) => {
+  const userEmail = req.body.email
+  User.findOne({email: userEmail}, (err, user) => {
+    if (err) {
+      res.status(400).send()
+    }
+
+    if (user) {
+      res.status(200).json(true).send()
+    } else {
+      res.status(200).json(false).send()
     }
   })
 })

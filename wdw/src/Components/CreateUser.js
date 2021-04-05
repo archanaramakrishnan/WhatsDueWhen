@@ -27,6 +27,9 @@ export const CreateUser = (props) => {
     const [userPassword, setUserPassword] = useState("");
     const [userPasswordEntered, setUserPasswordEntered] = useState("");
 
+    //Allow us to navigate to other components based on URL
+    const history = useHistory();
+
     const handleCreate = () => {
         let unfilledField = false;
         let addUser = false;
@@ -55,24 +58,37 @@ export const CreateUser = (props) => {
             }
             console.log(newUser);
 
-            axios.get('http://localhost:5000/users/').then(res => {
-                let returnedUser = res.data.filter((user) => (user.email == userEmail));
-                if (returnedUser.length == 0) //no user with this email already exists
-                {
-                    addUser = true;
-                } else {
-                    addUser = false;
-                    alert(`There is already an account with email: ${userEmail}.`);
-                }
+            // adds user to database, otherwise
+            axios.post('http://localhost:5000/auth/createuser', {email: userEmail, password: userPassword, isProfessor: isProfessor}, {withCredentials: true})
+                .then((res) => {
+                    console.log(res)
+                    history.push("/")
+                })
+                .catch(err => {
+                    if (err) {
+                        alert("Something is wrong with a your email and password combination.")
+                    }
+                });
 
-                if (addUser){
-                    axios.post("http://localhost:5000/users/add-user/", newUser).then(res => {
-                        console.log(res);
-                    }).catch(err => {
-                        console.log(err);
-                    })
-                }
-            })
+            // reworked above
+            // axios.get('http://localhost:5000/users/').then(res => {
+            //     let returnedUser = res.data.filter((user) => (user.email == userEmail));
+            //     if (returnedUser.length == 0) //no user with this email already exists
+            //     {
+            //         addUser = true;
+            //     } else {
+            //         addUser = false;
+            //         alert(`There is already an account with email: ${userEmail}.`);
+            //     }
+
+            //     if (addUser){
+            //         axios.post("http://localhost:5000/users/add-user/", newUser).then(res => {
+            //             console.log(res);
+            //         }).catch(err => {
+            //             console.log(err);
+            //         })
+            //     }
+            // })
         }
     };
 

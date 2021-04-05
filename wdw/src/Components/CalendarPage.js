@@ -91,8 +91,35 @@ export const CalendarPage = () => {
   
       console.log(newCourse);
 
+      // below need to be reworked
+      ////////////////////////////////////////////
+      // get user info (email)
+      let userInfo;
+      axios.get("http://localhost:5000/users/get-user", {withCredentials: true}).then(res => {
+        console.log(res)
+        userInfo = res.data
+      }).catch(err => {
+        console.log(err)
+      });
+      
+
       axios.post("http://localhost:5000/courses/add/", newCourse).then(res => {
-          console.log(res.data);
+        console.log(res.data);
+        
+        const data = {
+          email: userInfo.email,
+          course: {
+            deptCode: newCourse.deptCode, 
+            courseNumber: newCourse.courseNumber, 
+            courseTitle: newCourse.courseTitle
+          }
+        }
+        // adds new course to the logged in user
+        axios.post("http://localhost:5000/users/add-course", data)
+          .then(res => console.log(res))
+          .catch(err => console.log(err))
+          
+
       }).catch(err => {
         //emit different kinds of errors? one for duplicate class and another for invalid form input?
         // alert("The class you are trying to create already exists!");
@@ -104,7 +131,9 @@ export const CalendarPage = () => {
 
         console.log(err.response);
         
-      })
+      });
+      /////////////////////////////////////////
+
     }
   };
 

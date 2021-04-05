@@ -10,29 +10,27 @@ router.route('/').get((req, res) => {
 });
 
 router.route('/add').post((req, res) => {
-    const body = req.body;
-    console.log(body);
-    const newCourse = new Course(body);
+  const body = req.body;
+  // console.log(body);
+  const newCourse = new Course(body);
 
-    Course.findOne({deptCode: body.deptCode, courseNumber: body.courseNumber}, (err, foundCourse) => {
-      if (err) {
-        console.log(err)
-        res.status(400).json('Error: ' + err)
-      }else if (foundCourse){
-        console.log("Found a Course")
-        res.status(422).json('Error: Duplicate Course Found').send()
-      }else {
-        console.log("No course found")
-        newCourse.save()
-          .then(() => res.json('Course added!'))
-          .catch((err) => {
-            console.log(err)
-            res.status(400).json('Error: ' + err)
-        })
-      }
-    })
-
-    
+  Course.findOne({deptCode: body.deptCode, courseNumber: body.courseNumber}, (err, foundCourse) => {
+    if (err) {
+      console.log(err)
+      res.status(400).json('Error: ' + err)
+    } else if (foundCourse) { 
+      console.log("Found a Course")
+      res.status(422).json('Error: Duplicate Course Found').send()
+    } else {
+      console.log("No course found")
+      newCourse.save()
+        .then(() => res.json('Course added!'))
+        .catch((err) => {
+          console.log(err)
+          res.status(400).json('Error: ' + err)
+      })
+    }
+  })
 })
 
 

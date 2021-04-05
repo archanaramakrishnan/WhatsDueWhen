@@ -48,36 +48,45 @@ export const Login = () => {
     }, [])
 
     const handleAttemptedLogin = () => {
-        axios.get('http://localhost:5000/users/')
-        .then(res => {
-            let returnedUser = res.data.filter((user) => (user.email == userEmail))
-            if (returnedUser.length == 0)
-            {
-                console.log(`No user in database with email: ${userEmail}`);
-                alert("We don't recognize your email, are you a new user?");
-            }
-            else if (returnedUser.length == 1)
-            {
-                if (returnedUser[0].password != userPassword)
-                {
-                    console.log("No user has this password!");
-                    alert("We don't recognize your password, please try again!");
-                }
-                else
-                {
-                    setUserEmailContext(returnedUser[0].email);
-                    //temporary and unsecure way to stop logout on refresh
-                    window.sessionStorage.setItem("sessionEmail", returnedUser[0].email);
-                    window.sessionStorage.setItem("sessionStatus", returnedUser[0].isProfessor);
-                    history.push("/home");
-                }
-            }
-            else
-            {
-                console.log("Something went very wrong, we have more than one user with the same email");
-            }
-        })
-        .catch(error => {console.log(error)});
+        axios.post('http://localhost:5000/auth/login', {email: userEmail, password: userPassword}, {withCredentials: true})
+            .then(res => {
+                console.log(res)
+                history.push("/calendarpage")
+            })
+            .catch(err => {
+                console.log(err)
+            });
+
+        // axios.get('http://localhost:5000/users/')
+        // .then(res => {
+        //     let returnedUser = res.data.filter((user) => (user.email == userEmail))
+        //     if (returnedUser.length == 0)
+        //     {
+        //         console.log(`No user in database with email: ${userEmail}`);
+        //         alert("We don't recognize your email, are you a new user?");
+        //     }
+        //     else if (returnedUser.length == 1)
+        //     {
+        //         if (returnedUser[0].password != userPassword)
+        //         {
+        //             console.log("No user has this password!");
+        //             alert("We don't recognize your password, please try again!");
+        //         }
+        //         else
+        //         {
+        //             setUserEmailContext(returnedUser[0].email);
+        //             //temporary and unsecure way to stop logout on refresh
+        //             window.sessionStorage.setItem("sessionEmail", returnedUser[0].email);
+        //             window.sessionStorage.setItem("sessionStatus", returnedUser[0].isProfessor);
+        //             history.push("/home");
+        //         }
+        //     }
+        //     else
+        //     {
+        //         console.log("Something went very wrong, we have more than one user with the same email");
+        //     }
+        // })
+        // .catch(error => {console.log(error)});
     }
 
     const [handleStudent, setHandleStudent] = useState(false);
@@ -109,7 +118,7 @@ export const Login = () => {
 
     const handleGoogleLogin = () => {
         console.log('attempting to login to google')
-        axios.get('http://localhost:5000/auth/google')
+        // axios.get('http://localhost:5000/auth/google')
     }
 
     return(
