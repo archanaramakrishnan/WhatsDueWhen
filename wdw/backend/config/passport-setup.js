@@ -16,6 +16,7 @@ passport.deserializeUser((id, done) => {
     });
 });
 
+// Google Startegy
 passport.use(
     new GoogleStrategy({
         // options for strategy
