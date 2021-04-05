@@ -61,63 +61,6 @@ export const CalendarPage = () => {
 
     if (!unfilledField){
 
-
-      // //TODO: trying to generate a permission number. Figure out how to do loops in ReactJS
-      let addCourse = false;
-
-      while(!addCourse)
-      {
-        let min = 100000;
-        let max = 999999;
-        // parseInt
-        let randNumber = Math.floor(Math.random() * (max - min) + min);
-        console.log(randNumber);
-        // axios.get('http://localhost:5000/courses/').then(res => {
-        //       let returnedCourse = res.data.filter((course) => (course.permissionNumber == randNumber));
-        //       if (returnedCourse.length == 0) //no class with this permission number exists
-        //       {
-        //           addCourse = true;
-        //       } else {
-        //         addCourse = false;
-        //       }
-              // if (addCourse){
-              //     axios.post("http://localhost:5000/courses/add/", newCourse).then(res => {
-              //         console.log(res);
-              //         // history.push("/calendarpageprof");
-              //     }).catch(err => {
-              //         console.log(err);
-              //     })
-
-              //     axios.post("http://localhost:5000/courses/add/", newCourse).then(res => {
-              //         console.log(res);
-              //     }).catch(err => {
-              //       //emit different kinds of errors? one for duplicate class and another for invalid form input?
-              //       // alert("The class you are trying to create already exists!");
-
-              //       // handles duplicate key error. Responds with a 422 status
-              //       if (err.response.status === 422){
-              //         alert("The class you are trying to create already exists!")
-              //       }
-
-              //       console.log(err.response);
-                    
-              //     })
-              // }
-        // }
-
-
-        const newCourse = {
-            deptCode: userDeptCode.toUpperCase(),
-            courseNumber: userCourseNumber,
-            courseTitle: userCourseTitle,
-            courseDescription: userCourseDescription,
-            startDate: userStartDate,
-            endDate: userEndDate,
-            // permissionNumber: randNumber
-        }
-  
-      console.log(newCourse);
-
       // below need to be reworked
       ////////////////////////////////////////////
       // get user info (email)
@@ -128,7 +71,30 @@ export const CalendarPage = () => {
       }).catch(err => {
         console.log(err)
       });
-      
+
+
+      axios.get('http://localhost:5000/courses/').then(res => {
+        let min = 100000;
+        let max = 999999;
+        let randNumber = Math.floor(Math.random() * (max - min) + min);
+        let returnedCourse = res.data.filter((course) => (course.permissionNumber == randNumber));
+        while (returnedCourse.length != 0)
+        {
+            randNumber = Math.floor(Math.random() * (max - min) + min);
+            returnedCourse = res.data.filter((course) => (course.permissionNumber == randNumber));
+        }
+        console.log(randNumber);
+        const newCourse = {
+          deptCode: userDeptCode.toUpperCase(),
+          courseNumber: userCourseNumber,
+          courseTitle: userCourseTitle,
+          courseDescription: userCourseDescription,
+          startDate: userStartDate,
+          endDate: userEndDate,
+          permissionNumber: randNumber
+      }
+
+      console.log(newCourse);
 
       axios.post("http://localhost:5000/courses/add/", newCourse).then(res => {
         console.log(res.data);
@@ -159,9 +125,9 @@ export const CalendarPage = () => {
         console.log(err.response);
         
       });
-      /////////////////////////////////////////
 
-    }
+      console.log(newCourse);
+    })
 
     }
   };
