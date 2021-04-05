@@ -21,6 +21,9 @@ import axios from 'axios';
 export const CreateUser = (props) => {
     const {setUserEmailContext, isProfessor} = React.useContext(Context);
 
+    //Allow us to navigate to other components based on URL
+    const history = useHistory();
+
     const [userEmail, setUserEmail] = useState("");
     const [userFirstName, setUserFirstName] = useState("");
     const [userLastName, setUserLastName] = useState("");
@@ -68,6 +71,12 @@ export const CreateUser = (props) => {
                 if (addUser){
                     axios.post("http://localhost:5000/users/add-user/", newUser).then(res => {
                         console.log(res);
+                        if (isProfessor == true)
+                        {
+                            history.push("/calendarpageprof");
+                        } else { //isProfessor == false
+                            history.push("/calendarpagestudent");
+                        }
                     }).catch(err => {
                         console.log(err);
                     })

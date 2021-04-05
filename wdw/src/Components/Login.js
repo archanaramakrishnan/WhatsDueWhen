@@ -69,7 +69,12 @@ export const Login = () => {
                     //temporary and unsecure way to stop logout on refresh
                     window.sessionStorage.setItem("sessionEmail", returnedUser[0].email);
                     window.sessionStorage.setItem("sessionStatus", returnedUser[0].isProfessor);
-                    history.push("/home");
+                    if (returnedUser[0].isProfessor == true)
+                    {
+                        history.push("/calendarpageprof");
+                    } else { //returnedUser[0].isProfessor == false;
+                        history.push("/calendarpagestudent");
+                    }
                 }
             }
             else
