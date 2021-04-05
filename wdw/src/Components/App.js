@@ -2,6 +2,7 @@ import React, { Component, useEffect } from 'react';
 import Home from "./Home"
 import Navbar from "./Navbar"
 import CalendarPage from "./CalendarPage"
+import CalendarPageStudent from "./CalendarPageStudent"
 import Error from "./Error"
 import { BrowserRouter, Route, Switch, Redirect, useHistory } from 'react-router-dom';
 
@@ -41,9 +42,14 @@ const LandingNavigation = () => {
                         <Home /> 
                     </WebPage> 
                 </Route>
-                <Route path="/calendarpage" >
+                <Route path="/calendarpageprof" >
                     <WebPage > 
                         <CalendarPage /> 
+                    </WebPage> 
+                </Route>
+                <Route path="/calendarpagestudent" >
+                    <WebPage > 
+                        <CalendarPageStudent /> 
                     </WebPage> 
                 </Route>
                 <Route exact path="/error" component={Error} />
