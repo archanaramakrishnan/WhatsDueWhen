@@ -110,18 +110,18 @@ export const CalendarPage = () => {
 
     return (
       <div>
-        <Card style={{ height: "100px" }}>
-          {SubjectSelector("Science")}
-        </Card>
-        <Card style={{ height: "100px" }}>
-          {SubjectSelector("Math")}
-        </Card>
-        <Card style={{ height: "100px" }}>
-          {SubjectSelector("English")}
-        </Card >
-        <Card style={{ height: "100px" }}>
-          {SubjectSelector("History")}
-        </Card>
+        {/* <Card style={{ height: "100px" }}> */}
+          {SubjectSelector("Science", "1234")}
+        {/* </Card>
+        <Card style={{ height: "100px" }}> */}
+          {SubjectSelector("Math", "1234")}
+        {/* </Card>
+        <Card style={{ height: "100px" }}> */}
+          {SubjectSelector("English", "1234")}
+        {/* </Card >
+        <Card style={{ height: "100px" }}> */}
+          {SubjectSelector("History", "1234")}
+        {/* </Card> */}
 
         {/* will use stuff below once info is loaded from backend */}
         {/* {classes.map(item => {
