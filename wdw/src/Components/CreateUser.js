@@ -21,9 +21,7 @@ import axios from 'axios';
 export const CreateUser = (props) => {
     const {setUserEmailContext, isProfessor} = React.useContext(Context);
 
-    //Allow us to navigate to other components based on URL
-    const history = useHistory();
-
+    //Allow us to navigate to other components based on RL
     const [userEmail, setUserEmail] = useState("");
     const [userFirstName, setUserFirstName] = useState("");
     const [userLastName, setUserLastName] = useState("");
