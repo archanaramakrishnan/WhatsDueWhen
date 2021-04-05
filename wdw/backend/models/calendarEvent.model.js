@@ -5,10 +5,10 @@ const Schema = mongoose.Schema;
 const calendarEventSchema = new Schema({
   title: {
     type: String,
-    required: true,
-    trim: true,
-    minlength: 3,
-    unique: true
+    //required: true,
+    //trim: true,
+    //minlength: 3,
+    //unique: true
   },
   startDate: {
     type: Date,
