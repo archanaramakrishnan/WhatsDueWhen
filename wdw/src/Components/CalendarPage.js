@@ -34,6 +34,42 @@ export const CalendarPage = () => {
   const [userCourseDescription, setUserCourseDescription] = useState("");
   const [userStartDate, setUserStartDate] = useState("");
   const [userEndDate, setUserEndDate] = useState("");
+
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    //if user is not logged-in, redirect them to the login page
+    const sessionEmail = window.sessionStorage.getItem("sessionEmail");
+    const sessionStatus = window.sessionStorage.getItem("sessionStatus");
+    setUserEmailContext(sessionEmail);
+    setIsProfessor(sessionStatus);
+    if (sessionEmail == "")
+    {
+      history.push("/");
+    }
+    else
+    {
+      //get user data from database. Store it in a user object?
+      axios.get('http://localhost:5000/users/')
+      .then(res => {
+          let returnedUser = res.data.filter((user) => (user.email == userEmailContext))
+          if (returnedUser.length == 0) //error! Could not find user
+          {
+              console.log(`No user in database with email: ${userEmailContext}`);
+          }
+          else if (returnedUser.length == 1)
+          {
+            console.log(returnedUser);
+            setUser(returnedUser[0]);
+          }
+          else
+          {
+              console.log("Something went very wrong, we have more than one user with the same email");
+          }
+      })
+      .catch(error => {console.log(error)});
+    }
+  }, [])
   
   const handleClickOpen = () => {
     setOpen(true);
