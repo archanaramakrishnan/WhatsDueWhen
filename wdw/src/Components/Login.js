@@ -48,14 +48,33 @@ export const Login = () => {
     }, [])
 
     const handleAttemptedLogin = () => {
+
+        // post request to log in user
         axios.post('http://localhost:5000/auth/login', {email: userEmail, password: userPassword}, {withCredentials: true})
             .then(res => {
                 console.log(res)
-                history.push("/calendarpage")
+                
+                // once loggin in, get user info
+                axios.get('http://localhost:5000/users/isProfessor', {withCredentials: true})
+                    .then(res => {
+                        console.log(res)
+                        if (res.data) {
+                            history.push('/calendarpageprof')
+                        } else {
+                            history.push('/calendarpagestudent')
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+
             })
             .catch(err => {
                 console.log(err)
             });
+
+        
+        
 
         // axios.get('http://localhost:5000/users/')
         // .then(res => {

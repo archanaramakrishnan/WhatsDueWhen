@@ -21,13 +21,13 @@ router.route('/add-user').post((req, res) => {
 });
 
 router.route('/get-user').get((req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-  res.setHeader('Access-Control-Allow-Credentials',true);
+  // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  // res.setHeader('Access-Control-Allow-Credentials',true);
   
   const user = req.user
   console.log("getuser", user)
 
-  if (user) {
+  if (user != undefined) {
     res.status(200).json(user).send()
   } else {
     res.status(400).send()
@@ -45,6 +45,15 @@ router.route('/get-user').get((req, res) => {
   //   }
   // })
 });
+
+router.route('/isProfessor').get((req, res) => {
+  const user = req.user
+  if (user.isProfessor) {
+    res.status(200).json(true).send()
+  } else {
+    res.status(200).json(false).send()
+  }
+})
 
 router.route('/add-course').post((req, res) => {
   const email = req.body.email // key
