@@ -86,9 +86,7 @@ router.route('/remove-course').post((req, res) => {
 })
 
 router.route('/courses').get((req, res) => {
-  const user = req.user
-  // console.log(user)
-  // console.log(user.classList)
+  const user = req.user;
   if (user != undefined) {
     res.status(200).json(user.classList).send()
   } else {

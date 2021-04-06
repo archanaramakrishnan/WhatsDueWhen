@@ -34,6 +34,7 @@ export const CalendarPage = () => {
   const [userCourseDescription, setUserCourseDescription] = useState("");
   const [userStartDate, setUserStartDate] = useState("");
   const [userEndDate, setUserEndDate] = useState("");
+
   
   const handleClickOpen = () => {
     setOpen(true);
@@ -127,15 +128,18 @@ export const CalendarPage = () => {
   //returns the subject cards on the left side of calendar
   const loadSubjects = () => {
 
-    //BACKEND - need to know all the classes the user is in
+    let userClassList; // array of logged in users classes
 
+    // gets class list from user
     axios.get('http://localhost:5000/users/courses', {withCredentials: true})
       .then(res => {
-        console.log(res);
+        userClassList = res.data;
+        console.log("userClassList", userClassList)
       })
       .catch(err => {
         console.log(err);
       })
+    
 
     return (
       <div>
