@@ -60,75 +60,66 @@ export const CalendarPage = () => {
     }
 
     if (!unfilledField){
-
-      // below need to be reworked
-      ////////////////////////////////////////////
-      // get user info (email)
-      let userInfo;
-      axios.get("http://localhost:5000/users/get-user", {withCredentials: true}).then(res => {
-        console.log(res)
-        userInfo = res.data
-      }).catch(err => {
-        console.log(err)
-      });
-
-
-      axios.get('http://localhost:5000/courses/').then(res => {
-        let min = 100000;
-        let max = 999999;
-        let randNumber = Math.floor(Math.random() * (max - min) + min);
-        let returnedCourse = res.data.filter((course) => (course.permissionNumber == randNumber));
-        while (returnedCourse.length != 0)
-        {
-            randNumber = Math.floor(Math.random() * (max - min) + min);
-            returnedCourse = res.data.filter((course) => (course.permissionNumber == randNumber));
-        }
-        console.log(randNumber);
-        const newCourse = {
-          deptCode: userDeptCode.toUpperCase(),
-          courseNumber: userCourseNumber,
-          courseTitle: userCourseTitle,
-          courseDescription: userCourseDescription,
-          startDate: userStartDate,
-          endDate: userEndDate,
-          permissionNumber: randNumber
-      }
-
-      console.log(newCourse);
-
-      axios.post("http://localhost:5000/courses/add/", newCourse).then(res => {
-        console.log(res.data);
-        
-        const data = {
-          email: userInfo.email,
-          course: {
-            deptCode: newCourse.deptCode, 
-            courseNumber: newCourse.courseNumber, 
-            courseTitle: newCourse.courseTitle
+      
+      // generates a unique number for a classes permission number
+      let randNumber;
+      axios.get('http://localhost:5000/courses/')
+        .then(res => {
+          let min = 100000;
+          let max = 999999;
+          randNumber = Math.floor(Math.random() * (max - min) + min);
+          let returnedCourse = res.data.filter((course) => (course.permissionNumber == randNumber));
+          while (returnedCourse.length != 0)
+          {
+              randNumber = Math.floor(Math.random() * (max - min) + min);
+              returnedCourse = res.data.filter((course) => (course.permissionNumber == randNumber));
           }
-        }
-        // adds new course to the logged in user
-        axios.post("http://localhost:5000/users/add-course", data)
-          .then(res => console.log(res))
-          .catch(err => console.log(err))
-          
-
-      }).catch(err => {
-        //emit different kinds of errors? one for duplicate class and another for invalid form input?
-        // alert("The class you are trying to create already exists!");
-
-        // handles duplicate key error. Responds with a 422 status
-        if (err.response.status === 422){
-          alert("The class you are trying to create already exists!")
-        }
-
-        console.log(err.response);
-        
+          console.log(randNumber);
       });
-
+      
+      // The new course object
+      const newCourse = {
+        deptCode: userDeptCode.toUpperCase(),
+        courseNumber: userCourseNumber,
+        courseTitle: userCourseTitle,
+        courseDescription: userCourseDescription,
+        startDate: userStartDate,
+        endDate: userEndDate,
+        permissionNumber: randNumber
+      }
       console.log(newCourse);
-    })
 
+      // adds course to courses database
+      axios.post('http://localhost:5000/courses/add/', newCourse)
+        .then(res => {
+          console.log(res);
+
+          // adds course to the logged in user
+          axios.post('http://localhost:5000/users/add-course', 
+            {
+              deptCode: userDeptCode.toUpperCase(),
+              courseNumber: userCourseNumber,
+              courseTitle: userCourseTitle,
+              permissionNumber: randNumber
+            }, {withCredentials: true})
+            .then(res => {
+              console.log(res);
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        })
+        .catch(err => {
+          // emit different kinds of errors? one for duplicate class and another for invalid form input?
+          // alert("The class you are trying to create already exists!");
+
+          // handles duplicate key error. Responds with a 422 status
+          if (err.response.status === 422){
+            alert("The class you are trying to create already exists!")
+          }
+
+          console.log(err.response);
+        });
     }
   };
 

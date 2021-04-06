@@ -56,12 +56,10 @@ router.route('/isProfessor').get((req, res) => {
 })
 
 router.route('/add-course').post((req, res) => {
-  const email = req.body.email // key
-  const course = req.body.course
-  // console.log(email)
-  // console.log(course)
-
-  User.updateOne({email: email}, {$addToSet: {classList: course}}, (err, result) => {
+  const user = req.user;
+  const course = req.body;
+  
+  User.updateOne({email: user.email}, {$addToSet: {classList: course}}, (err, result) => {
     if (err) {
       console.log(err);
       res.status(500).send()
@@ -69,7 +67,7 @@ router.route('/add-course').post((req, res) => {
       res.json('Course added!').send()
       // console.log(result)
     }
-  })
+  });
 
 })
 

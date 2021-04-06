@@ -53,7 +53,9 @@ const userSchema = new Schema({
           sparse: true
         }, 
         permissionNumber: {
-          type: Number
+          type: Number,
+          unique: true,
+          sparse: true
         }
       }
     ]
