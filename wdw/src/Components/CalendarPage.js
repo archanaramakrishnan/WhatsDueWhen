@@ -60,7 +60,7 @@ export const CalendarPage = () => {
     }
 
     if (!unfilledField){
-      
+
       // generates a unique number for a classes permission number
       let randNumber;
       axios.get('http://localhost:5000/courses/')
@@ -128,6 +128,14 @@ export const CalendarPage = () => {
   const loadSubjects = () => {
 
     //BACKEND - need to know all the classes the user is in
+
+    axios.get('http://localhost:5000/users/courses', {withCredentials: true})
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      })
 
     return (
       <div>

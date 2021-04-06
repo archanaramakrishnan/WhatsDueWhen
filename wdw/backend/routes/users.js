@@ -86,16 +86,15 @@ router.route('/remove-course').post((req, res) => {
 })
 
 router.route('/courses').get((req, res) => {
-  const email = req.body.email
-  User.findOne({email: email}, (err, userFound) => {
-    if (err) {
-      res.status(500).send()
-    } else {
-      const classList = userFound.classList
-      res.json(classList).send()
-    }
-  })
-})
+  const user = req.user
+  // console.log(user)
+  // console.log(user.classList)
+  if (user != undefined) {
+    res.status(200).json(user.classList).send()
+  } else {
+    res.status(404).send();
+  }
+});
 
 // req: {email: (users email)}
 // res: true or false or 500 error code 
