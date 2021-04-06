@@ -38,24 +38,24 @@ const userSchema = new Schema({
     type: [
       {
         deptCode: {
-          type: String,
-          unique: true,
-          sparse: true
+          type: String
+          // unique: true,
+          // sparse: true
         },
         courseNumber: {
-          type: String,
-          unique: true,
-          sparse: true
+          type: String
+          // unique: true,
+          // sparse: true
         },
         courseTitle: {
-          type: String,
-          unique: true,
-          sparse: true
+          type: String
+          // unique: true,
+          // sparse: true
         }, 
         permissionNumber: {
-          type: Number,
-          unique: true,
-          sparse: true
+          type: Number
+          // unique: true,
+          // sparse: true
         }
       }
     ]
