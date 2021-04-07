@@ -3,10 +3,7 @@ import Switch from '@material-ui/core/Switch';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 
-function SubjectSelector(name, permNum) {//add prop onClick={() => {state.checked = false;}}
-    // const [state] = React.useState({
-    //     checked: true,
-    //   });
+function SubjectSelector(name, permNum) {
 
     const [switchSel, setSwitchSel] = useState(true);
 
