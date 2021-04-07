@@ -1,4 +1,4 @@
-import React, {useState, useEffect } from 'react';
+import React, {useState } from 'react';
 import './CalendarPage.css';
 // import Calendar from './Calendar';
 import Calendar from './Calendar';
@@ -34,6 +34,7 @@ export const CalendarPage = () => {
   const [userCourseDescription, setUserCourseDescription] = useState("");
   const [userStartDate, setUserStartDate] = useState("");
   const [userEndDate, setUserEndDate] = useState("");
+  const [generatedPermissionNumber, setGeneratedPermissionNumber] = useState(0);
 
   
   const handleClickOpen = () => {
@@ -59,11 +60,11 @@ export const CalendarPage = () => {
         alert("Please fill all the required fields!");
         unfilledField = true;
     }
+    let randNumber;
 
     if (!unfilledField){
 
       // generates a unique number for a classes permission number
-      let randNumber;
       axios.get('http://localhost:5000/courses/')
         .then(res => {
           let min = 100000;
@@ -76,6 +77,7 @@ export const CalendarPage = () => {
               returnedCourse = res.data.filter((course) => (course.permissionNumber == randNumber));
           }
           console.log(randNumber);
+          setGeneratedPermissionNumber(randNumber);
       });
       
       // The new course object
@@ -86,7 +88,7 @@ export const CalendarPage = () => {
         courseDescription: userCourseDescription,
         startDate: userStartDate,
         endDate: userEndDate,
-        permissionNumber: randNumber
+        permissionNumber: generatedPermissionNumber
       }
       console.log(newCourse);
 
