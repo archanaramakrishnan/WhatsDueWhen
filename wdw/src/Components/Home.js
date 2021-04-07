@@ -4,7 +4,8 @@ import CheckboxList from "./CheckboxList"
 import CurrentDate from "./CurrentDate"
 import {Scheduler,MonthView,DateNavigator,
   TodayButton,
-  Toolbar,} from '@devexpress/dx-react-scheduler-material-ui';
+  Toolbar,
+Appointments} from '@devexpress/dx-react-scheduler-material-ui';
 import { ViewState } from '@devexpress/dx-react-scheduler';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -16,6 +17,7 @@ import { Context } from './ContextProvider';
 
 //For contecting to our backend
 import axios from 'axios';
+import appointments from './appointments'
 
 let today = new Date();
 let dd = String(today.getDate()).padStart(2, '0');
@@ -24,10 +26,10 @@ let yyyy = today.getFullYear();
 
 today = yyyy + '-' + mm + '-' + dd;
 
-let appointments = [
+/*let appointments = [
   { startDate: '2018-11-01T09:45', endDate: '2018-11-01T11:00', title: 'Meeting' },
   { startDate: '2018-11-01T12:00', endDate: '2018-11-01T13:30', title: 'Go to a gym' },
-];
+];*/
 
 export const Home = () => {
   //Get value of logged in user's email and their status as a professor or student
@@ -58,7 +60,7 @@ export const Home = () => {
     setIsProfessor(sessionStatus);
     if (sessionEmail == "")
     {
-      history.push("/");
+      history.push("/home");
     }
     else
     {
@@ -99,6 +101,7 @@ export const Home = () => {
       </Paper>
       <Paper style={{width: "50%", float: "left", marginLeft: "15px"}}>
         <Scheduler
+          data = {appointments}
           height={600}
         >
           <ViewState

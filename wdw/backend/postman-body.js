@@ -1,3 +1,4 @@
+//user
 {
     "email": "asdf@gmail.com",
     "course": {
@@ -11,6 +12,7 @@
     }
 }
 
+//user
 {
     "firstname": "bob",
     "lastname": "joe",
@@ -24,9 +26,27 @@
     ]
 }
 
+//Course
 {
-    "name": "EECS 268",
-    "permissionNumber": 123,
+    "deptCode": "Fake Name",
+    "courseNumber": 101,
+    "courseTitle": "",
+    "courseDescription": "This is a test",
     "eventList": []
 }
 
+//add event
+{
+    "deptCode": "Fake Name",
+    "courseNumber": 101,
+    "eventList": [ {
+        "title": "test event2"
+    }]
+}
+
+//remove event
+{
+    "deptCode": "Fake Name",
+    "courseNumber": 101,
+    "title": "test event2"
+}

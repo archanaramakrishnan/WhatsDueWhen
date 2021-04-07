@@ -19,6 +19,8 @@ import {
   ViewSwitcher,
 } from '@devexpress/dx-react-scheduler-material-ui';
 
+import makeAppointments from './appointments'
+
 let today = new Date();
 let dd = String(today.getDate()).padStart(2, '0');
 let mm = String(today.getMonth() + 1).padStart(2, '0');
@@ -26,7 +28,7 @@ let yyyy = today.getFullYear();
 
 today = yyyy + '-' + mm + '-' + dd;
 
-let appointments = [
+/*let appointments = [
     { startDate: '2018-11-01T09:45', endDate: '2018-11-01T11:00', title: 'Meeting' },
     { startDate: '2018-11-01T12:00', endDate: '2018-11-01T13:30', title: 'Go to a gym' },
   ];
@@ -35,13 +37,13 @@ let appointments = [
     { Name: 'EECS 168', PermissionNumber: '12345', Color: '#ea7a57' },
     { Name: 'EECS 268', PermissionNumber: '56789', Color: '#357CD2' },
     { Name: 'EECS 368', PermissionNumber: '24689', Color: '#7fa900' },
-  ];
+  ];*/
 
 export default class Demo extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      data: appointments,
+      data: null,
       currentDate: today,
     };
 
@@ -67,13 +69,25 @@ export default class Demo extends React.PureComponent {
   }
 
   render() {
+    const rawAppointments = [
+        {
+          title: 'Website Re-Design Plan',
+          startDate: new Date(2021, 3, 5, 10, 35),
+          endDate: new Date(2021, 3, 5, 11, 30),
+          id: 0,
+          location: 'Room 1',
+        }
+    ]
+
+    const appointments = makeAppointments(rawAppointments)
+
     const { currentDate, data } = this.state;
 
     return (
       <Paper>
         
         <Scheduler
-          data={data}
+          data={rawAppointments}
           height={660}
         >
           <ViewState

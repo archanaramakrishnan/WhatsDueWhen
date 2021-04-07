@@ -16,6 +16,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 //For contecting to our backend
 import axios from 'axios';
+import appointments from './appointments'
 
 const generateRandomInt = () => {
   let min = 100000;
