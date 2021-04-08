@@ -1,4 +1,4 @@
-import React, {useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import './CalendarPage.css';
 // import Calendar from './Calendar';
 import Calendar from './Calendar';
@@ -35,6 +35,20 @@ export const CalendarPage = () => {
   const [userStartDate, setUserStartDate] = useState("");
   const [userEndDate, setUserEndDate] = useState("");
   const [generatedPermissionNumber, setGeneratedPermissionNumber] = useState(0);
+  const [subjectList, setSubjectList] = useState([])
+ 
+
+  useEffect(async () => {
+    await axios.get('http://localhost:5000/users/courses', {withCredentials: true})
+      .then(res => {
+        // console.log(res.data)
+        setSubjectList(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, [subjectList]);
+  
 
   
   const handleClickOpen = () => {
@@ -126,34 +140,18 @@ export const CalendarPage = () => {
     }
   };
 
-
+  
+  
   //returns the subject cards on the left side of calendar
   const loadSubjects = () => {
-
-    let userClassList; // array of logged in users classes
-
-    // gets class list from user
-    axios.get('http://localhost:5000/users/courses', {withCredentials: true})
-      .then(res => {
-        userClassList = res.data;
-        console.log("userClassList", userClassList)
-      })
-      .catch(err => {
-        console.log(err);
-      })
-    
-
+    // console.log(subjectList)
     return (
       <div>
-          {SubjectSelector("Science", "1234")}
-          {SubjectSelector("Math", "1234")}
-          {SubjectSelector("English", "1234")}
-          {SubjectSelector("History", "1234")}
-
-        {/* will use stuff below once info is loaded from backend */}
-        {/* {classes.map(item => {
-           return <Card style={{ height: "100px" }}>{SubjectSelector(item)}</Card>;
-        })} */}
+        {subjectList.map(item => {
+          const permNum = item.permissionNumber;
+          const name = item.deptCode + " " + item.courseNumber + ": " + item.courseTitle;
+          return <div><SubjectSelector name={name} permNum={permNum}/></div>
+        })}
       </div>
     )
   }
