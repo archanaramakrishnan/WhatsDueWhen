@@ -3,7 +3,7 @@ import Switch from '@material-ui/core/Switch';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 
-function SubjectSelector(name, permNum) {
+function SubjectSelector(props) {
 
     const [switchSel, setSwitchSel] = useState(true);
 
@@ -15,16 +15,16 @@ function SubjectSelector(name, permNum) {
         <Card style={{ height: "120px" }}>
         <div style={{ padding: "25px", display: "flex", justifyContent: "space-between" }}>
             <div style={{ float: "left" }}>
-                {name}
+                {props.name}
                 <div style={{ fontSize: "9pt"}}>
-                    {"Permission Number : " + permNum}
+                    {"Permission Number : " + props.permNum}
                 </div>
                 <Button variant="outlined" size="small">
                     Add Event
                 </Button>
             </div>
             <div style={{ float: "left"}}>
-                <Switch checked={switchSel} color={"primary"} label={name} onChange={handleChange}/>
+                <Switch checked={switchSel} color={"primary"} label={props.name} onChange={handleChange}/>
             </div>
         </div>
         </Card>
