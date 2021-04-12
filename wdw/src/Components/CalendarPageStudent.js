@@ -23,104 +23,110 @@ export const CalendarPageStudent = () => {
   const [openAddClass, setOpenAddClass] = useState(false);
   const [userDeptCode, setUserDeptCode] = useState("");
   const [userCourseNumber, setUserCourseNumber] = useState("");
-  const [userCourseTitle, setUserCourseTitle] = useState("");
-  const [userCourseDescription, setUserCourseDescription] = useState("");
-  const [userStartDate, setUserStartDate] = useState("");
-  const [userEndDate, setUserEndDate] = useState("");
+  const [courseTitle, setCourseTitle] = useState("");
+  const [userPermissionNumber, setUserPermissionNumber] = useState("");
+  let [correctPermissionCode, setCorrectPermissionCode] = useState(false);
+  let [classExistsAlready, setClassExistsAlready] = useState(false);
   
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-  //handles opening and closing dialog 2
-  const [open2, setOpen2] = useState(false);
-  const handleClickOpen2 = () => {
-    setOpen2(true);
-  };
-
-  const handleClose2 = () => {
-    setOpen2(false);
-  };
-
   const handleClickOpenAddClass = () => {
     setOpenAddClass(true);
-};
+  };
 
-const handleCloseAddClass = () => {
-  setOpenAddClass(true);
-};
+  const handleCloseAddClass = () => {
+    setOpenAddClass(false);
+    setCorrectPermissionCode(false);
+    setClassExistsAlready(false);
+  };
 
 
-  const handleCreate = () => {
+  const handleAddClass = () => {
     let unfilledField = false;
-    if (userDeptCode == "" || userCourseNumber == "" || userStartDate == "" || userEndDate == ""){
-        alert("Please fill all the required fields!");
-        unfilledField = true;
+    if (userDeptCode == "" || userCourseNumber == "" || userPermissionNumber == ""){
+      alert("Please fill all the required fields!");
+      unfilledField = true;
     }
-
+    
     if (!unfilledField){
+      Promise.all([
+        axios.get('http://localhost:5000/users/courses', {withCredentials: true}),
+        axios.get('http://localhost:5000/courses/')
+      ]).then(([userClassList, allCourses]) => {
 
+          // ---------------------------------------------------//
+          // list of all classes in the currently logged in user
+          let userList = userClassList.data;
 
-      // //TODO: trying to generate a permission number. Figure out how to do loops in ReactJS
-      // let addCourse = false;
+          // check if user has no classes
+          let emptyClassList = false;
+          if(userList.length == 0)
+          {
+              emptyClassList = true;
+          }
 
-      // while(!addCourse)
-      // {
-      //   let min = 100000;
-      //   let max = 999999;
-      //   let randNumber = min + Math.random() * (max - min);
-      //   axios.get('http://localhost:5000/courses/').then(res => {
-      //         let returnedCourse = res.data.filter((course) => (course.permissionNumber == randNumber));
-      //         if (returnedCourse.length == 0) //no user with this email already exists
-      //         {
-      //             addCourse = true;
-      //         } else {
-      //           addCourse = false;
-      //         }
-      //   }
-      
-      // }
-        
-      
-      
+          //check if user is already enrolled in this class
+          //get course that has the given permission number from userList
+          let alreadyExists = true;
+          let course = userList.find(classObj => classObj.permissionNumber == userPermissionNumber)
+          if(course == undefined)
+          {
+            alreadyExists = false;
+          }
 
-        const newCourse = {
-            deptCode: userDeptCode,
-            courseNumber: userCourseNumber,
-            courseTitle: userCourseTitle,
-            courseDescription: userCourseDescription,
-            startDate: userStartDate,
-            endDate: userEndDate,
-            // permissionNumber: randNumber
-        }
-  
-      console.log(newCourse);
+          // -------------------------------------//
+          // list of all classes in the courses db
+          let masterList = allCourses.data;
 
-      axios.post("http://localhost:5000/courses/add/", newCourse).then(res => {
-          console.log(res);
-      }).catch(err => {
-        //emit different kinds of errors? one for duplicate class and another for invalid form input?
-        // alert("The class you are trying to create already exists!");
+          // check for if the permission number is correct
+          let correctPermissionNumber = false;
+          let foundCourseName = '';
+          let matchingPermNumberList = masterList.filter((course) => (course.permissionNumber == userPermissionNumber));
+          if(matchingPermNumberList.length == 1)
+          {
+              foundCourseName = matchingPermNumberList[0].courseTitle;
+              correctPermissionNumber = true;
+          }
 
-        // handles duplicate key error. Responds with a 422 status
-        if (err.response.status === 422){
-          alert("The class you are trying to create already exists!")
-        }
+          // -------------------------------------//
+          //check for all conditions to add a class
+          if((emptyClassList || !alreadyExists) && correctPermissionNumber)
+          {
+              axios.post('http://localhost:5000/users/add-course', 
+              {
+                deptCode: userDeptCode.toUpperCase(),
+                courseNumber: userCourseNumber,
+                courseTitle: foundCourseName,
+                permissionNumber: userPermissionNumber
+              }, {withCredentials: true})
+              .then(res => {
+                console.log(res);
+              })
+              .catch(err => {
+                console.log(err);
+              });
+              alert('Class added to your calendar!');
+              handleCloseAddClass();
+          }
+          else if(!correctPermissionNumber)
+          {
+              alert("Incorrect permission number and class combination!");
 
-        console.log(err.response);
-        
-      })
+          }
+          else if(alreadyExists)
+          {
+              alert("This class already exists in your calendar. Try adding a different class!");
+              handleCloseAddClass();
+              handleClickOpenAddClass();
+          }
+
+      }).catch((err) => {
+          console.log(err);
+      });
     }
   };
 
 
   //returns the subject cards on the left side of calendar
   const loadSubjects = () => {
-
-    //BACKEND - need to know all the classes the user is in
 
     return (
       <div>
@@ -153,24 +159,43 @@ const handleCloseAddClass = () => {
             Add a Class
       </Button>
       </div>
-
             {openAddClass && 
           <div>
             <Dialog open={openAddClass} onClose={handleCloseAddClass} aria-labelledby="form-dialog-title">
               <DialogTitle id="form-dialog-title">Add a Class</DialogTitle>
               <DialogContent>
-                <DialogContentText>
-                  Please enter the permission number of the course you want to add to your calendar
-                </DialogContentText>
-                <div className="permno">
+              <DialogContentText>
+                   Please enter the information of the class you want to add:
+              </DialogContentText>
+              <div className="deptcode">
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    label="Department Code"
+                    type="text"
+                    onChange={(event)=>{setUserDeptCode(event.target.value)}}
+                  /> 
+                </div>
+              <div className="coursenum">
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    label="Course Number"
+                    type="text"
+                    onChange={(event)=>{setUserCourseNumber(event.target.value)}}
+                  /> 
+                </div>
+                <div className="permnum">
                   <TextField
                     autoFocus
                     margin="dense"
                     id="name"
                     label="Permission Number"
                     type="text"
-                    required
-                    // onChange={(event)=>{setUserDeptCode(event.target.value)}}
+                    fullWidth
+                    onChange={(event)=>{setUserPermissionNumber(event.target.value)}}
                   /> 
                 </div>
               </DialogContent>
@@ -178,7 +203,7 @@ const handleCloseAddClass = () => {
                 <Button onClick={handleCloseAddClass} color="primary">
                   Cancel
                 </Button>
-                <Button onClick={handleCreate} color="primary">
+                <Button onClick={handleAddClass} color="primary">
                   Continue
                 </Button>
               </DialogActions>
