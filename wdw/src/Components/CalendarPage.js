@@ -36,7 +36,8 @@ export const CalendarPage = () => {
   const [userEndDate, setUserEndDate] = useState("");
   const [generatedPermissionNumber, setGeneratedPermissionNumber] = useState(0);
   const [subjectList, setSubjectList] = useState([])
- 
+  const [addSubject, setAddSubject] = useState(false);
+  
 
   useEffect(async () => {
     await axios.get('http://localhost:5000/users/courses', {withCredentials: true})
@@ -47,9 +48,13 @@ export const CalendarPage = () => {
       .catch(err => {
         console.log(err);
       });
-  }, [subjectList]);
   
+    // loadSubjects();
+  }, []);
 
+  useEffect(() => {
+    loadSubjects();
+  }, [addSubject])
   
   const handleClickOpen = () => {
     setOpen(true);
@@ -68,7 +73,8 @@ export const CalendarPage = () => {
     setOpen2(false);
   };
 
-  const handleCreate = () => {
+   const handleCreate = async () => {
+
     let unfilledField = false;
     if (userDeptCode == "" || userCourseNumber == "" || userStartDate == "" || userEndDate == ""){
         alert("Please fill all the required fields!");
@@ -77,9 +83,8 @@ export const CalendarPage = () => {
     let randNumber;
 
     if (!unfilledField){
-
       // generates a unique number for a classes permission number
-      axios.get('http://localhost:5000/courses/')
+      await axios.get('http://localhost:5000/courses/')
         .then(res => {
           let min = 100000;
           let max = 999999;
@@ -102,9 +107,9 @@ export const CalendarPage = () => {
         courseDescription: userCourseDescription,
         startDate: userStartDate,
         endDate: userEndDate,
-        permissionNumber: generatedPermissionNumber
+        permissionNumber: randNumber
       }
-      console.log(newCourse);
+      
 
       // adds course to courses database
       axios.post('http://localhost:5000/courses/add/', newCourse)
@@ -125,6 +130,7 @@ export const CalendarPage = () => {
             .catch(err => {
               console.log(err);
             });
+
         })
         .catch(err => {
           // emit different kinds of errors? one for duplicate class and another for invalid form input?
@@ -137,23 +143,31 @@ export const CalendarPage = () => {
 
           console.log(err.response);
         });
+
+      subjectList.push(newCourse);
+      setAddSubject(!addSubject);
     }
+    setOpen(false);
   };
 
   
   
   //returns the subject cards on the left side of calendar
   const loadSubjects = () => {
-    // console.log(subjectList)
-    return (
-      <div>
-        {subjectList.map(item => {
-          const permNum = item.permissionNumber;
-          const name = item.deptCode + " " + item.courseNumber + ": " + item.courseTitle;
-          return <div><SubjectSelector name={name} permNum={permNum}/></div>
-        })}
-      </div>
-    )
+    console.log("load subjects", subjectList)
+    
+    //check if list if empty
+    if (subjectList != []) {
+      return (
+        <div>
+          {subjectList.map(item => {
+            const permNum = item.permissionNumber;
+            const name = item.deptCode + " " + item.courseNumber + ": " + item.courseTitle;
+            return <div><SubjectSelector name={name} permNum={permNum}/></div>
+          })}
+        </div>
+      )
+    }
   }
 
   return (
@@ -247,7 +261,7 @@ export const CalendarPage = () => {
                   Cancel
                 </Button>
                 <Button onClick={handleCreate} color="primary">
-                  Continue
+                  Add
                 </Button>
               </DialogActions>
             </Dialog>
