@@ -126,6 +126,8 @@ export const CalendarPage = () => {
             }, {withCredentials: true})
             .then(res => {
               console.log(res);
+              subjectList.push(newCourse);
+              alert("Class was created successfully!");
             })
             .catch(err => {
               console.log(err);
@@ -134,7 +136,6 @@ export const CalendarPage = () => {
         })
         .catch(err => {
           // emit different kinds of errors? one for duplicate class and another for invalid form input?
-          // alert("The class you are trying to create already exists!");
 
           // handles duplicate key error. Responds with a 422 status
           if (err.response.status === 422){
@@ -144,7 +145,7 @@ export const CalendarPage = () => {
           console.log(err.response);
         });
 
-      subjectList.push(newCourse);
+      
       setAddSubject(!addSubject);
     }
     setOpen(false);

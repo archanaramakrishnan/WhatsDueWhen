@@ -69,7 +69,12 @@ export const Login = () => {
 
             })
             .catch(err => {
-                console.log(err)
+
+                if (err.response.status === 404){
+                    alert("No user exists with the username and password combination you provided. Try again!")
+                }
+        
+                console.log(err.response);
             });
 
     }
