@@ -80,15 +80,14 @@ const extractCourseList = (rawCourseDataList) => {
 
 const getUserEvents = async () => {
   console.log('[Calendar.js: 82] entered getuserEvents')
-  var courseList = []
+  let courseList = []
 
   axios.get('http://localhost:5000/users/courses', {withCredentials: true})
-    .then(res => {console.log('[Calendar.js: 86] res.data = ' + JSON.stringify(res.data)); courseList = extractCourseList(res.data)})
+    .then(res => {
+      console.log('[Calendar.js: 86] res.data = ' + JSON.stringify(res.data)); 
+      return getUserEventsFromCourseList(extractCourseList(res.data))})
     .catch(err => {console.log('[Calendar.js: 87] got an error' + err)})
 
-  console.log('[Calendar.js: 89] extracted course list: ' + JSON.stringify(courseList))
-
-  return getUserEventsFromCourseList(courseList)
 
   /*
   const rawAppointments = [
@@ -148,7 +147,7 @@ export default class Demo extends React.PureComponent {
       return { data };
     });
   }
-
+  
   render() {
     console.log('[Calendar.js: 153] entered render')
     const appointments = getUserEvents();

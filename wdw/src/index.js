@@ -9,10 +9,8 @@ import wdw from './Components/wdw.png';
 import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <div>
-      <App />
-    </div>
-  </React.StrictMode>,
+  <div>
+    <App />
+  </div>,
   document.getElementById('root')
 );
