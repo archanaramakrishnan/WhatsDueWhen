@@ -145,7 +145,7 @@ export const CalendarPage = () => {
           console.log(err.response);
         });
 
-      
+      subjectList.push(newCourse);
       setAddSubject(!addSubject);
     }
     setOpen(false);
