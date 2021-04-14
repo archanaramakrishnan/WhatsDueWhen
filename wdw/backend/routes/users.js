@@ -48,7 +48,7 @@ router.route('/get-user').get((req, res) => {
 
 router.route('/isProfessor').get((req, res) => {
   const user = req.user
-  if (user.isProfessor) {
+  if (user.isProfessor != undefined && user.isProfessor) {
     res.status(200).json(true).send()
   } else {
     res.status(200).json(false).send()
@@ -60,6 +60,22 @@ router.route('/add-course').post((req, res) => {
   const course = req.body;
   
   User.updateOne({email: user.email}, {$addToSet: {classList: course}}, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send()
+    } else {
+      res.json('Course added!').send()
+      // console.log(result)
+    }
+  });
+
+})
+
+router.route('/add-course-old').post((req, res) => {
+  const email = req.body.email;
+  const course = req.body.course;
+  
+  User.updateOne({email: email}, {$addToSet: {classList: course}}, (err, result) => {
     if (err) {
       console.log(err);
       res.status(500).send()
@@ -88,10 +104,10 @@ router.route('/remove-course').post((req, res) => {
 router.route('/courses').get((req, res) => {
   const user = req.user;
   if (user != undefined) {
-    res.status(200).json(user.classList).send()
-  } else {
-    res.status(404).send();
-  }
+    return res.status(200).json(user.classList);
+  } 
+
+  return res.status(404).send();
 });
 
 // req: {email: (users email)}

@@ -71,9 +71,9 @@ router.route('/calendar-events').get((req, res) => {
       console.log(err)
       res.status(500).send()
     } else {
-      res.json(foundCourse.eventList).send()
+      res.json(foundCourse.eventList)//.send()
     }
   })
 })
-  
+
 module.exports = router;

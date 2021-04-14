@@ -30,8 +30,10 @@ const makeTodayAppointment = (startDate, endDate) => {
   };
 };
 
+/*
 const makeAppointments = (rawAppointments) => {
     
+    console.log('we shouldn\'t be calling this')
     return rawAppointments.map(({ startDate, endDate, ...restArgs }) => 
     {
         const result = 
@@ -49,6 +51,7 @@ const makeAppointments = (rawAppointments) => {
 
         return result;
 });}
+*/
 
 /*
 export default appointments2.map(({ startDate, endDate, ...restArgs }) => {
@@ -62,4 +65,4 @@ export default appointments2.map(({ startDate, endDate, ...restArgs }) => {
 });
 */
 
-export default makeAppointments
+//export default makeAppointments
