@@ -1,4 +1,4 @@
-import React, {useState, useEffect } from 'react';
+import React, {useEffect, useState } from 'react';
 import './CalendarPage.css';
 // import Calendar from './Calendar';
 import Calendar from './Calendar';
@@ -35,7 +35,27 @@ export const CalendarPage = () => {
   const [userCourseDescription, setUserCourseDescription] = useState("");
   const [userStartDate, setUserStartDate] = useState("");
   const [userEndDate, setUserEndDate] = useState("");
+  const [generatedPermissionNumber, setGeneratedPermissionNumber] = useState(0);
+  const [subjectList, setSubjectList] = useState([])
+  const [addSubject, setAddSubject] = useState(false);
+  
 
+  useEffect(async () => {
+    await axios.get('http://localhost:5000/users/courses', {withCredentials: true})
+      .then(res => {
+        // console.log(res.data)
+        setSubjectList(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  
+    // loadSubjects();
+  }, []);
+
+  useEffect(() => {
+    loadSubjects();
+  }, [addSubject])
   
   const handleClickOpen = () => {
     setOpen(true);
@@ -54,18 +74,18 @@ export const CalendarPage = () => {
     setOpen2(false);
   };
 
-  const handleCreate = () => {
+   const handleCreate = async () => {
+
     let unfilledField = false;
     if (userDeptCode == "" || userCourseNumber == "" || userStartDate == "" || userEndDate == ""){
         alert("Please fill all the required fields!");
         unfilledField = true;
     }
+    let randNumber;
 
     if (!unfilledField){
-
       // generates a unique number for a classes permission number
-      let randNumber;
-      axios.get('http://localhost:5000/courses/')
+      await axios.get('http://localhost:5000/courses/')
         .then(res => {
           let min = 100000;
           let max = 999999;
@@ -77,6 +97,7 @@ export const CalendarPage = () => {
               returnedCourse = res.data.filter((course) => (course.permissionNumber == randNumber));
           }
           console.log(randNumber);
+          setGeneratedPermissionNumber(randNumber);
       });
       
       // The new course object
@@ -89,7 +110,7 @@ export const CalendarPage = () => {
         endDate: userEndDate,
         permissionNumber: randNumber
       }
-      console.log(newCourse);
+      
 
       // adds course to courses database
       axios.post('http://localhost:5000/courses/add/', newCourse)
@@ -106,14 +127,16 @@ export const CalendarPage = () => {
             }, {withCredentials: true})
             .then(res => {
               console.log(res);
+              subjectList.push(newCourse);
+              alert("Class was created successfully!");
             })
             .catch(err => {
               console.log(err);
             });
+
         })
         .catch(err => {
           // emit different kinds of errors? one for duplicate class and another for invalid form input?
-          // alert("The class you are trying to create already exists!");
 
           // handles duplicate key error. Responds with a 422 status
           if (err.response.status === 422){
@@ -122,47 +145,31 @@ export const CalendarPage = () => {
 
           console.log(err.response);
         });
+
+      subjectList.push(newCourse);
+      setAddSubject(!addSubject);
     }
+    setOpen(false);
   };
 
-
+  
+  
   //returns the subject cards on the left side of calendar
   const loadSubjects = () => {
-
-    let userClassList; // array of logged in users classes
-
-    // gets class list from user
-    axios.get('http://localhost:5000/users/courses', {withCredentials: true})
-      .then(res => {
-        userClassList = res.data;
-        console.log("userClassList", userClassList)
-      })
-      .catch(err => {
-        console.log(err);
-      })
+    console.log("load subjects", subjectList)
     
-
-    return (
-      <div>
-        {/* <Card style={{ height: "100px" }}> */}
-          {SubjectSelector("Science", "1234")}
-        {/* </Card>
-        <Card style={{ height: "100px" }}> */}
-          {SubjectSelector("Math", "1234")}
-        {/* </Card>
-        <Card style={{ height: "100px" }}> */}
-          {SubjectSelector("English", "1234")}
-        {/* </Card >
-        <Card style={{ height: "100px" }}> */}
-          {SubjectSelector("History", "1234")}
-        {/* </Card> */}
-
-        {/* will use stuff below once info is loaded from backend */}
-        {/* {classes.map(item => {
-           return <Card style={{ height: "100px" }}>{SubjectSelector(item)}</Card>;
-        })} */}
-      </div>
-    )
+    //check if list if empty
+    if (subjectList != []) {
+      return (
+        <div>
+          {subjectList.map(item => {
+            const permNum = item.permissionNumber;
+            const name = item.deptCode + " " + item.courseNumber + ": " + item.courseTitle;
+            return <div><SubjectSelector name={name} permNum={permNum}/></div>
+          })}
+        </div>
+      )
+    }
   }
 
   return (
@@ -256,7 +263,7 @@ export const CalendarPage = () => {
                   Cancel
                 </Button>
                 <Button onClick={handleCreate} color="primary">
-                  Continue
+                  Add
                 </Button>
               </DialogActions>
             </Dialog>
