@@ -1,5 +1,6 @@
 const router = require('express').Router();
 
+let Course = require('../models/course.model');
 let User = require('../models/user.model');
 
 // get request for .../users/ info
@@ -110,5 +111,80 @@ router.route('/user-exist').post((req, res) => {
     }
   })
 })
+
+router.route('/good').get((req, res) => {
+  res.status(200).send([{
+    title: 'Website Re-Design Plan',
+    startDate: '2021-04-17T09:45',
+    endDate: '2021-04-17T11:00',
+    id: 0,
+    class: "EECS 268"
+  }])
+})
+
+router.route('/events').get((req, res) => {
+  const classList = req.user.classList
+  console.log("classlist", classList)
+
+  Course.find()
+    .then(doc => {
+      if (doc != []) {
+        let eventList = []
+        for (let i = 0; i < classList.length; i++) {
+          for (let k = 0; k < doc.length; k++) {
+            if ( (classList[i].deptCode === doc[k].deptCode) && (classList[i].courseNumber === doc[k].courseNumber) ) {
+              console.log("doc[k]", doc[k])
+              eventList = [...eventList, ...doc[k].eventList]
+            } 
+          }
+        }
+        // console.log("eventList", eventList)
+        res.status(200).send(eventList)
+      } else {
+        res.status(400).send()
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    });
+
+  // const courseList = req.user.classList
+  // let eventList = []
+  // console.log('[users.js 117]: courseList: ' + JSON.stringify(courseList))
+
+  // //for(course in courseList)
+  // for(let i = 0; i < courseList.length; ++i)
+  // {
+  //   if(courseList[i] != null)
+  //   {
+  //     await Course.findOne({deptCode: courseList[i].deptCode, courseNumber: courseList[i].courseNumber}, (err, course) => {
+  //       console.log('[users.js 121] course :' + JSON.stringify(course))
+  //       console.log('[users.js 122] deptCode :' + course.deptCode)
+  //       console.log('[users.js 123] courseNumber :' + course.courseNumber)
+  //       console.log('[users.js 125] event :' + course.eventList)
+
+  //       for(let i = 0; i < course.eventList.length; ++i)
+  //       {
+  //         eventList.push(course.eventList[i])
+  //       }
+  //     })
+  //   }
+  // }
+
+  // console.log('[users.js 134] returned event list :' + eventList)
+  // res.json(eventList)
+});
+
+router.route('/new-event').post((req, res) => {
+
+});
+
+router.route('/update-event').post((req, res) => {
+
+});
+
+router.route('/delete-event').post((req, res) => {
+
+});
 
 module.exports = router;
