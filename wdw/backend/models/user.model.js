@@ -43,7 +43,7 @@ const userSchema = new Schema({
           // sparse: true
         },
         courseNumber: {
-          type: String
+          type: Number
           // unique: true,
           // sparse: true
         },
