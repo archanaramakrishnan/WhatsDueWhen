@@ -18,6 +18,7 @@ import {
   Toolbar,
   ViewSwitcher,
 } from '@devexpress/dx-react-scheduler-material-ui';
+import axios from 'axios';
 
 let today = new Date();
 let dd = String(today.getDate()).padStart(2, '0');
@@ -27,8 +28,8 @@ let yyyy = today.getFullYear();
 today = yyyy + '-' + mm + '-' + dd;
 
 let appointments = [
-    { startDate: '2018-11-01T09:45', endDate: '2018-11-01T11:00', title: 'Meeting' },
-    { startDate: '2018-11-01T12:00', endDate: '2018-11-01T13:30', title: 'Go to a gym' },
+    { startDate: '2021-04-17T09:45', endDate: '2021-04-17T11:00', title: 'Meeting' },
+    { startDate: '2021-04-17T12:00', endDate: '2021-04-17T13:30', title: 'Go to a gym' },
   ];
 
   let resourceData = [
@@ -41,14 +42,37 @@ export default class Demo extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      data: appointments,
+      data: [],
       currentDate: today,
     };
 
     this.commitChanges = this.commitChanges.bind(this);
   }
 
+  async componentDidMount() {
+    // await axios.get('http://localhost:5000/users/good', {withCredentials: true})
+    //   .then(res => {
+    //     console.log(res.data);
+    //     this.setState({data: res.data})
+    //   })
+    console.log('hello')
+    await axios.get('http://localhost:5000/users/events', {withCredentials: true})
+      .then(res => {
+        console.log("response", res.data)
+        //assign id
+
+        this.setState({data: res.data})
+      })
+      .catch(err => {
+        console.log(err)
+      });
+  }
+
   commitChanges({ added, changed, deleted }) {
+    console.log("added", added)
+    console.log("changed", changed)
+    console.log("deleted", deleted)
+
     this.setState((state) => {
       let { data } = state;
       if (added) {
@@ -62,6 +86,7 @@ export default class Demo extends React.PureComponent {
       if (deleted !== undefined) {
         data = data.filter(appointment => appointment.id !== deleted);
       }
+      // console.log(data) 
       return { data };
     });
   }
@@ -89,8 +114,8 @@ export default class Demo extends React.PureComponent {
             endDayHour={18}
           />
           <WeekView
-            startDayHour={10}
-            endDayHour={19}
+            startDayHour={7}
+            endDayHour={24}
           />
           <MonthView />
           <Toolbar />
