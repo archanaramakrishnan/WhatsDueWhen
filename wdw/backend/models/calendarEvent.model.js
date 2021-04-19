@@ -3,6 +3,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const calendarEventSchema = new Schema({
+  id: {
+    type: Number
+  },
   title: {
     type: String,
     //required: true,
@@ -11,12 +14,18 @@ const calendarEventSchema = new Schema({
     //unique: true
   },
   startDate: {
-    type: Date,
+    type: String,
     //required: true
   },
   endDate: {
-    type: Date,
+    type: String,
     //required: true
+  },
+  notes: {
+    type: String
+  },
+  allDay: {
+    type: Boolean
   }
 }, {
   timestamps: true,
