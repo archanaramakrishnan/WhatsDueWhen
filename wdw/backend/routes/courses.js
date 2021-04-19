@@ -34,9 +34,15 @@ router.route('/add').post((req, res) => {
 })
 
 router.route('/add-event').post((req, res) => {
-  const courseName = req.body.courseName
-  const event = req.body.event 
-  Course.updateOne({name: courseName}, {$addToSet: {eventList: event}}, (err, result) => {
+  const course = req.body.course
+  const event = req.body.event
+
+  console.log(course)
+  console.log(event)
+
+  const update = {$addToSet: {eventList: req.body.event}}
+
+  Course.updateOne( { $and: [{deptCode: course.deptCode}, {courseNumber: course.courseNumber}] }, update, (err, result) => {
     if (err) {
       console.log(err)
       res.status(500).send()
@@ -44,9 +50,9 @@ router.route('/add-event').post((req, res) => {
         console.log('Event Added')
         res.json('Event Added')
     }
-  })
+  });
     
-})
+});
 
 router.route('/remove-event').post((req, res) => {
   const courseName = req.body.courseName
