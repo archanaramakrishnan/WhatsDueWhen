@@ -140,7 +140,7 @@ router.route('/good').get((req, res) => {
 
 router.route('/events').get((req, res) => {
   const classList = req.user.classList
-  console.log("classlist", classList)
+  // console.log("classlist", classList)
 
   Course.find()
     .then(doc => {
@@ -149,7 +149,7 @@ router.route('/events').get((req, res) => {
         for (let i = 0; i < classList.length; i++) {
           for (let k = 0; k < doc.length; k++) {
             if ( (classList[i].deptCode === doc[k].deptCode) && (classList[i].courseNumber === doc[k].courseNumber) ) {
-              console.log("doc[k]", doc[k])
+              // console.log("doc[k]", doc[k])
               eventList = [...eventList, ...doc[k].eventList]
             } 
           }
