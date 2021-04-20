@@ -57,15 +57,18 @@ router.route('/add-event').post((req, res) => {
     
 });
 
-router.route('/remove-event').post((req, res) => {
-  const course = req.body.course
-  const eventTitle = req.body.title
+router.route('/delete-event').post((req, res) => {
+  // const deptCode = res.body.deptCode
+  // const courseNumber = res.body.courseNumber
+  console.log(req.body)
+  console.log(req.body._id)
 
-  Course.updateOne({ $and: [{deptCode: course.deptCode}, {courseNumber: course.courseNumber}] }, {$pull: {eventList: {title: eventTitle}}}, (err, result) => {
+  Course.updateOne({ $and: [{deptCode: "BIO"}, {courseNumber: 100}] }, {$pull: {eventList: {_id: req.body._id} }}, (err, result) => {
     if (err) {
       console.log(err)
       res.status(500).send()
     } else {
+      console.log("Event removed!")
       res.json("Event removed!")
     }
   })
