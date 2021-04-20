@@ -18,9 +18,7 @@ import {
   Toolbar,
   ViewSwitcher,
 } from '@devexpress/dx-react-scheduler-material-ui';
-import axios from 'axios';
 
-//import makeAppointments from './appointments'
 import axios from 'axios';
 
 let today = new Date();
@@ -30,97 +28,12 @@ let yyyy = today.getFullYear();
 
 today = yyyy + '-' + mm + '-' + dd;
 
-let appointments = [
-    { startDate: '2021-04-17T09:45', endDate: '2021-04-17T11:00', title: 'Meeting' },
-    { startDate: '2021-04-17T12:00', endDate: '2021-04-17T13:30', title: 'Go to a gym' },
-  ];
-
-  let resourceData = [
-    { Name: 'EECS 168', PermissionNumber: '12345', Color: '#ea7a57' },
-    { Name: 'EECS 268', PermissionNumber: '56789', Color: '#357CD2' },
-    { Name: 'EECS 368', PermissionNumber: '24689', Color: '#7fa900' },
-  ];
-
-const getUserEventsFromCourse = (courseName) => {
-    axios.get('http://localhost:5000/courses/calendar-events', {name: courseName}, {withCredentials: true})
-      .then(res => {console.log('[Calendar.js: 45] response: ' + res)})
-      .catch(err => {console.log('[Calendar.js: 45] err: ' + err)})
-
-      return ""
-}
-
-const getUserEventsFromCourseList = (courseList) => {
-  console.log('entered getUserEVentsFromCourseList with courseList = ' + JSON.stringify(courseList))
-  var result = []
-
-  for(let courseName in courseList)
-  {
-    if(courseName != null)
-    {
-      var eventList = getUserEventsFromCourse(courseName)
-      result.push(eventList)
-    }
-  }
-
-  return result
-}
-
-const extractCourseList = (rawCourseDataList) => {
-  var courseList = []
-
-  for(var i = 0; i < rawCourseDataList.length; ++i)
-  {
-    if(rawCourseDataList[i] != null)
-    {
-      courseList.push({deptCode: rawCourseDataList[i].deptCode, courseNumber: rawCourseDataList[i].courseNumber})
-    }
-  }
-
-  return courseList
-}
-
-const getUserEvents = async () => {
-  console.log('[Calendar.js: 82] entered getuserEvents')
-  let courseList = []
-
-  axios.get('http://localhost:5000/users/courses', {withCredentials: true})
-    .then(res => {
-      console.log('[Calendar.js: 86] res.data = ' + JSON.stringify(res.data)); 
-      return getUserEventsFromCourseList(extractCourseList(res.data))})
-    .catch(err => {console.log('[Calendar.js: 87] got an error' + err)})
-
-
-  /*
-  const rawAppointments = [
-      {
-        title: 'Dummy event',
-        startDate: new Date(2021, 3, 15, 10, 35),
-        endDate: new Date(2021, 3, 15, 14, 30),
-        id: 0,
-        class: 'EECS 645',
-      }, 
-      {
-        title: 'Website Re-Design Plan',
-        startDate: new Date(2021, 3, 12, 10, 35),
-        endDate: new Date(2021, 3, 12, 11, 30),
-        id: 1,
-        class: 'EECS 125',
-      }
-  ]
-
-  return rawAppointments
-  */
-}
 
 export default class Demo extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-<<<<<<< HEAD
-      data: null,
-=======
       data: [],
->>>>>>> 3ba8279776daf4f71e988811997aa65622c4519d
       currentDate: today,
       resources: [
         {
@@ -164,6 +77,14 @@ export default class Demo extends React.PureComponent {
       if (added) {
         const startingAddedId = data.length > 0 ? data[data.length - 1].id + 1 : 0;
         data = [...data, { id: startingAddedId, ...added }];
+
+        axios.post('http://localhost:5000/courses/add-event', added, {withCredentials: true})
+          .then(res => {
+
+          })
+          .catch(err => {
+            console.log(err)
+          })
       }
       if (changed) {
         data = data.map(appointment => (
@@ -178,16 +99,13 @@ export default class Demo extends React.PureComponent {
   }
   
   render() {
-    console.log('[Calendar.js: 153] entered render')
-    const appointments = getUserEvents();
-
     const { currentDate, data } = this.state;
 
     return (
       <Paper>
         
         <Scheduler
-          data={appointments}
+          data={data}
           height={660}
         >
           <ViewState

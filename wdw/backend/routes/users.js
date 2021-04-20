@@ -191,16 +191,4 @@ router.route('/events').get((req, res) => {
   // res.json(eventList)
 });
 
-router.route('/new-event').post((req, res) => {
-
-});
-
-router.route('/update-event').post((req, res) => {
-
-});
-
-router.route('/delete-event').post((req, res) => {
-
-});
-
 module.exports = router;

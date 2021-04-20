@@ -34,14 +34,17 @@ router.route('/add').post((req, res) => {
 })
 
 router.route('/add-event').post((req, res) => {
-  const course = req.body.course
-  const event = req.body.event
-
-  console.log(course)
+  // const course = req.body.course
+  const event = req.body
   console.log(event)
+  const course = {
+    deptCode: "BIO",
+    courseNumber: 100
+  }
 
-  const update = {$addToSet: {eventList: req.body.event}}
+  const update = {$addToSet: {eventList: event}}
 
+  console.log('about to ender course.updateOne()')
   Course.updateOne( { $and: [{deptCode: course.deptCode}, {courseNumber: course.courseNumber}] }, update, (err, result) => {
     if (err) {
       console.log(err)
@@ -55,10 +58,10 @@ router.route('/add-event').post((req, res) => {
 });
 
 router.route('/remove-event').post((req, res) => {
-  const courseName = req.body.courseName
+  const course = req.body.course
   const eventTitle = req.body.title
-  console.log(req.body)
-  Course.updateOne({name: courseName}, {$pull: {eventList: {title: eventTitle}}}, (err, result) => {
+
+  Course.updateOne({ $and: [{deptCode: course.deptCode}, {courseNumber: course.courseNumber}] }, {$pull: {eventList: {title: eventTitle}}}, (err, result) => {
     if (err) {
       console.log(err)
       res.status(500).send()
@@ -81,5 +84,15 @@ router.route('/calendar-events').get((req, res) => {
     }
   })
 })
+
+
+router.route('/update-event').post((req, res) => {
+  const course = req.body.course
+  const eventTitle = req.body.title
+
+  Course.updateOne({ $and: [{deptCode: course.deptCode}, {courseNumber: course.courseNumber}] }, {$: {eventList: {title: eventTitle}}})
+});
+
+
 
 module.exports = router;
