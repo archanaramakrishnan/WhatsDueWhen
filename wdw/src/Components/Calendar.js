@@ -52,16 +52,17 @@ export default class Demo extends React.PureComponent {
   }
 
   async componentDidMount() {
-    // await axios.get('http://localhost:5000/users/good', {withCredentials: true})
-    //   .then(res => {
-    //     console.log(res.data);
-    //     this.setState({data: res.data})
-    //   })
-    console.log('hello')
+
     await axios.get('http://localhost:5000/users/events', {withCredentials: true})
       .then(res => {
-        console.log("response", res.data)
-        //assign id
+
+        // assigns ids to events
+        let appointments = res.data
+        let nextId = 0;
+        appointments.forEach(appointment => {
+          appointment.id = nextId
+          nextId++;
+        });
 
         this.setState({data: res.data})
       })
@@ -81,7 +82,8 @@ export default class Demo extends React.PureComponent {
         const startingAddedId = data.length > 0 ? data[data.length - 1].id + 1 : 0;
         data = [...data, { id: startingAddedId, ...added }];
 
-        axios.post('http://localhost:5000/courses/add-event', added, {withCredentials: true})
+        // adds event to database
+        axios.post('http://localhost:5000/courses/add-event', added)
           .then(res => {
 
           })
@@ -94,9 +96,18 @@ export default class Demo extends React.PureComponent {
           changed[appointment.id] ? { ...appointment, ...changed[appointment.id] } : appointment));
       }
       if (deleted !== undefined) {
+        const deletedCourse = data.find( ({ id }) => id === deleted)
         data = data.filter(appointment => appointment.id !== deleted);
+
+        // deletes event in database
+        axios.post('http://localhost:5000/courses/delete-event', deletedCourse)
+          .then(res => {
+            console.log("Course is deleted.")
+          })
+          .catch(err => {
+            console.log(err);
+          })
       }
-      // console.log(data) 
       return { data };
     });
   }
