@@ -28,6 +28,19 @@ let yyyy = today.getFullYear();
 
 today = yyyy + '-' + mm + '-' + dd;
 
+<<<<<<< HEAD
+=======
+let appointments = [
+    { startDate: '2021-04-17T09:45', endDate: '2021-04-17T11:00', title: 'Meeting', id: 'BIO 100' },
+    { startDate: '2021-04-17T12:00', endDate: '2021-04-17T13:30', title: 'Go to a gym', id: 'EECS 268'  },
+  ];
+
+  // let resourceData = [
+  //   { Name: 'EECS 168', PermissionNumber: '12345', Color: '#ea7a57' },
+  //   { Name: 'EECS 268', PermissionNumber: '56789', Color: '#357CD2' },
+  //   { Name: 'EECS 368', PermissionNumber: '24689', Color: '#7fa900' },
+  // ];
+>>>>>>> d4146f7d2021cfd45c05072eaecec895e5629b2e
 
 export default class Demo extends React.PureComponent {
   constructor(props) {
@@ -37,10 +50,20 @@ export default class Demo extends React.PureComponent {
       currentDate: today,
       resources: [
         {
+<<<<<<< HEAD
           fieldName: 'class',
           title: 'Class',
           // instances: [{id: 'EECS 125', text: 'EECS 125', color: '#d01235'}],
           // instances: this.props,
+=======
+          fieldName: 'Class',
+          title: 'Class',
+          instances: [
+            { id: 'BIO 100', text: 'BIO 100', color: '#ea7a57' },
+            { id: 'EECS 268', text: 'EECS 268', color: '#357CD2' },
+            { id: 'EECS 368', text: 'EECS 368', color: '#7fa900' },
+          ],
+>>>>>>> d4146f7d2021cfd45c05072eaecec895e5629b2e
         }
       ]
     };
@@ -99,7 +122,7 @@ export default class Demo extends React.PureComponent {
   }
   
   render() {
-    const { currentDate, data } = this.state;
+    const { currentDate, data, resources } = this.state;
 
     return (
       <Paper>
@@ -136,7 +159,10 @@ export default class Demo extends React.PureComponent {
             showDeleteButton
           />
           <AppointmentForm />
-
+          <Resources
+              data={resources}
+              mainResourceName='Class'
+            />
           {/* <Resources field='Class' title='Class' name='Class' textField='Name' idField='PermissionNumber' colorField='Color' dataSource={resourceData}/> */}
         </Scheduler>
       </Paper>
