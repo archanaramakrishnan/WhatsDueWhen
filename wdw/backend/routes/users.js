@@ -116,6 +116,7 @@ router.route('/courses').get((req, res) => {
 router.route('/user-exist').post((req, res) => {
   const userEmail = req.body.email
   User.findOne({email: userEmail}, (err, user) => {
+
     if (err) {
       res.status(400).send()
     }

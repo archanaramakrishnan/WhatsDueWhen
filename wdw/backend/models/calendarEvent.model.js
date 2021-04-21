@@ -26,6 +26,9 @@ const calendarEventSchema = new Schema({
   },
   allDay: {
     type: Boolean
+  },
+  class: {
+    type: String
   }
 }, {
   timestamps: true,

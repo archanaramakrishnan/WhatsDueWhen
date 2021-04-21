@@ -51,11 +51,14 @@ const userSchema = new Schema({
           type: String
           // unique: true,
           // sparse: true
-        }, 
+        },
         permissionNumber: {
           type: Number
           // unique: true,
           // sparse: true
+        },
+        color: {
+          type: String
         }
       }
     ]

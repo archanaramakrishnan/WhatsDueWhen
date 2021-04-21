@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './CalendarPage.css';
 // import Calendar from './Calendar';
 import Calendar from './Calendar';
@@ -23,7 +23,7 @@ const generateRandomInt = () => {
   let max = 999999;
   let randNumber = Math.random() * (max - min) + min;
   let intRand = Math.floor(randNumber);
-  return(intRand);
+  return (intRand);
 }
 
 export const CalendarPage = () => {
@@ -38,10 +38,10 @@ export const CalendarPage = () => {
   const [generatedPermissionNumber, setGeneratedPermissionNumber] = useState(0);
   const [subjectList, setSubjectList] = useState([]);
   const [addSubject, setAddSubject] = useState(false);
-  
+
 
   useEffect(async () => {
-    await axios.get('http://localhost:5000/users/courses', {withCredentials: true})
+    await axios.get('http://localhost:5000/users/courses', { withCredentials: true })
       .then(res => {
         // console.log(res.data)
         setSubjectList(res.data);
@@ -49,14 +49,14 @@ export const CalendarPage = () => {
       .catch(err => {
         console.log(err);
       });
-  
+
     // loadSubjects();
   }, []);
 
   useEffect(() => {
     loadSubjects();
   }, [addSubject]);
-  
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -74,16 +74,17 @@ export const CalendarPage = () => {
     setOpen2(false);
   };
 
-   const handleCreate = async () => {
+  const handleCreate = async () => {
 
     let unfilledField = false;
-    if (userDeptCode == "" || userCourseNumber == "" || userStartDate == "" || userEndDate == ""){
-        alert("Please fill all the required fields!");
-        unfilledField = true;
+    if (userDeptCode == "" || userCourseNumber == "" || userStartDate == "" || userEndDate == "") {
+      alert("Please fill all the required fields!");
+      unfilledField = true;
     }
     let randNumber;
+    let userClass;
 
-    if (!unfilledField){
+    if (!unfilledField) {
       // generates a unique number for a classes permission number
       await axios.get('http://localhost:5000/courses/')
         .then(res => {
@@ -91,15 +92,18 @@ export const CalendarPage = () => {
           let max = 999999;
           randNumber = Math.floor(Math.random() * (max - min) + min);
           let returnedCourse = res.data.filter((course) => (course.permissionNumber == randNumber));
-          while (returnedCourse.length != 0)
-          {
-              randNumber = Math.floor(Math.random() * (max - min) + min);
-              returnedCourse = res.data.filter((course) => (course.permissionNumber == randNumber));
+          while (returnedCourse.length != 0) {
+            randNumber = Math.floor(Math.random() * (max - min) + min);
+            returnedCourse = res.data.filter((course) => (course.permissionNumber == randNumber));
           }
           console.log(randNumber);
           setGeneratedPermissionNumber(randNumber);
-      });
-      
+          userClass = userCourseTitle + userCourseNumber.toString();
+        });
+
+      let color = Math.floor(Math.random() * 16777215).toString(16);
+      color = "#" + color;
+
       // The new course object
       const newCourse = {
         deptCode: userDeptCode.toUpperCase(),
@@ -108,9 +112,10 @@ export const CalendarPage = () => {
         courseDescription: userCourseDescription,
         startDate: userStartDate,
         endDate: userEndDate,
-        permissionNumber: randNumber
+        permissionNumber: randNumber,
+        color: color
       }
-      
+
 
       // adds course to courses database
       axios.post('http://localhost:5000/courses/add/', newCourse)
@@ -118,13 +123,14 @@ export const CalendarPage = () => {
           console.log(res);
 
           // adds course to the logged in user
-          axios.post('http://localhost:5000/users/add-course', 
+          axios.post('http://localhost:5000/users/add-course',
             {
               deptCode: userDeptCode.toUpperCase(),
               courseNumber: userCourseNumber,
               courseTitle: userCourseTitle,
-              permissionNumber: randNumber
-            }, {withCredentials: true})
+              permissionNumber: randNumber,
+              color: color
+            }, { withCredentials: true })
             .then(res => {
               console.log(res);
               subjectList.push(newCourse);
@@ -139,7 +145,7 @@ export const CalendarPage = () => {
           // emit different kinds of errors? one for duplicate class and another for invalid form input?
 
           // handles duplicate key error. Responds with a 422 status
-          if (err.response.status === 422){
+          if (err.response.status === 422) {
             alert("The class you are trying to create already exists!")
           }
 
@@ -152,12 +158,12 @@ export const CalendarPage = () => {
     setOpen(false);
   };
 
-  
-  
+
+
   //returns the subject cards on the left side of calendar
   const loadSubjects = () => {
     console.log("load subjects", subjectList)
-    
+
     //check if list if empty
     if (subjectList != []) {
       return (
@@ -165,7 +171,7 @@ export const CalendarPage = () => {
           {subjectList.map(item => {
             const permNum = item.permissionNumber;
             const name = item.deptCode + " " + item.courseNumber + ": " + item.courseTitle;
-            return <div><SubjectSelector name={name} permNum={permNum}/></div>
+            return <div><SubjectSelector name={name} permNum={permNum} /></div>
           })}
         </div>
       )
@@ -176,11 +182,11 @@ export const CalendarPage = () => {
     <Paper className='CalendarPage'>
       <Paper style={{ width: "23%", float: "left" }}>
         <div className="createclass">
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+          <Button variant="outlined" color="primary" onClick={handleClickOpen}>
             Create a Class
       </Button>
-      </div>
-        {open && 
+        </div>
+        {open &&
           <div>
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
               <DialogTitle id="form-dialog-title">Create a Class</DialogTitle>
@@ -196,8 +202,8 @@ export const CalendarPage = () => {
                     label="Department Code"
                     type="text"
                     required
-                    onChange={(event)=>{setUserDeptCode(event.target.value)}}
-                  /> 
+                    onChange={(event) => { setUserDeptCode(event.target.value) }}
+                  />
                 </div>
                 <div className="coursenum">
                   <TextField
@@ -207,8 +213,8 @@ export const CalendarPage = () => {
                     label="Course Number"
                     type="number"
                     required
-                    onChange={(event)=>{setUserCourseNumber(event.target.value)}}
-                  /> 
+                    onChange={(event) => { setUserCourseNumber(event.target.value) }}
+                  />
                 </div>
                 <div className="coursetitle">
                   <TextField
@@ -218,20 +224,20 @@ export const CalendarPage = () => {
                     label="Course Title (optional)"
                     type="text"
                     fullWidth
-                    onChange={(event)=>{setUserCourseTitle(event.target.value)}}
-                  /> 
+                    onChange={(event) => { setUserCourseTitle(event.target.value) }}
+                  />
                 </div>
                 <div className="coursedescription">
-                 <TextField
+                  <TextField
                     margin="dense"
                     id="standard-multiline-static"
                     label="Course Description (optional)"
                     multiline
                     rows={3}
                     fullWidth
-                    onChange={(event)=>{setUserCourseDescription(event.target.value)}}
+                    onChange={(event) => { setUserCourseDescription(event.target.value) }}
                   />
-      
+
                 </div>
                 <form className="startdate" noValidate>
                   <TextField
@@ -242,7 +248,7 @@ export const CalendarPage = () => {
                     InputLabelProps={{
                       shrink: true,
                     }}
-                    onChange={(event)=>{setUserStartDate(event.target.value)}}
+                    onChange={(event) => { setUserStartDate(event.target.value) }}
                   />
                 </form>
                 <form className="enddate" noValidate>
@@ -254,7 +260,7 @@ export const CalendarPage = () => {
                     InputLabelProps={{
                       shrink: true,
                     }}
-                    onChange={(event)=>{setUserEndDate(event.target.value)}}
+                    onChange={(event) => { setUserEndDate(event.target.value) }}
                   />
                 </form>
               </DialogContent>
@@ -268,22 +274,22 @@ export const CalendarPage = () => {
               </DialogActions>
             </Dialog>
           </div>}
-          {open2 && 
-            <div>
-              <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Create a Class</DialogTitle>
-                <DialogContent>
-                  <DialogContentText>
-                    Your course has been created! To add events, navigate to the course's calendar and double click the calendar to bring up the event form.
+        {open2 &&
+          <div>
+            <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+              <DialogTitle id="form-dialog-title">Create a Class</DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  Your course has been created! To add events, navigate to the course's calendar and double click the calendar to bring up the event form.
                   </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={handleClose2} color="primary">
-                    Finish
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose2} color="primary">
+                  Finish
                   </Button>
-                </DialogActions>
-              </Dialog>
-            </div>}
+              </DialogActions>
+            </Dialog>
+          </div>}
         {loadSubjects()}
       </Paper>
       <Paper style={{ width: "75%", height: "50%", float: "left", marginLeft: "15px" }}>

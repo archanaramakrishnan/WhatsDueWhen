@@ -35,17 +35,7 @@ export default class Demo extends React.PureComponent {
     this.state = {
       data: [],
       currentDate: today,
-      resources: [
-        {
-          fieldName: 'Class',
-          title: 'Class',
-          instances: [
-            { id: 'BIO 100', text: 'BIO 100', color: '#ea7a57' },
-            { id: 'EECS 268', text: 'EECS 268', color: '#357CD2' },
-            { id: 'EECS 368', text: 'EECS 368', color: '#7fa900' },
-          ],
-        }
-      ]
+      resource: [],
     };
 
     this.commitChanges = this.commitChanges.bind(this);
@@ -53,10 +43,10 @@ export default class Demo extends React.PureComponent {
 
   async componentDidMount() {
 
-    await axios.get('http://localhost:5000/users/events', {withCredentials: true})
+    await axios.get('http://localhost:5000/users/events', { withCredentials: true })
       .then(res => {
 
-        // assigns ids to events
+        //  assigns ids to events
         let appointments = res.data
         let nextId = 0;
         appointments.forEach(appointment => {
@@ -64,11 +54,43 @@ export default class Demo extends React.PureComponent {
           nextId++;
         });
 
-        this.setState({data: res.data})
+        this.setState({ data: res.data })
       })
       .catch(err => {
         console.log(err)
       });
+
+    // Get the dept code and course number to pass into resources
+    await axios.get('http://localhost:5000/users/courses', { withCredentials: true })
+      .then(res => {
+        console.log("The res is:", res.data);
+        let result = res.data.map(course => course.deptCode + " " + course.courseNumber);
+        console.log(result)
+        this.setState({ subjectList: result });
+        let colors = res.data.map(course => course.color);
+        console.log(colors);
+        let localResources = []
+        for (let i = 0; i < this.state.subjectList.length; i++) {
+          localResources.push({ id: this.state.subjectList[i], text: this.state.subjectList[i], color: colors[i] });
+        }
+        console.log("localResources:");
+        console.log(localResources);
+        this.setState({
+          resource:
+            [
+              {
+                fieldName: 'class',
+                title: 'Class',
+                instances: localResources
+              }
+            ]
+        })
+        console.log(localResources);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
   }
 
   commitChanges({ added, changed, deleted }) {
@@ -82,7 +104,7 @@ export default class Demo extends React.PureComponent {
         const startingAddedId = data.length > 0 ? data[data.length - 1].id + 1 : 0;
         data = [...data, { id: startingAddedId, ...added }];
 
-        // adds event to database
+        //                adds event to database
         axios.post('http://localhost:5000/courses/add-event', added)
           .then(res => {
 
@@ -96,10 +118,10 @@ export default class Demo extends React.PureComponent {
           changed[appointment.id] ? { ...appointment, ...changed[appointment.id] } : appointment));
       }
       if (deleted !== undefined) {
-        const deletedCourse = data.find( ({ id }) => id === deleted)
+        const deletedCourse = data.find(({ id }) => id === deleted)
         data = data.filter(appointment => appointment.id !== deleted);
 
-        // deletes event in database
+        //                        deletes event in database
         axios.post('http://localhost:5000/courses/delete-event', deletedCourse)
           .then(res => {
             console.log("Course is deleted.")
@@ -111,13 +133,14 @@ export default class Demo extends React.PureComponent {
       return { data };
     });
   }
-  
+
   render() {
-    const { currentDate, data, resources } = this.state;
+    const { currentDate, data, resource } = this.state;
+    console.log('resources', resource)
 
     return (
-      <Paper>
-        
+      <Paper >
+
         <Scheduler
           data={data}
           height={660}
@@ -151,12 +174,12 @@ export default class Demo extends React.PureComponent {
           />
           <AppointmentForm />
           <Resources
-              data={resources}
-              mainResourceName='Class'
-            />
-          {/* <Resources field='Class' title='Class' name='Class' textField='Name' idField='PermissionNumber' colorField='Color' dataSource={resourceData}/> */}
-        </Scheduler>
-      </Paper>
+            data={resource}
+          // mainResourceName='class'
+          />
+          {/* <Resources field='Class' title='Class' name='Class' textField='Name' idField='PermissionNumber' colorField='Color' dataSource={resourceData} /> */}
+        </Scheduler >
+      </Paper >
     );
   }
 }
