@@ -93,6 +93,30 @@ export default class Demo extends React.PureComponent {
 
   }
 
+  async componentWillReceiveProps(props) {
+    const { refresh } = this.props;
+    console.log('refresh', refresh)
+    if (props.refresh !== refresh) {
+      console.log("Prop Refreshed!")
+      await axios.get('http://localhost:5000/users/events', { withCredentials: true })
+      .then(res => {
+
+        //  assigns ids to events
+        let appointments = res.data
+        let nextId = 0;
+        appointments.forEach(appointment => {
+          appointment.id = nextId
+          nextId++;
+        });
+
+        this.setState({ data: res.data })
+      })
+      .catch(err => {
+        console.log(err)
+      });
+    }
+  }
+
   commitChanges({ added, changed, deleted }) {
     console.log("added", added)
     console.log("changed", changed)
