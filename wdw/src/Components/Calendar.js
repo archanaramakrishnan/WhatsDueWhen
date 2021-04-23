@@ -115,6 +115,38 @@ export default class Demo extends React.PureComponent {
       .catch(err => {
         console.log(err)
       });
+
+        // Get the dept code and course number to pass into resources
+      await axios.get('http://localhost:5000/users/courses', { withCredentials: true })
+      .then(res => {
+        console.log("The res is:", res.data);
+        let result = res.data.map(course => course.deptCode + " " + course.courseNumber);
+        console.log(result)
+        this.setState({ subjectList: result });
+        let colors = res.data.map(course => course.color);
+        console.log(colors);
+        let localResources = []
+        for (let i = 0; i < this.state.subjectList.length; i++) {
+          localResources.push({ id: this.state.subjectList[i], text: this.state.subjectList[i], color: colors[i] });
+        }
+        console.log("localResources:");
+        console.log(localResources);
+        this.setState({
+          resource:
+            [
+              {
+                fieldName: 'class',
+                title: 'Class',
+                instances: localResources
+              }
+            ]
+        })
+        console.log(localResources);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
     }
   }
 
