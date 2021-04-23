@@ -31,6 +31,8 @@ export const CalendarPageStudent = () => {
   const [subjectList, setSubjectList] = useState([]);
   const [addSubject, setAddSubject] = useState(false);
 
+  const [refreshCalendar, setRefreshCalendar] = useState(false);
+
   useEffect(async () => {
     await axios.get('http://localhost:5000/users/courses', { withCredentials: true })
       .then(res => {
@@ -127,6 +129,7 @@ export const CalendarPageStudent = () => {
           alert('Class added to your calendar!');
 
           setAddSubject(!addSubject);
+          setRefreshCalendar(!refreshCalendar); 
 
           handleCloseAddClass();
         }
@@ -228,7 +231,7 @@ export const CalendarPageStudent = () => {
       </Paper>
       <Paper style={{ width: "75%", height: "50%", float: "left", marginLeft: "15px" }}>
         <BrowserRouter>
-          <Calendar />
+          <Calendar refresh={refreshCalendar}/>
         </BrowserRouter>
       </Paper>
     </Paper>
