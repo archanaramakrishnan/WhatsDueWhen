@@ -57,9 +57,6 @@ const courseSchema = new Schema({
   color: {
     type: String
   },
-  class: {
-    type: String
-  }
 }, {
   timestamps: true,
 });

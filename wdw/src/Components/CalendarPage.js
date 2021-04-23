@@ -74,6 +74,13 @@ export const CalendarPage = () => {
     setOpen2(false);
   };
 
+  const openEventForm = () => {
+    let cal = document.querySelector(".calendar")
+    var click  = document.createEvent ('MouseEvents');
+    click.initEvent ('dblclick', true, true);
+    cal.dispatchEvent (click);
+  }
+
   const handleCreate = async () => {
 
     let unfilledField = false;
@@ -184,7 +191,10 @@ export const CalendarPage = () => {
         <div className="createclass">
           <Button variant="outlined" color="primary" onClick={handleClickOpen}>
             Create a Class
-      </Button>
+          </Button>
+          <Button variant="outlined" color="primary" onClick={openEventForm}>
+            Add Event
+          </Button>
         </div>
         {open &&
           <div>
@@ -294,7 +304,7 @@ export const CalendarPage = () => {
       </Paper>
       <Paper style={{ width: "75%", height: "50%", float: "left", marginLeft: "15px" }}>
         <BrowserRouter>
-          <Calendar />
+          <Calendar id='calendar' name='calendar' class='calendar'/>
         </BrowserRouter>
       </Paper>
     </Paper>

@@ -34,18 +34,14 @@ router.route('/add').post((req, res) => {
 })
 
 router.route('/add-event').post((req, res) => {
-  // const course = req.body.course
   const event = req.body
-  console.log(event)
-  const course = {
-    deptCode: "BIO",
-    courseNumber: 100
-  }
+  const classInfo = req.body.class.split(' ')
+  const deptCode = classInfo[0]
+  const courseNumber = parseInt(classInfo[1])
 
   const update = {$addToSet: {eventList: event}}
 
-  console.log('about to ender course.updateOne()')
-  Course.updateOne( { $and: [{deptCode: course.deptCode}, {courseNumber: course.courseNumber}] }, update, (err, result) => {
+  Course.updateOne( { $and: [{deptCode: deptCode}, {courseNumber: courseNumber}] }, update, (err, result) => {
     if (err) {
       console.log(err)
       res.status(500).send()
@@ -62,8 +58,11 @@ router.route('/delete-event').post((req, res) => {
   // const courseNumber = res.body.courseNumber
   console.log(req.body)
   console.log(req.body._id)
+  const classInfo = req.body.class.split(' ')
+  const deptCode = classInfo[0]
+  const courseNumber = parseInt(classInfo[1])
 
-  Course.updateOne({ $and: [{deptCode: "BIO"}, {courseNumber: 100}] }, {$pull: {eventList: {_id: req.body._id} }}, (err, result) => {
+  Course.updateOne({ $and: [{deptCode: deptCode}, {courseNumber: courseNumber}] }, {$pull: {eventList: {_id: req.body._id} }}, (err, result) => {
     if (err) {
       console.log(err)
       res.status(500).send()
