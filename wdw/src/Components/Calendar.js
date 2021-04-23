@@ -54,7 +54,7 @@ export default class Demo extends React.PureComponent {
           nextId++;
         });
 
-        this.setState({ data: res.data })
+        this.setState({ data: appointments })
       })
       .catch(err => {
         console.log(err)
@@ -109,7 +109,8 @@ export default class Demo extends React.PureComponent {
           nextId++;
         });
 
-        this.setState({ data: res.data })
+        console.log('appointments:', appointments)
+        this.setState({ data: appointments })
       })
       .catch(err => {
         console.log(err)

@@ -122,6 +122,7 @@ export const CalendarPageStudent = () => {
             course, { withCredentials: true })
             .then(res => {
               console.log(res);
+              setRefreshCalendar(!refreshCalendar); 
             })
             .catch(err => {
               console.log(err);
@@ -129,7 +130,6 @@ export const CalendarPageStudent = () => {
           alert('Class added to your calendar!');
 
           setAddSubject(!addSubject);
-          setRefreshCalendar(!refreshCalendar); 
 
           handleCloseAddClass();
         }
@@ -148,6 +148,7 @@ export const CalendarPageStudent = () => {
       });
 
     }
+    
   };
 
   //returns the subject cards on the left side of calendar
