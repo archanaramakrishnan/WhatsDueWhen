@@ -38,7 +38,7 @@ export const CalendarPage = () => {
   const [generatedPermissionNumber, setGeneratedPermissionNumber] = useState(0);
   const [subjectList, setSubjectList] = useState([]);
   const [addSubject, setAddSubject] = useState(false);
-
+  const [refreshCalendar, setRefreshCalendar] = useState(false);
 
   useEffect(async () => {
     await axios.get('http://localhost:5000/users/courses', { withCredentials: true })
@@ -141,7 +141,8 @@ export const CalendarPage = () => {
             .then(res => {
               console.log(res);
               subjectList.push(newCourse);
-              alert("Class was created successfully!");
+              // alert("Class was created successfully!");
+              setRefreshCalendar(!refreshCalendar);
             })
             .catch(err => {
               console.log(err);
@@ -159,7 +160,7 @@ export const CalendarPage = () => {
           console.log(err.response);
         });
 
-      subjectList.push(newCourse);
+      // subjectList.push(newCourse);
       setAddSubject(!addSubject);
     }
     setOpen(false);
@@ -304,7 +305,7 @@ export const CalendarPage = () => {
       </Paper>
       <Paper style={{ width: "75%", height: "50%", float: "left", marginLeft: "15px" }}>
         <BrowserRouter>
-          <Calendar id='calendar' name='calendar' class='calendar'/>
+          <Calendar refresh={refreshCalendar} id='calendar' name='calendar' class='calendar'/>
         </BrowserRouter>
       </Paper>
     </Paper>
