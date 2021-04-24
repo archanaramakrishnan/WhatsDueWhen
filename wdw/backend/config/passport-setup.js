@@ -22,8 +22,10 @@ passport.use(
         // options for strategy
         callbackURL: '/auth/google/redirect',
         clientID: '567371174244-fv4depvnt5kli81tk6msun52hpsvvce5.apps.googleusercontent.com',
-        clientSecret: 'ALuB6DdhGBHEsExFc_ElZaXP'
-    }, (accessToken, refreshToken, profile, done) => {
+        clientSecret: 'ALuB6DdhGBHEsExFc_ElZaXP',
+        passReqToCallback: true
+    }, (req, accessToken, refreshToken, profile, done) => {
+       console.log('req', req)
        User.findOne({email: profile.emails[0].value}).then((foundUser) => {
         if(foundUser)
         {
@@ -38,7 +40,7 @@ passport.use(
                 lastname: profile.name.familyName,
                 googleId: profile.id,
                 email: profile.emails[0].value,
-                isProfessor: true
+                //isProfessor: true
             }).save().then((newUser) => {
                 done(null, newUser);
             });
