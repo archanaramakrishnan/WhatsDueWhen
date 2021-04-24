@@ -177,9 +177,10 @@ export const CalendarPage = () => {
       return (
         <div>
           {subjectList.map(item => {
+            const color = item.color;
             const permNum = item.permissionNumber;
             const name = item.deptCode + " " + item.courseNumber + ": " + item.courseTitle;
-            return <div><SubjectSelector name={name} permNum={permNum} /></div>
+            return <div><SubjectSelector color={color} name={name} permNum={permNum} /></div>
           })}
         </div>
       )

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Switch from '@material-ui/core/Switch';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
+import Box from '@material-ui/core/Box';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import ClipboardIcon from 'react-clipboard-icon'
 
@@ -26,6 +27,8 @@ function SubjectSelector(props) {
     return (
         <Card style={{ height: "120px" }}>
             <div style={{ padding: "25px", display: "flex", justifyContent: "space-between" }}>
+                <Box bgcolor={props.color} p={2} />
+                
                 <div style={{ float: "left" }}>
                     {props.name}
                     {<CopyToClipboard
