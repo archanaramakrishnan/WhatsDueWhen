@@ -115,7 +115,11 @@ export const CreateUser = (props) => {
     };
 
     const handleContinue = () => {
-        setOpen(false);
+        if (studentFill == "contained" || facultyFill == "contained") {
+            setOpen(false)
+            return
+        }
+        setOpen(true);
     }
 
     const handleGoogleLogin = async () => {
