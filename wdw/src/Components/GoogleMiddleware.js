@@ -5,9 +5,8 @@ import { useHistory } from 'react-router-dom';
 const GoogleMiddleware = () => {
     const history = useHistory();
     const isProfessor = localStorage.getItem('isProfessor')
-
+    
     useEffect(async () => {
-        console.log(isProfessor)
         const body = {isProfessor: isProfessor}
         await axios.post('http://localhost:5000/users/update-isprofessor', body, {withCredentials: true})
             .then(res => {
@@ -21,9 +20,9 @@ const GoogleMiddleware = () => {
     }, [])
 
     const redirectUser = () => {
-        if (isProfessor) {
+        if (isProfessor === "true") {
             history.push('/calendarpageprof')
-        } else {
+        } else if (isProfessor === "false") {
             history.push('/calendarpagestudent')
         }
     }
