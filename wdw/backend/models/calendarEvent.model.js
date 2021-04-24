@@ -29,6 +29,9 @@ const calendarEventSchema = new Schema({
   },
   class: {
     type: String
+  }, 
+  rRule: {
+    type: String
   }
 }, {
   timestamps: true,
