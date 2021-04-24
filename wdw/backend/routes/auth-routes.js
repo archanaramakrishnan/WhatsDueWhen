@@ -55,17 +55,22 @@ router.get('/google', passport.authenticate('google', {
 }));
 
 // callback route for google to redirect to
-router.get('/google/redirect', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
+router.get('/google/redirect', passport.authenticate('google', { failureRedirect: '/' }), (req, res) => {
     console.log("request", req.user)
     
+    const isProfessor = req.user.isProfessor
 
-    if (req.user.isProfessor) {
+    console.log("isProfessor", isProfessor)
+
+    if (isProfessor == undefined) {
+        res.redirect('http://localhost:3000/google/middleware')
+    }
+
+    if (isProfessor) {
         res.redirect('http://localhost:3000/calendarpageprof')
     } else {
         res.redirect('http://localhost:3000/calendarpagestudent')
     }
-    // console.log("response", res)
-    //res.redirect('http://localhost:3000/calendarpage')
 });
 
 module.exports = router;
