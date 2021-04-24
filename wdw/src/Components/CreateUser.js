@@ -68,13 +68,11 @@ export const CreateUser = (props) => {
                 lastname: userLastName,
                 email: userEmail,
                 password: userPassword,
-                isProfessor: isProfessor,
-                classList: []
+                isProfessor: isProfessor
             }
-            // console.log(newUser);
 
             // adds user to database, otherwise
-            axios.post('http://localhost:5000/auth/createuser', {email: userEmail, password: userPassword, isProfessor: isProfessor}, {withCredentials: true})
+            axios.post('http://localhost:5000/auth/createuser', newUser)
                 .then((res) => {
                     console.log(res)
                     alert("Account created successfully! Use these credentials to log in :)");

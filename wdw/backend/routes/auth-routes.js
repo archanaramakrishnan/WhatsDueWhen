@@ -6,6 +6,7 @@ const bcrypt = require('bcryptjs')
 // createuser
 // 409 for a user already exist status code
 router.post('/createuser', (req, res) => {
+    console.log(req.body)
     User.findOne({email: req.body.email}, async (err, user) => {
         if (err) throw err;
         if (user) res.status(409).json("User Already Exist");
@@ -13,6 +14,8 @@ router.post('/createuser', (req, res) => {
             const hashedPassword = await bcrypt.hash(req.body.password, 10)
 
             const newUser = new User({
+                firstname: req.body.firstname,
+                lastname: req.body.lastname,
                 email: req.body.email,
                 password: hashedPassword,
                 isProfessor: req.body.isProfessor
