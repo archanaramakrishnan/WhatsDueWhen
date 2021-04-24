@@ -192,4 +192,19 @@ router.route('/events').get((req, res) => {
   // res.json(eventList)
 });
 
+router.route('/update-isprofessor').post( (req, res) => {
+  const isProfessor = req.body.isProfessor;
+  console.log(req.body)
+  console.log(req.user)
+  User.updateOne( {_id: req.user._id}, {isProfessor: isProfessor}, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send()
+    } else {
+      res.status(200).send()
+      console.log('Updated Google User!')
+    }
+  })
+});
+
 module.exports = router;
