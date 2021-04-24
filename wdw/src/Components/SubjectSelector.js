@@ -19,6 +19,7 @@ function SubjectSelector(props) {
       };
 
     const onClick = ({target: {innerHTML}}) => {
+        // <Alert severity="success">Permission number copied to the clipboard!</Alert>
         console.log(`Clicked on "${innerHTML}"!`); // eslint-disable-line
       };
 
@@ -30,16 +31,16 @@ function SubjectSelector(props) {
                     {<CopyToClipboard
                         onCopy={onCopy}
                         text={props.permNum}>
+                        {/* {"\n"} */}
                         <Button onClick={onClick} variant="outlined" size="small">
                             <div style={{ fontSize: "9pt" }}>
                                 {"Permission Number : " + props.permNum } 
                                 &nbsp;
                             </div>
-                            
                             <div>
                                 <ClipboardIcon
                                 size={20}
-                                style={{fill: '#1a237e' }}
+                                style={{fill: '#3f50b5' }}
                                 />
                             </div>
                         </Button> 

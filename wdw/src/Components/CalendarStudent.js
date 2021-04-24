@@ -18,9 +18,6 @@ import {
   Toolbar,
   ViewSwitcher,
 } from '@devexpress/dx-react-scheduler-material-ui';
-import Fab from '@material-ui/core/Fab';
-import IconButton from '@material-ui/core/IconButton';
-import AddIcon from '@material-ui/icons/Add';
 
 import axios from 'axios';
 
@@ -31,20 +28,16 @@ let yyyy = today.getFullYear();
 
 today = yyyy + '-' + mm + '-' + dd;
 
-
-export default class Calendar extends React.PureComponent {
+export default class CalendarStudent extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       data: [],
       currentDate: today,
       resource: [],
-      editingFormVisible: false,
     };
 
     this.commitChanges = this.commitChanges.bind(this);
-    this.onAddedAppointmentChange = this.onAddedAppointmentChange.bind(this);
-    this.toggleEditingFormVisibility = this.toggleEditingFormVisibility.bind(this);
   }
 
   async componentDidMount() {
@@ -156,24 +149,6 @@ export default class Calendar extends React.PureComponent {
     }
   }
 
-  toggleEditingFormVisibility() {
-    const { editingFormVisible } = this.state;
-    this.setState({
-      editingFormVisible: !editingFormVisible,
-    });
-  }
-
-  onAddedAppointmentChange(addedAppointment) {
-    this.setState({ addedAppointment });
-    const { editingAppointment } = this.state;
-    if (editingAppointment !== undefined) {
-      this.setState({
-        previousAppointment: editingAppointment,
-      });
-    }
-    this.setState({ editingAppointment: undefined, isNewAppointment: true });
-  }
-
   commitChanges({ added, changed, deleted }) {
     console.log("added", added)
     console.log("changed", changed)
@@ -216,7 +191,7 @@ export default class Calendar extends React.PureComponent {
   }
 
   render() {
-    const { editingFormVisible, currentDate, data, resource } = this.state;
+    const { currentDate, data, resource } = this.state;
     console.log('resources', resource)
 
     return (
@@ -232,7 +207,6 @@ export default class Calendar extends React.PureComponent {
           />
           <EditingState
             onCommitChanges={this.commitChanges}
-            onAddedAppointmentChange={this.onAddedAppointmentChange}
           />
           <IntegratedEditing />
           <DayView
@@ -248,35 +222,15 @@ export default class Calendar extends React.PureComponent {
           <DateNavigator />
           <TodayButton />
           <ViewSwitcher />
-          <ConfirmationDialog />
           <Appointments />
-          <AppointmentTooltip
-            showOpenButton
-            showDeleteButton
-          />
-          <AppointmentForm 
-            visible={editingFormVisible}
-            onVisibilityChange={this.toggleEditingFormVisibility}
-          />
+          <AppointmentTooltip/>
+
           <Resources
             data={resource}
           // mainResourceName='class'
           />
-          {/* <Resources field='Class' title='Class' name='Class' textField='Name' idField='PermissionNumber' colorField='Color' dataSource={resourceData} /> */}  
+          {/* <Resources field='Class' title='Class' name='Class' textField='Name' idField='PermissionNumber' colorField='Color' dataSource={resourceData} /> */}
         </Scheduler >
-        <Fab
-          color="secondary"
-          onClick={() => {
-            this.setState({ editingFormVisible: true });
-            this.onAddedAppointmentChange({
-               startDate: new Date(currentDate).setHours(9),
-               endDate: new Date(currentDate).setHours(9 + 1),
-            });
-          }}
-          style={{position: 'absolute', right: '50px', bottom: '225px', background: '#3f50b5'}}
-        >
-          <AddIcon />
-        </Fab>
       </Paper >
     );
   }

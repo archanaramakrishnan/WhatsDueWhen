@@ -121,9 +121,9 @@ const NavBar = (props) => {
       <AppBar position="static">
       
         <Tabs className='tabs'>
-          <Tab label="Home" onClick={() => {history.push("/home")}} />
-          <Tab label="Calendar" onClick={() => {history.push("/calendarpage")}} />
-          <div style={{width: "350px"}}/>
+          {/* <Tab label="Home" onClick={() => {history.push("/home")}} /> */}
+          {/* <Tab label="Calendar" /> */}
+          {/* <div style={{width: "350px"}}/> */}
         </Tabs>
       </AppBar>
       

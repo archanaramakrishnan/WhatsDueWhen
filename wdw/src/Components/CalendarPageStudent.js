@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './CalendarPage.css';
 // import Calendar from './Calendar';
-import Calendar from './Calendar';
+import CalendarStudent from './CalendarStudent';
 import Paper from '@material-ui/core/Paper';
 import Card from '@material-ui/core/Card';
 import SubjectSelector from './SubjectSelector';
@@ -232,7 +232,7 @@ export const CalendarPageStudent = () => {
       </Paper>
       <Paper style={{ width: "75%", height: "50%", float: "left", marginLeft: "15px" }}>
         <BrowserRouter>
-          <Calendar refresh={refreshCalendar}/>
+          <CalendarStudent refresh={refreshCalendar}/>
         </BrowserRouter>
       </Paper>
     </Paper>
