@@ -194,9 +194,6 @@ export const CalendarPage = () => {
           <Button variant="outlined" color="primary" onClick={handleClickOpen}>
             Create a Class
           </Button>
-          <Button variant="outlined" color="primary" onClick={openEventForm}>
-            Add Event
-          </Button>
         </div>
         {open &&
           <div>
