@@ -161,8 +161,9 @@ export const CalendarPageStudent = () => {
         <div>
           {subjectList.map(item => {
             //const permNum = item.permissionNumber;
+            const color = item.color;
             const name = item.deptCode + " " + item.courseNumber + ": " + item.courseTitle;
-            return <div><SubjectSelectorStudent name={name} /></div>
+            return <div><SubjectSelectorStudent color={color} name={name} /></div>
           })}
         </div>
       )

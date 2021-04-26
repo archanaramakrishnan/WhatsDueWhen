@@ -27,6 +27,17 @@ function SubjectSelector(props) {
         shapeCircle: {
             borderRadius: '50%',
         },
+        box: {
+            display: "flex",
+            alignItems: "center",
+            float: "left"
+        },
+        copy: {
+            height: "100px",
+            width: "100px",
+            display: "flex",
+            alignItems: "center",
+        }
         }));
 
     const classes = useStyles();
@@ -52,23 +63,33 @@ function SubjectSelector(props) {
     }
 
     return (
-        <Card style={{ height: "120px" }}>
+        <Card style={{ height: "170px" }}>
             <div style={{ padding: "25px", display: "flex", justifyContent: "space-between" }}>                
-                <div style={{ float: "left" }}>
+                <div className={clsx(classes.box)}>
                     <Badge color={props.color}>
                         {circle}
                     </Badge>
                     &nbsp;
                     {props.name}
-                    {<CopyToClipboard
+                    
+                </div>
+                
+                <div style={{ float: "left" }}>
+                    <Switch checked={switchSel} color={"primary"} label={props.name} onChange={handleChange} />
+                </div>
+
+                
+            </div>
+            <div >
+                {<CopyToClipboard
                         onCopy={onCopy}
                         text={props.permNum}>
-                        <Button onClick={onShowAlert} variant="outlined" size="small">
-                            <div style={{ fontSize: "9pt" }}>
+                        <Button onClick={onShowAlert}  size="small" style={{marginLeft: "23px"}}>
+                            <div >
                                 {"Permission Number : " + props.permNum } 
                                 &nbsp;
                                 <ClipboardIcon
-                                size={20}
+                                size={18}
                                 style={{fill: '#3f50b5' }}
                                 />
                             </div>
@@ -80,10 +101,6 @@ function SubjectSelector(props) {
                             Permission number copied!
                         </Alert> : null}
                     </section>
-                </div>
-                <div style={{ float: "left" }}>
-                    <Switch checked={switchSel} color={"primary"} label={props.name} onChange={handleChange} />
-                </div>
             </div>
         </Card>
     );
