@@ -8,7 +8,17 @@ function SubjectSelectorStudent(props) {
     const [switchSel, setSwitchSel] = useState(true);
 
     const handleChange = () => {
-        setSwitchSel(!switchSel)
+        let visibility = !switchSel;
+        setSwitchSel(!switchSel);
+        if (visibility)
+        {
+            console.log(`Course ${props.course} is visible`);
+            props.addCourse(props.course);
+        }
+        else {
+            console.log(`Course ${props.course} is NOT visible`);
+            props.removeCourse(props.course);
+        }
     }
 
     return (

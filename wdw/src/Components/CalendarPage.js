@@ -39,12 +39,17 @@ export const CalendarPage = () => {
   const [subjectList, setSubjectList] = useState([]);
   const [addSubject, setAddSubject] = useState(false);
   const [refreshCalendar, setRefreshCalendar] = useState(false);
+  const [coursesToShow, setCoursesToShow] = useState([]);
 
   useEffect(async () => {
     await axios.get('http://localhost:5000/users/courses', { withCredentials: true })
       .then(res => {
         // console.log(res.data)
         setSubjectList(res.data);
+        res.data.forEach(function (item, index) {
+          let tempCourse = item.deptCode + ' ' + item.courseNumber;
+          coursesToShow.push(tempCourse);
+        });
       })
       .catch(err => {
         console.log(err);
@@ -141,6 +146,8 @@ export const CalendarPage = () => {
             .then(res => {
               console.log(res);
               subjectList.push(newCourse);
+              let tempCourse = newCourse.deptCode + ' ' + newCourse.courseNumber;
+              coursesToShow.push(tempCourse);
               // alert("Class was created successfully!");
               setRefreshCalendar(!refreshCalendar);
             })
@@ -166,7 +173,16 @@ export const CalendarPage = () => {
     setOpen(false);
   };
 
+  const addToListOfVisibleClasses = (course) => {
+    setCoursesToShow([...coursesToShow, course]);
+  }
 
+  const removeFromListOfVisibleClasses = (course) => {
+    let tempList = [];
+    tempList = coursesToShow;
+    tempList = tempList.filter(item => item !== course);
+    setCoursesToShow(tempList);
+  }
 
   //returns the subject cards on the left side of calendar
   const loadSubjects = () => {
@@ -180,7 +196,16 @@ export const CalendarPage = () => {
             const color = item.color;
             const permNum = item.permissionNumber;
             const name = item.deptCode + " " + item.courseNumber + ": " + item.courseTitle;
-            return <div><SubjectSelector color={color} name={name} permNum={permNum} /></div>
+            const course = item.deptCode + " " + item.courseNumber;
+            return <div>
+              <SubjectSelector 
+                color={color} 
+                name={name} 
+                permNum={permNum} 
+                course={course} 
+                addCourse={addToListOfVisibleClasses}
+                removeCourse={removeFromListOfVisibleClasses} />
+              </div>
           })}
         </div>
       )
@@ -303,7 +328,7 @@ export const CalendarPage = () => {
       </Paper>
       <Paper style={{ width: "75%", height: "50%", float: "left", marginLeft: "15px" }}>
         <BrowserRouter>
-          <Calendar refresh={refreshCalendar} id='calendar' name='calendar' class='calendar'/>
+          <Calendar refresh={refreshCalendar} classList={coursesToShow} id='calendar' name='calendar' class='calendar'/>
         </BrowserRouter>
       </Paper>
     </Paper>

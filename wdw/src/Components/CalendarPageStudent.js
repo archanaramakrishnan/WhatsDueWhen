@@ -30,6 +30,7 @@ export const CalendarPageStudent = () => {
   let [classExistsAlready, setClassExistsAlready] = useState(false);
   const [subjectList, setSubjectList] = useState([]);
   const [addSubject, setAddSubject] = useState(false);
+  const [coursesToShow, setCoursesToShow] = useState([]);
 
   const [refreshCalendar, setRefreshCalendar] = useState(false);
 
@@ -38,6 +39,10 @@ export const CalendarPageStudent = () => {
       .then(res => {
         //console.log(res.data)
         setSubjectList(res.data);
+        res.data.forEach(function (item, index) {
+          let tempCourse = item.deptCode + ' ' + item.courseNumber;
+          coursesToShow.push(tempCourse);
+        });
       })
       .catch(err => {
         console.log(err);
@@ -151,6 +156,22 @@ export const CalendarPageStudent = () => {
     
   };
 
+  const addToListOfVisibleClasses = (course) => {
+    setCoursesToShow([...coursesToShow, course]);
+  }
+
+  const removeFromListOfVisibleClasses = (course) => {
+    let tempList = [];
+    tempList = coursesToShow;
+    tempList = tempList.filter(item => item !== course);
+    setCoursesToShow(tempList);
+  }
+
+  useEffect(() => {
+    console.log("coursesToShow");
+    console.log(coursesToShow);
+  }, [coursesToShow])
+
   //returns the subject cards on the left side of calendar
   const loadSubjects = () => {
     console.log("load subjects", subjectList)
@@ -162,7 +183,14 @@ export const CalendarPageStudent = () => {
           {subjectList.map(item => {
             //const permNum = item.permissionNumber;
             const name = item.deptCode + " " + item.courseNumber + ": " + item.courseTitle;
-            return <div><SubjectSelectorStudent name={name} /></div>
+            const course = item.deptCode + " " + item.courseNumber;
+            return <div>
+              <SubjectSelectorStudent 
+                name={name}
+                course={course} 
+                addCourse={addToListOfVisibleClasses}
+                removeCourse={removeFromListOfVisibleClasses} />
+              </div>
           })}
         </div>
       )
@@ -232,7 +260,7 @@ export const CalendarPageStudent = () => {
       </Paper>
       <Paper style={{ width: "75%", height: "50%", float: "left", marginLeft: "15px" }}>
         <BrowserRouter>
-          <CalendarStudent refresh={refreshCalendar}/>
+          <CalendarStudent refresh={refreshCalendar} classList={coursesToShow}/>
         </BrowserRouter>
       </Paper>
     </Paper>
