@@ -93,9 +93,9 @@ export default class CalendarStudent extends React.PureComponent {
   }
 
   async componentWillReceiveProps(props) {
-    const { refresh } = this.props;
+    const { refresh, classList } = this.props;
     console.log('refresh', refresh)
-    if (props.refresh !== refresh) {
+    if (props.refresh !== refresh || props.classList.length !== classList.length) {
       console.log("Prop Refreshed!")
       await axios.get('http://localhost:5000/users/events', { withCredentials: true })
       .then(res => {
@@ -107,6 +107,18 @@ export default class CalendarStudent extends React.PureComponent {
           appointment.id = nextId
           nextId++;
         });
+
+        if (props.classList.length !== classList.length)
+        {
+          let tempData = [];
+          tempData = appointments;
+          tempData = appointments.filter(item => {
+              let temp = this.props.classList.includes(item.class);
+              console.log(temp);
+              return temp;
+            });
+          appointments = tempData;
+        }
 
         console.log('appointments:', appointments)
         this.setState({ data: appointments })

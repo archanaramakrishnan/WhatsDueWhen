@@ -28,6 +28,7 @@ const NavBar = (props) => {
   //by the url in the function LandingNavigation inside of App.js
   const history = useHistory();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [usersFirstName, setUsersFirstName] = React.useState("");
 
   const StyledMenu = withStyles({
     paper: {
@@ -48,6 +49,16 @@ const NavBar = (props) => {
       {...props}
     />
   ));
+
+  useEffect( () => {
+    axios.get('http://localhost:5000/users/get-user', {withCredentials: true})
+      .then(res => {
+        setUsersFirstName(res.data.firstname)
+      })
+      .catch(err => {
+        console.log(err)
+      });
+  },[])
   
   const StyledMenuItem = withStyles((theme) => ({
     root: {
@@ -93,6 +104,7 @@ const NavBar = (props) => {
           <LoggedIn />
         </div> */}
         <div className='loggedinitem'>
+      <Button variant="outlined" color="primary">Hi {usersFirstName}!</Button>
       <Button
         aria-controls="customized-menu"
         aria-haspopup="true"

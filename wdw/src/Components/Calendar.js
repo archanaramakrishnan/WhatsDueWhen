@@ -60,6 +60,23 @@ export default class Calendar extends React.PureComponent {
           nextId++;
         });
 
+
+        console.log("classList");
+        console.log(this.props.classList);
+
+        // //filter data correctly
+        // let tempData = [];
+        // tempData = appointments;
+        // console.log("data before filtering is:");
+        // console.log(tempData);
+        // //filtered data
+        // tempData = appointments.filter(item => 
+        //   console.log(item.class);
+
+        //   {this.props.classList.includes(item.class)});
+        // console.log("data after filtering is:");
+        // console.log(tempData);
+
         this.setState({ data: appointments })
       })
       .catch(err => {
@@ -100,9 +117,11 @@ export default class Calendar extends React.PureComponent {
   }
 
   async componentWillReceiveProps(props) {
-    const { refresh } = this.props;
+    const { refresh, classList } = this.props;
+    console.log("class list is:");
+    console.log(classList);
     console.log('refresh', refresh)
-    if (props.refresh !== refresh) {
+    if (props.refresh !== refresh || props.classList.length !== classList.length) {
       console.log("Prop Refreshed!")
       await axios.get('http://localhost:5000/users/events', { withCredentials: true })
       .then(res => {
@@ -114,6 +133,18 @@ export default class Calendar extends React.PureComponent {
           appointment.id = nextId
           nextId++;
         });
+
+        if (props.classList.length !== classList.length)
+        {
+          let tempData = [];
+          tempData = appointments;
+          tempData = appointments.filter(item => {
+              let temp = this.props.classList.includes(item.class);
+              console.log(temp);
+              return temp;
+            });
+          appointments = tempData;
+        }
 
         console.log('appointments:', appointments)
         this.setState({ data: appointments })

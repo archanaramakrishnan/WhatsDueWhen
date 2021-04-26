@@ -40,7 +40,17 @@ function SubjectSelectorStudent(props) {
     const [visible, setVisible] = useState(false);
 
     const handleChange = () => {
-        setSwitchSel(!switchSel)
+        let visibility = !switchSel;
+        setSwitchSel(!switchSel);
+        if (visibility)
+        {
+            console.log(`Course ${props.course} is visible`);
+            props.addCourse(props.course);
+        }
+        else {
+            console.log(`Course ${props.course} is NOT visible`);
+            props.removeCourse(props.course);
+        }
     }
 
     const onCopy = () => {

@@ -92,7 +92,7 @@ export const CreateUser = (props) => {
         //somehow tell backend that it is creating student account - not yet!
         setIsProfessor(false);
         // setter
-        localStorage.setItem('isProfessor', false);
+        localStorage.setItem('isProfessor', "false");
     };
 
     const handleClickFaculty = () => {
@@ -101,7 +101,7 @@ export const CreateUser = (props) => {
         //somehow tell backend that it is creating faculty account
         setIsProfessor(true);
         // setter
-        localStorage.setItem('isProfessor', true);
+        localStorage.setItem('isProfessor', "true");
     };
 
     const handleClickOpen = () => {
