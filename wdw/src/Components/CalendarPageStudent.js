@@ -123,6 +123,8 @@ export const CalendarPageStudent = () => {
           }
 
           subjectList.push(course);
+          let tempCourseName = course.deptCode + ' ' + course.courseNumber;
+          addToListOfVisibleClasses(tempCourseName);
 
           axios.post('http://localhost:5000/users/add-course',
             course, { withCredentials: true })
