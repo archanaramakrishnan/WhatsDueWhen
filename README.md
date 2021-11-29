@@ -14,3 +14,5 @@ Computer Science senior design group project (EECS 582): Archana Ramakrishnan, A
 - NodeJS backend
 - Axios
 - React Scheduler, Material UI
+
+![Welcome](https://github.com/archanaramakrishnan/WhatsDueWhen/blob/master/5-Team%206%20Quad%20Chart.jpg) <br>
