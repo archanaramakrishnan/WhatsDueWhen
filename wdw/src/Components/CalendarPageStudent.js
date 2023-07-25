@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './CalendarPage.css';
 // import Calendar from './Calendar';
-import Calendar from './Calendar';
+import CalendarStudent from './CalendarStudent';
 import Paper from '@material-ui/core/Paper';
 import Card from '@material-ui/core/Card';
 import SubjectSelector from './SubjectSelector';
@@ -16,6 +16,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 //For contecting to our backend
 import axios from 'axios';
+import SubjectSelectorStudent from './SubjectSelectorStudent';
+import { colors } from '@material-ui/core';
 
 export const CalendarPageStudent = () => {
   //handles opening and closing dialog 1
@@ -27,7 +29,33 @@ export const CalendarPageStudent = () => {
   const [userPermissionNumber, setUserPermissionNumber] = useState("");
   let [correctPermissionCode, setCorrectPermissionCode] = useState(false);
   let [classExistsAlready, setClassExistsAlready] = useState(false);
-  
+  const [subjectList, setSubjectList] = useState([]);
+  const [addSubject, setAddSubject] = useState(false);
+  const [coursesToShow, setCoursesToShow] = useState([]);
+
+  const [refreshCalendar, setRefreshCalendar] = useState(false);
+
+  useEffect(async () => {
+    await axios.get('http://localhost:5000/users/courses', { withCredentials: true })
+      .then(res => {
+        //console.log(res.data)
+        setSubjectList(res.data);
+        res.data.forEach(function (item, index) {
+          let tempCourse = item.deptCode + ' ' + item.courseNumber;
+          coursesToShow.push(tempCourse);
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
+    // loadSubjects();
+  }, []);
+
+  useEffect(() => {
+    loadSubjects();
+  }, [addSubject]);
+
   const handleClickOpenAddClass = () => {
     setOpenAddClass(true);
   };
@@ -41,151 +69,174 @@ export const CalendarPageStudent = () => {
 
   const handleAddClass = () => {
     let unfilledField = false;
-    if (userDeptCode == "" || userCourseNumber == "" || userPermissionNumber == ""){
+    if (userDeptCode == "" || userCourseNumber == "" || userPermissionNumber == "") {
       alert("Please fill all the required fields!");
       unfilledField = true;
     }
-    
-    if (!unfilledField){
+
+    if (!unfilledField) {
       Promise.all([
-        axios.get('http://localhost:5000/users/courses', {withCredentials: true}),
+        axios.get('http://localhost:5000/users/courses', { withCredentials: true }),
         axios.get('http://localhost:5000/courses/')
       ]).then(([userClassList, allCourses]) => {
 
-          // ---------------------------------------------------//
-          // list of all classes in the currently logged in user
-          let userList = userClassList.data;
+        // ---------------------------------------------------//
+        // list of all classes in the currently logged in user
+        let userList = userClassList.data;
 
-          // check if user has no classes
-          let emptyClassList = false;
-          if(userList.length == 0)
-          {
-              emptyClassList = true;
+        // check if user has no classes
+        let emptyClassList = false;
+        if (userList.length == 0) {
+          emptyClassList = true;
+        }
+
+        //check if user is already enrolled in this class
+        //get course that has the given permission number from userList
+        let alreadyExists = true;
+        let course = userList.find(classObj => classObj.permissionNumber == userPermissionNumber)
+        if (course == undefined) {
+          alreadyExists = false;
+        }
+
+        // -------------------------------------//
+        // list of all classes in the courses db
+        let masterList = allCourses.data;
+
+        // check for if the permission number is correct
+        let correctPermissionNumber = false;
+        let foundCourseName = '';
+        let matchingPermNumberList = masterList.filter((course) => (course.permissionNumber == userPermissionNumber));
+        if (matchingPermNumberList.length == 1) {
+          foundCourseName = matchingPermNumberList[0].courseTitle;
+          correctPermissionNumber = true;
+        }
+
+        // -------------------------------------//
+        //check for all conditions to add a class
+        if ((emptyClassList || !alreadyExists) && correctPermissionNumber) {
+          const course = {
+            deptCode: userDeptCode.toUpperCase(),
+            courseNumber: userCourseNumber,
+            courseTitle: foundCourseName,
+            permissionNumber: userPermissionNumber,
+            color: matchingPermNumberList[0].color
           }
 
-          //check if user is already enrolled in this class
-          //get course that has the given permission number from userList
-          let alreadyExists = true;
-          let course = userList.find(classObj => classObj.permissionNumber == userPermissionNumber)
-          if(course == undefined)
-          {
-            alreadyExists = false;
-          }
+          subjectList.push(course);
+          let tempCourseName = course.deptCode + ' ' + course.courseNumber;
+          addToListOfVisibleClasses(tempCourseName);
 
-          // -------------------------------------//
-          // list of all classes in the courses db
-          let masterList = allCourses.data;
+          axios.post('http://localhost:5000/users/add-course',
+            course, { withCredentials: true })
+            .then(res => {
+              console.log(res);
+              setRefreshCalendar(!refreshCalendar); 
+            })
+            .catch(err => {
+              console.log(err);
+            });
+          alert('Class added to your calendar!');
 
-          // check for if the permission number is correct
-          let correctPermissionNumber = false;
-          let foundCourseName = '';
-          let matchingPermNumberList = masterList.filter((course) => (course.permissionNumber == userPermissionNumber));
-          if(matchingPermNumberList.length == 1)
-          {
-              foundCourseName = matchingPermNumberList[0].courseTitle;
-              correctPermissionNumber = true;
-          }
+          setAddSubject(!addSubject);
 
-          // -------------------------------------//
-          //check for all conditions to add a class
-          if((emptyClassList || !alreadyExists) && correctPermissionNumber)
-          {
-              axios.post('http://localhost:5000/users/add-course', 
-              {
-                deptCode: userDeptCode.toUpperCase(),
-                courseNumber: userCourseNumber,
-                courseTitle: foundCourseName,
-                permissionNumber: userPermissionNumber
-              }, {withCredentials: true})
-              .then(res => {
-                console.log(res);
-              })
-              .catch(err => {
-                console.log(err);
-              });
-              alert('Class added to your calendar!');
-              handleCloseAddClass();
-          }
-          else if(!correctPermissionNumber)
-          {
-              alert("Incorrect permission number and class combination!");
+          handleCloseAddClass();
+        }
+        else if (!correctPermissionNumber) {
+          alert("Incorrect permission number and class combination!");
 
-          }
-          else if(alreadyExists)
-          {
-              alert("This class already exists in your calendar. Try adding a different class!");
-              handleCloseAddClass();
-              handleClickOpenAddClass();
-          }
+        }
+        else if (alreadyExists) {
+          alert("This class already exists in your calendar. Try adding a different class!");
+          handleCloseAddClass();
+          handleClickOpenAddClass();
+        }
 
       }).catch((err) => {
-          console.log(err);
+        console.log(err);
       });
+
     }
+    
   };
 
+  const addToListOfVisibleClasses = (course) => {
+    setCoursesToShow([...coursesToShow, course]);
+  }
+
+  const removeFromListOfVisibleClasses = (course) => {
+    let tempList = [];
+    tempList = coursesToShow;
+    tempList = tempList.filter(item => item !== course);
+    setCoursesToShow(tempList);
+  }
+
+  useEffect(() => {
+    console.log("coursesToShow");
+    console.log(coursesToShow);
+  }, [coursesToShow])
 
   //returns the subject cards on the left side of calendar
   const loadSubjects = () => {
+    console.log("load subjects", subjectList)
 
-    return (
-      <div>
-        <Card style={{ height: "100px" }}>
-          {SubjectSelector("Science")}
-        </Card>
-        <Card style={{ height: "100px" }}>
-          {SubjectSelector("Math")}
-        </Card>
-        <Card style={{ height: "100px" }}>
-          {SubjectSelector("English")}
-        </Card >
-        <Card style={{ height: "100px" }}>
-          {SubjectSelector("History")}
-        </Card>
-
-        {/* will use stuff below once info is loaded from backend */}
-        {/* {classes.map(item => {
-           return <Card style={{ height: "100px" }}>{SubjectSelector(item)}</Card>;
-        })} */}
-      </div>
-    )
+    //check if list if empty
+    if (subjectList != []) {
+      return (
+        <div>
+          {subjectList.map(item => {
+            //const permNum = item.permissionNumber;
+            const color = item.color;
+            const name = item.deptCode + " " + item.courseNumber + ": " + item.courseTitle;
+            const course = item.deptCode + " " + item.courseNumber;
+            return <div>
+              <SubjectSelectorStudent 
+                color={color}
+                name={name}
+                course={course} 
+                addCourse={addToListOfVisibleClasses}
+                removeCourse={removeFromListOfVisibleClasses} />
+              </div>
+          })}
+        </div>
+      )
+    }
   }
 
   return (
     <Paper className='CalendarPage'>
       <Paper style={{ width: "23%", float: "left" }}>
         <div className="createclass">
-      <Button variant="outlined" color="primary" onClick={handleClickOpenAddClass}>
+          <Button variant="outlined" color="primary" onClick={handleClickOpenAddClass}>
             Add a Class
       </Button>
-      </div>
-            {openAddClass && 
+        </div>
+        {openAddClass &&
           <div>
             <Dialog open={openAddClass} onClose={handleCloseAddClass} aria-labelledby="form-dialog-title">
               <DialogTitle id="form-dialog-title">Add a Class</DialogTitle>
               <DialogContent>
-              <DialogContentText>
-                   Please enter the information of the class you want to add:
+                <DialogContentText>
+                  Please enter the information of the class you want to add:
               </DialogContentText>
-              <div className="deptcode">
+                <div className="deptcode">
                   <TextField
                     autoFocus
                     margin="dense"
                     id="name"
                     label="Department Code"
                     type="text"
-                    onChange={(event)=>{setUserDeptCode(event.target.value)}}
-                  /> 
+                    onChange={(event) => { setUserDeptCode(event.target.value) }}
+                  />
                 </div>
-              <div className="coursenum">
+                <div className="coursenum">
                   <TextField
                     autoFocus
                     margin="dense"
                     id="name"
                     label="Course Number"
                     type="text"
-                    onChange={(event)=>{setUserCourseNumber(event.target.value)}}
-                  /> 
+                    onChange={(event) => { setUserCourseNumber(event.target.value) }}
+                  />
                 </div>
                 <div className="permnum">
                   <TextField
@@ -195,8 +246,8 @@ export const CalendarPageStudent = () => {
                     label="Permission Number"
                     type="text"
                     fullWidth
-                    onChange={(event)=>{setUserPermissionNumber(event.target.value)}}
-                  /> 
+                    onChange={(event) => { setUserPermissionNumber(event.target.value) }}
+                  />
                 </div>
               </DialogContent>
               <DialogActions>
@@ -214,7 +265,7 @@ export const CalendarPageStudent = () => {
       </Paper>
       <Paper style={{ width: "75%", height: "50%", float: "left", marginLeft: "15px" }}>
         <BrowserRouter>
-          <Calendar />
+          <CalendarStudent refresh={refreshCalendar} classList={coursesToShow}/>
         </BrowserRouter>
       </Paper>
     </Paper>

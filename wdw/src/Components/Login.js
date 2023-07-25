@@ -26,19 +26,11 @@ import { Context } from './ContextProvider';
 import axios from 'axios';
 
 export const Login = () => {
-    //Gets global variable for logged-in user email and function for setting that variable
-    const {setUserEmailContext, setIsProfessor} = React.useContext(Context);
-
     //Allow us to navigate to other components based on URL
     const history = useHistory();
 
-    //Setting variables used within the component
-    const [open, setOpen] = useState(false);
-    const [studentFill, setStudentFill] = useState("outlined");
-    const [facultyFill, setFacultyFill] = useState("outlined");
     const [userEmail, setUserEmail] = useState("");
     const [userPassword, setUserPassword] = useState("");
-    const [createAccountAsStudent, setCreateAccountAsStudent] = useState(true);
 
     useEffect(() => {
         window.sessionStorage.setItem("sessionEmail", "");
@@ -69,36 +61,18 @@ export const Login = () => {
 
             })
             .catch(err => {
-                console.log(err)
+
+                if (err.response.status === 404){
+                    alert("No user exists with the username and password combination you provided. Try again!")
+                }
+        
+                console.log(err.response);
             });
 
     }
 
-    const [handleStudent, setHandleStudent] = useState(false);
-
-    const handleClickStudent = () => {
-        setStudentFill("contained")
-        setFacultyFill("outlined")
-        //somehow tell backend that it is creating student account - not yet!
-        setIsProfessor(false);
-    };
-
-    const handleClickFaculty = () => {
-        setFacultyFill("contained")
-        setStudentFill("outlined")
-        //somehow tell backend that it is creating faculty account
-        setIsProfessor(true);
-    };
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    const handleContinue = () => {
-        history.push("/createuser")
+    const handleClickHere = () => {
+        history.push('/createuser')
     }
 
     const handleGoogleLogin = () => {
@@ -163,7 +137,10 @@ export const Login = () => {
                 <Typography variant="h8" gutterBottom>
                     Need to create an account?
                 </Typography>
-                <Link onClick={handleClickOpen} style={{marginLeft: '5px'}}>
+                <Link onClick={handleClickHere} style={{marginLeft: '5px'}}>
+                    Click Here
+                </Link>
+                {/* <Link onClick={handleClickOpen} style={{marginLeft: '5px'}}>
                     Click Here
                 </Link>
                 {open && <div>
@@ -190,7 +167,7 @@ export const Login = () => {
                             </Button>
                         </DialogActions>
                     </Dialog>
-                </div>}
+                </div>} */}
             </div>
         </Paper>
     )

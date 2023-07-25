@@ -58,7 +58,7 @@ export const Home = () => {
     setIsProfessor(sessionStatus);
     if (sessionEmail == "")
     {
-      history.push("/");
+      history.push("/home");
     }
     else
     {

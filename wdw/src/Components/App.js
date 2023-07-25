@@ -13,6 +13,7 @@ import CreateClassDialog from './CreateClassDialog';
 import CreateUserDialog from './CreateUserDialog';
 import Calendar from './Calendar';
 import { ContextProvider } from './ContextProvider';
+import GoogleMiddleware from './GoogleMiddleware';
 
 class App extends Component {
 
@@ -53,6 +54,7 @@ const LandingNavigation = () => {
                     </WebPage> 
                 </Route>
                 <Route exact path="/error" component={Error} />
+                <Route path="/google/middleware" component={GoogleMiddleware}/>
                 <Redirect to="/error" />
             </Switch>
         </BrowserRouter>

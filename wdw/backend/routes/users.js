@@ -1,5 +1,6 @@
 const router = require('express').Router();
 
+let Course = require('../models/course.model');
 let User = require('../models/user.model');
 
 // get request for .../users/ info
@@ -48,7 +49,7 @@ router.route('/get-user').get((req, res) => {
 
 router.route('/isProfessor').get((req, res) => {
   const user = req.user
-  if (user.isProfessor) {
+  if (user.isProfessor != undefined && user.isProfessor) {
     res.status(200).json(true).send()
   } else {
     res.status(200).json(false).send()
@@ -60,6 +61,22 @@ router.route('/add-course').post((req, res) => {
   const course = req.body;
   
   User.updateOne({email: user.email}, {$addToSet: {classList: course}}, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send()
+    } else {
+      res.json('Course added!').send()
+      // console.log(result)
+    }
+  });
+
+})
+
+router.route('/add-course-old').post((req, res) => {
+  const email = req.body.email;
+  const course = req.body.course;
+  
+  User.updateOne({email: email}, {$addToSet: {classList: course}}, (err, result) => {
     if (err) {
       console.log(err);
       res.status(500).send()
@@ -88,10 +105,10 @@ router.route('/remove-course').post((req, res) => {
 router.route('/courses').get((req, res) => {
   const user = req.user;
   if (user != undefined) {
-    res.status(200).json(user.classList).send()
-  } else {
-    res.status(404).send();
-  }
+    return res.status(200).json(user.classList);
+  } 
+
+  return res.status(404).send();
 });
 
 // req: {email: (users email)}
@@ -99,6 +116,7 @@ router.route('/courses').get((req, res) => {
 router.route('/user-exist').post((req, res) => {
   const userEmail = req.body.email
   User.findOne({email: userEmail}, (err, user) => {
+
     if (err) {
       res.status(400).send()
     }
@@ -110,5 +128,83 @@ router.route('/user-exist').post((req, res) => {
     }
   })
 })
+
+router.route('/good').get((req, res) => {
+  res.status(200).send([{
+    title: 'Website Re-Design Plan',
+    startDate: '2021-04-17T09:45',
+    endDate: '2021-04-17T11:00',
+    id: 0,
+    class: "EECS 268"
+  }])
+})
+
+router.route('/events').get((req, res) => {
+  const classList = req.user.classList
+  // console.log("classlist", classList)
+
+  Course.find()
+    .then(doc => {
+      if (doc != []) {
+        let eventList = []
+        for (let i = 0; i < classList.length; i++) {
+          for (let k = 0; k < doc.length; k++) {
+            if ( (classList[i].deptCode === doc[k].deptCode) && (classList[i].courseNumber === doc[k].courseNumber) ) {
+              // console.log("doc[k]", doc[k])
+              eventList = [...eventList, ...doc[k].eventList]
+            } 
+          }
+        }
+        // console.log("eventList", eventList)
+        res.status(200).send(eventList)
+      } else {
+        res.status(400).send()
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    });
+
+  // const courseList = req.user.classList
+  // let eventList = []
+  // console.log('[users.js 117]: courseList: ' + JSON.stringify(courseList))
+
+  // //for(course in courseList)
+  // for(let i = 0; i < courseList.length; ++i)
+  // {
+  //   if(courseList[i] != null)
+  //   {
+  //     await Course.findOne({deptCode: courseList[i].deptCode, courseNumber: courseList[i].courseNumber}, (err, course) => {
+  //       console.log('[users.js 121] course :' + JSON.stringify(course))
+  //       console.log('[users.js 122] deptCode :' + course.deptCode)
+  //       console.log('[users.js 123] courseNumber :' + course.courseNumber)
+  //       console.log('[users.js 125] event :' + course.eventList)
+
+  //       for(let i = 0; i < course.eventList.length; ++i)
+  //       {
+  //         eventList.push(course.eventList[i])
+  //       }
+  //     })
+  //   }
+  // }
+
+  // console.log('[users.js 134] returned event list :' + eventList)
+  // res.json(eventList)
+});
+
+router.route('/update-isprofessor').post( (req, res) => {
+  const isProfessor = req.body.isProfessor;
+  console.log(req.body)
+  console.log(req.user)
+  User.updateOne( {_id: req.user._id}, {isProfessor: isProfessor}, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send()
+    } else {
+      res.status(200).send()
+      console.log('Updated Google User!')
+    }
+  })
+});
 
 module.exports = router;

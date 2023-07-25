@@ -43,7 +43,7 @@ const userSchema = new Schema({
           // sparse: true
         },
         courseNumber: {
-          type: String
+          type: Number
           // unique: true,
           // sparse: true
         },
@@ -51,11 +51,14 @@ const userSchema = new Schema({
           type: String
           // unique: true,
           // sparse: true
-        }, 
+        },
         permissionNumber: {
           type: Number
           // unique: true,
           // sparse: true
+        },
+        color: {
+          type: String
         }
       }
     ]

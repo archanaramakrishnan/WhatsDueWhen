@@ -51,9 +51,12 @@ const courseSchema = new Schema({
     // unique: true
   },
   eventList: {
-      type : [calendarEventSchema],
-      // required: false
-  }
+    type: [calendarEventSchema],
+    // required: false
+  },
+  color: {
+    type: String
+  },
 }, {
   timestamps: true,
 });

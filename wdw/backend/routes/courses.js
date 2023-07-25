@@ -34,9 +34,14 @@ router.route('/add').post((req, res) => {
 })
 
 router.route('/add-event').post((req, res) => {
-  const courseName = req.body.courseName
-  const event = req.body.event 
-  Course.updateOne({name: courseName}, {$addToSet: {eventList: event}}, (err, result) => {
+  const event = req.body
+  const classInfo = req.body.class.split(' ')
+  const deptCode = classInfo[0]
+  const courseNumber = parseInt(classInfo[1])
+
+  const update = {$addToSet: {eventList: event}}
+
+  Course.updateOne( { $and: [{deptCode: deptCode}, {courseNumber: courseNumber}] }, update, (err, result) => {
     if (err) {
       console.log(err)
       res.status(500).send()
@@ -44,19 +49,25 @@ router.route('/add-event').post((req, res) => {
         console.log('Event Added')
         res.json('Event Added')
     }
-  })
+  });
     
-})
+});
 
-router.route('/remove-event').post((req, res) => {
-  const courseName = req.body.courseName
-  const eventTitle = req.body.title
+router.route('/delete-event').post((req, res) => {
+  // const deptCode = res.body.deptCode
+  // const courseNumber = res.body.courseNumber
   console.log(req.body)
-  Course.updateOne({name: courseName}, {$pull: {eventList: {title: eventTitle}}}, (err, result) => {
+  console.log(req.body._id)
+  const classInfo = req.body.class.split(' ')
+  const deptCode = classInfo[0]
+  const courseNumber = parseInt(classInfo[1])
+
+  Course.updateOne({ $and: [{deptCode: deptCode}, {courseNumber: courseNumber}] }, {$pull: {eventList: {_id: req.body._id} }}, (err, result) => {
     if (err) {
       console.log(err)
       res.status(500).send()
     } else {
+      console.log("Event removed!")
       res.json("Event removed!")
     }
   })
@@ -71,9 +82,19 @@ router.route('/calendar-events').get((req, res) => {
       console.log(err)
       res.status(500).send()
     } else {
-      res.json(foundCourse.eventList).send()
+      res.json(foundCourse.eventList)//.send()
     }
   })
 })
-  
+
+
+router.route('/update-event').post((req, res) => {
+  const course = req.body.course
+  const eventTitle = req.body.title
+
+  Course.updateOne({ $and: [{deptCode: course.deptCode}, {courseNumber: course.courseNumber}] }, {$: {eventList: {title: eventTitle}}})
+});
+
+
+
 module.exports = router;
